@@ -1,18 +1,8 @@
 import express from "express";
+import routes from "./routes/index.js";
 
 const app = express();
-
-const cursos = [
-    {id:1,"titulo": "regra de tres"},
-    {id:2,"titulo": "Matematica e MMC"}
-]
-
-app.get('/',(req,res) => {
-    res.status(200).send('Plataforma de curso');
-})
-
-app.get('/Cursos',(req,res) => {
-    res.status(200).json(cursos);
-})
+app.use(express.json())
+routes(app);
 
 export default app
