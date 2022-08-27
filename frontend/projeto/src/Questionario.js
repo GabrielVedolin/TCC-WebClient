@@ -1,3 +1,6 @@
+//Questionario
+import { Dropdown, Option } from "./Dropdown";
+
 function Quest (){
     const [optionValue, setOptionValue] = useState("");
     const handleSelect = (e) => {
