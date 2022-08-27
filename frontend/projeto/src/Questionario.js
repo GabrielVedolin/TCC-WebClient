@@ -1,7 +1,34 @@
-//Questionario
-import { Dropdown, Option } from "./Dropdown";
+import React from "react";
+import { useState } from "react";
+import { useNavigate} from "react-router-dom";
+import "./styles.css";
+
+import {
+  DropdownWrapper,
+  StyledSelect,
+  StyledOption,
+  StyledLabel,
+  StyledButton
+} from "./styles.js";
+
+function Dropdown(props) {
+  return (
+    <DropdownWrapper action={props.action} onChange={props.onChange}>
+      <StyledLabel htmlFor="services">{props.formLabel}</StyledLabel>
+      <StyledSelect id="services" name="services">
+        {props.children}
+      </StyledSelect>
+      <StyledButton type="submit" value={props.buttonText} />
+    </DropdownWrapper>
+  );
+}
+
+function Option(props) {
+  return <StyledOption selected={props.selected}>{props.value}</StyledOption>;
+}
 
 function Quest (){
+    const navigate = useNavigate();
     const [optionValue, setOptionValue] = useState("");
     const handleSelect = (e) => {
       console.log(e.target.value);
@@ -65,6 +92,12 @@ function Quest (){
           <Option value="Não estudo musica regularmente" />
         </Dropdown>
         <p>Você selecionou {optionValue}.</p>
+
+        <div className="container-login-form-btn">
+                <button className="login-form-btn" onClick={() => {navigate("/")}}> VOLTAR </button>
+        </div>
       </div>
     );
   };
+
+export default Quest;
