@@ -9,8 +9,8 @@ import "./Questionario.js";
 
 
 function Login() {
-  const navigate = useNavigate();
-  const handleLogin = (values) => console.log(values);
+  //const navigate = useNavigate();
+  const handleLogin = (values) => console.log('values');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -60,7 +60,7 @@ function Login() {
               </div>
 
               <div className="container-login-form-btn">
-                <button className="login-form-btn" onClick={() => {navigate("/quest")}}> Login </button>
+                <button className="login-form-btn" type="submit"> Login </button>
               </div>
 
               <div className="text-center">
