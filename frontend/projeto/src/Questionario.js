@@ -49,7 +49,6 @@ function Quest (){
           <Option value="Sim, de 5 a 10 séries" />
           <Option value="Não assisto series regularmente" />
         </Dropdown>
-        <p>Você selecionou {optionValue}.</p>
   
         <h1>Audio</h1>
         <p> Com que frequência você escuta música?</p>
@@ -63,8 +62,7 @@ function Quest (){
           <Option value="6 a 10 vezes na semana" />
           <Option value="Não estudo musica regularmente" />
         </Dropdown>
-        <p>Você selecionou {optionValue}.</p>
-  
+
         <h1>Audio</h1>
         <p> Com que frequência você escuta música?</p>
         <Dropdown
@@ -77,7 +75,6 @@ function Quest (){
           <Option value="6 a 10 vezes na semana" />
           <Option value="Não estudo musica regularmente" />
         </Dropdown>
-        <p>Você selecionou {optionValue}.</p>
   
         <h1>Textos</h1>
         <p> Com que frequência você escuta música?</p>
@@ -91,10 +88,9 @@ function Quest (){
           <Option value="6 a 10 vezes na semana" />
           <Option value="Não estudo musica regularmente" />
         </Dropdown>
-        <p>Você selecionou {optionValue}.</p>
-
+    
         <div className="container-login-form-btn">
-                <button className="login-form-btn" onClick={() => {navigate("/")}}> VOLTAR </button>
+                <button className="login-form-btn" onClick={() => {navigate("/")}}> Proximo </button>
         </div>
       </div>
     );
