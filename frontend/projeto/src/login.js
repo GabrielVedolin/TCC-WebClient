@@ -6,19 +6,21 @@ import "./App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import "./Questionario.js";
+import { render } from "@testing-library/react";
 
 
 function Login() {
-  //const navigate = useNavigate();
-  const handleLogin = (values) => console.log('values');
+  const navigate = useNavigate();
+  const handleLogin = (values) => console.log(values);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-          <Formik initialValues={{}}
-          onSubmit={handleLogin}>
+        <Formik initialValues={{}}
+          onSubmit={handleLogin}> 
             <Form className="login-form">
 
 
@@ -45,11 +47,11 @@ function Login() {
 
               <div className="wrap-input">
                 <Field
-                  className={password !== "" ? "has-val input" : "input"}
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                className={password !== "" ? "has-val input" : "input"}
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 />
                 <span className="focus-input" data-placeholder="Senha"></span>
                 <ErrorMessage
@@ -64,13 +66,15 @@ function Login() {
               </div>
 
               <div className="text-center">
-                <span className="txt1">Não possui conta? </span>
-                <a className="txt2" href="#">
-                  Criar conta
+                <span className="txt1">Esqueceu a senha? </span>
+                <a className="txt2" onClick={() => {navigate("/alteraSenha")}} >
+                  Trocar Senha!
                 </a>
               </div>
             </Form>
+         
           </Formik>
+          
         </div>
       </div>
     </div>
