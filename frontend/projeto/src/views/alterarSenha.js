@@ -65,7 +65,7 @@ function AlteraSenha() {
 
               <div className="text-center">
                 
-                <a className="txt2" onClick={() => {navigate("/questionariov2")}}>
+                <a className="txt2" onClick={() => {navigate("/quest")}}>
                   Voltar
                 </a>
               </div>

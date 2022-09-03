@@ -5,7 +5,6 @@ import { useNavigate} from "react-router-dom";
 import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import "./Questionario";
 
 
 function Login() {
