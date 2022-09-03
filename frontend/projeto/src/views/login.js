@@ -1,6 +1,6 @@
 import {useState } from "react";
 import jpIMG from "../assets/icons-school.png";
-import "../styles.css"
+import "../styles/login.css"
 import { useNavigate} from "react-router-dom";
 import "../App.css";
 import * as yup from "yup";
@@ -59,7 +59,7 @@ function Login() {
               </div>
 
               <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit"> Login </button>
+                <button className="login-form-btn" type="submit" onClick={() => {navigate("/quest")}}> Login </button>
               </div>
 
               <div className="text-center">
