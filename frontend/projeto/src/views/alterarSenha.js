@@ -5,7 +5,7 @@ import { useNavigate} from "react-router-dom";
 import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import "./Questionario";
+
 
 
 function AlteraSenha() {
@@ -65,7 +65,7 @@ function AlteraSenha() {
 
               <div className="text-center">
                 
-                <a className="txt2" onClick={() => {navigate("/")}}>
+                <a className="txt2" onClick={() => {navigate("/questionariov2")}}>
                   Voltar
                 </a>
               </div>
