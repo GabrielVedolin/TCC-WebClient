@@ -8,11 +8,11 @@ import { ErrorMessage, Formik, Form, Field } from "formik";
 import "./Questionario";
 
 
-function Login() {
+function AlteraSenha() {
   const navigate = useNavigate();
   const handleLogin = (values) => console.log('values');
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [senhaNova, setSenhaNova] = useState("");
   return (
     <div className="container">
       <div className="container-login">
@@ -25,17 +25,17 @@ function Login() {
               <span className="login-form-title">
                 <img src={jpIMG} alt="Jovem Programador" />
               </span>
-              <span className="login-form-title"> Bem vindo </span>
+              <span className="login-form-title"> Alterar Senha </span>
 
               <div className="wrap-input">
                 <Field
-                  className={email !== "" ? "has-val input" : "input"}
-                  type="email"
+                  className={cpf !== "" ? "has-val input" : "input"}
+                  type="text"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
                 />   
-                <span className="focus-input" data-placeholder="Email"></span>
+                <span className="focus-input" data-placeholder="CPF"></span>
                 <ErrorMessage
                   component="span"
                   name="email"
@@ -45,13 +45,13 @@ function Login() {
 
               <div className="wrap-input">
                 <Field
-                  className={password !== "" ? "has-val input" : "input"}
+                  className={senhaNova !== "" ? "has-val input" : "input"}
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={senhaNova}
+                  onChange={(e) => setSenhaNova(e.target.value)}
                 />
-                <span className="focus-input" data-placeholder="Senha"></span>
+                <span className="focus-input" data-placeholder="Senha Nova"></span>
                 <ErrorMessage
                   component="span"
                   name="password"
@@ -60,7 +60,7 @@ function Login() {
               </div>
 
               <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit"> Alterar Senha </button>
+                <button className="login-form-btn" type="submit"> Alterar </button>
               </div>
 
               <div className="text-center">
@@ -79,5 +79,5 @@ function Login() {
 }
 
 
-export default Login;
+export default AlteraSenha;
 
