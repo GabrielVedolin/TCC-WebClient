@@ -1,9 +1,9 @@
-/*import {useState } from "react";
+import {useState } from "react";
 import React from "react"
-import jpIMG from "./assets/icons-school.png";
-import "./styles.css";
+import jpIMG from "../assets/icons-school.png";
+import "../styles.css";
 import { useNavigate} from "react-router-dom";
-import "./App.css";
+import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
 import { render } from "@testing-library/react";
@@ -12,8 +12,8 @@ import { render } from "@testing-library/react";
 function Altera() {
   const navigate = useNavigate();
   const handleLogin = (values) => console.log(values);
-  const [Cpf, setCpf] = useState("");
-  const [Senha, setSenha] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [senha, setSenha] = useState("");
   
   return (
     <div className="container">
@@ -32,9 +32,9 @@ function Altera() {
 
               <div className="wrap-input">
                 <Field
-                   className={Cpf !== "" ? "has-val input" : "input"}
+                   className={cpf !== "" ? "has-val input" : "input"}
                    type="email"
-                   value={Cpf}
+                   value={cpf}
                    onChange={e => setCpf(e.target.value)}
                 />   
                 <span className="focus-input" data-placeholder="CPF"></span>
@@ -47,9 +47,9 @@ function Altera() {
 
               <div className="wrap-input">
                 <Field
-                   className={Senha !== "" ? "has-val input" : "input"}
+                   className={senha !== "" ? "has-val input" : "input"}
                    type="password"
-                   value={Senha}
+                   value={senha}
                    onChange={e => setSenha(e.target.value)}
                 />
                 <span className="focus-input" data-placeholder="Senha"></span>
@@ -77,4 +77,3 @@ function Altera() {
 
 export default Altera();
 
-*/
