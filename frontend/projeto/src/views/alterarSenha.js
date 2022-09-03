@@ -1,43 +1,41 @@
 import {useState } from "react";
-import React from "react"
 import jpIMG from "../assets/icons-school.png";
-import "../styles.css";
+import "../styles.css"
 import { useNavigate} from "react-router-dom";
 import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import { render } from "@testing-library/react";
+import "./Questionario";
 
 
-function Altera() {
+function Login() {
   const navigate = useNavigate();
-  const handleLogin = (values) => console.log(values);
-  const [cpf, setCpf] = useState("");
-  const [senha, setSenha] = useState("");
-  
+  const handleLogin = (values) => console.log('values');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-       
-          <Formik initialValues={{}}>
-           
+          <Formik initialValues={{}}
+          onSubmit={handleLogin}>
             <Form className="login-form">
 
 
               <span className="login-form-title">
                 <img src={jpIMG} alt="Jovem Programador" />
               </span>
-              <span className="login-form-title"> Alterar Senha </span>
+              <span className="login-form-title"> Bem vindo </span>
 
               <div className="wrap-input">
                 <Field
-                   className={cpf !== "" ? "has-val input" : "input"}
-                   type="email"
-                   value={cpf}
-                   onChange={e => setCpf(e.target.value)}
+                  className={email !== "" ? "has-val input" : "input"}
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />   
-                <span className="focus-input" data-placeholder="CPF"></span>
+                <span className="focus-input" data-placeholder="Email"></span>
                 <ErrorMessage
                   component="span"
                   name="email"
@@ -47,10 +45,11 @@ function Altera() {
 
               <div className="wrap-input">
                 <Field
-                   className={senha !== "" ? "has-val input" : "input"}
-                   type="password"
-                   value={senha}
-                   onChange={e => setSenha(e.target.value)}
+                  className={password !== "" ? "has-val input" : "input"}
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span className="focus-input" data-placeholder="Senha"></span>
                 <ErrorMessage
@@ -59,14 +58,19 @@ function Altera() {
                   className="form-error"
                 />
               </div>
+
               <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit"> Altera Senha </button>
+                <button className="login-form-btn" type="submit"> Alterar Senha </button>
               </div>
-             
+
+              <div className="text-center">
+                
+                <a className="txt2" onClick={() => {navigate("/")}}>
+                  Voltar
+                </a>
+              </div>
             </Form>
-         
           </Formik>
-          
         </div>
       </div>
     </div>
@@ -75,5 +79,5 @@ function Altera() {
 }
 
 
-export default Altera();
+export default Login;
 
