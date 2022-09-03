@@ -1,17 +1,15 @@
 import {useState } from "react";
-import jpIMG from "./assets/icons-school.png";
-import "./styles.css";
+import jpIMG from "../assets/icons-school.png";
+import "../styles.css"
 import { useNavigate} from "react-router-dom";
-import "./App.css";
+import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import "./Questionario.js";
-import { render } from "@testing-library/react";
 
 
 function Login() {
   const navigate = useNavigate();
-  const handleLogin = (values) => console.log(values);
+  const handleLogin = (values) => console.log('values');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -66,9 +64,9 @@ function Login() {
               </div>
 
               <div className="text-center">
-                <span className="txt1">Esqueceu a senha? </span>
-                <a className="txt2" onClick={() => {navigate("/alteraSenha")}} >
-                  Trocar Senha!
+                <span className="txt1">Não possui conta? </span>
+                <a className="txt2" onClick={() => {navigate("/alterarSenha")}}>
+                  Criar conta
                 </a>
               </div>
             </Form>
