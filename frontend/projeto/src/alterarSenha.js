@@ -1,4 +1,4 @@
-import {useState } from "react";
+/*import {useState } from "react";
 import jpIMG from "./assets/icons-school.png";
 import "./styles.css";
 import { useNavigate} from "react-router-dom";
@@ -76,3 +76,4 @@ function Altera() {
 
 export default Altera();
 
+*/
