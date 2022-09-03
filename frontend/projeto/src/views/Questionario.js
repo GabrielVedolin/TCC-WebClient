@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate} from "react-router-dom";
-import "./styles.css";
+import "../styles.css"
 
 import {
   DropdownWrapper,
@@ -9,7 +9,7 @@ import {
   StyledOption,
   StyledLabel,
   StyledButton
-} from "./styles.js";
+} from "../styles.js";
 
 function Dropdown(props) {
   return (

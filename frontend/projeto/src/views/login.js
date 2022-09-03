@@ -1,11 +1,11 @@
 import {useState } from "react";
-import jpIMG from "./assets/icons-school.png";
-import "./styles.css";
+import jpIMG from "../assets/icons-school.png";
+import "../styles.css"
 import { useNavigate} from "react-router-dom";
-import "./App.css";
+import "../App.css";
 import * as yup from "yup";
 import { ErrorMessage, Formik, Form, Field } from "formik";
-import "./Questionario.js";
+import "./Questionario";
 
 
 function Login() {

@@ -1,8 +1,8 @@
 
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Quest from "./Questionario";
-import Login from "./login";
-import AlteraSenha from "./alterarSenha"
+import Quest from "./views/Questionario";
+import Login from "./views/login";
+import AlteraSenha from "./views/alterarSenha"
 import {useNavigate} from "react-router-dom";
 
 function App(){
