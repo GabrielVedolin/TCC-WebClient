@@ -63,9 +63,9 @@ function Login() {
               </div>
 
               <div className="text-center">
-                <span className="txt1">Não possui conta? </span>
+                <span className="txt1">Esqueceu a Senha? </span>
                 <a className="txt2" onClick={() => {navigate("/alterarSenha")}}>
-                  Criar conta
+                  Alterar Senha
                 </a>
               </div>
             </Form>
