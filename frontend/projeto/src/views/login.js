@@ -62,6 +62,10 @@ function Login() {
                 <button className="login-form-btn" type="submit" onClick={() => {navigate("/quest")}}> Login </button>
               </div>
 
+              <div className="container-login-form-btn">
+                <button className="login-form-btn" type="submit" onClick={() => {navigate("/feed")}}> Feed </button>
+              </div>
+
               <div className="text-center">
                 <span className="txt1">Esqueceu a Senha? </span>
                 <a className="txt2" onClick={() => {navigate("/alterarSenha")}}>
