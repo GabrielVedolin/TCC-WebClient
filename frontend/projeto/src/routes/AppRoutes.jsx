@@ -18,7 +18,13 @@ import { Children } from 'react';
 const AppRoutes = () => {
    
 const Private = ({children}) =>{
-    const { authenticated} = useContext(AuthContext);
+    const { authenticated, loading} = useContext(AuthContext);
+
+    if(loading)
+    {
+        return <div className="loading">Carregando...</div>
+    }
+
     if(!authenticated)
     {
         return <Navigate to="/" />;
@@ -34,7 +40,7 @@ const Private = ({children}) =>{
                 <Routes>
                     <Route exact path="/" element={<Login />} />
                     <Route exact path="/quest" element={<Private><Quest /></Private>} />
-                    <Route exact path="/alterarSenha" element={<Private><AlteraSenha /></Private>} />
+                    <Route exact path="/alterarSenha" element={<AlteraSenha />} />
                     <Route exact path="/feed" element={<Private><Feed /></Private>} />
                     <Route exact path="/pageProf1" element={<Private><PageProf1 /></Private>} />
                 </Routes>

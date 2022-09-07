@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useContext} from 'react';
+import { AuthContext } from '../contexts/auth';
 import "../styles/feed.css"
 import { useNavigate} from "react-router-dom";
 
 function Feed() {
+    const {logout} = useContext(AuthContext);
     const navigate = useNavigate();
+    const handleLogout = () => {
+        logout();
+    };
     return (
-
+      
         
         <div className='conteudo'>
             <head>
@@ -51,6 +56,10 @@ function Feed() {
                         <div class="headerOption">
                             <i class="material-icons headerOption__icon"> account_circle </i>
                             <h3>Meu perfil</h3>
+                        </div>
+                        <div class="headerOption">
+                            <i class="material-icons headerOption__icon" onClick={handleLogout}> account_circle </i>
+                            <h3>logout</h3>
                         </div>
                     </div>
                 </div>
