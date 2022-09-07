@@ -3,68 +3,52 @@ import jpIMG from "../assets/icons-school.png";
 import "../styles/login.css"
 import { useNavigate} from "react-router-dom";
 import "../App.css";
-import * as yup from "yup";
-import { ErrorMessage, Formik, Form, Field } from "formik";
 
 
 function Login() {
   const navigate = useNavigate();
-  const handleLogin = (values) => console.log('values');
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    console.log(("submit", {email, password}));
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-        <Formik initialValues={{}}
-          onSubmit={handleLogin}> 
-            <Form className="login-form">
-
-
+            <form className="login-form" onSubmit={handleSubmit}>
               <span className="login-form-title">
                 <img src={jpIMG} alt="Jovem Programador" />
               </span>
               <span className="login-form-title"> Bem vindo </span>
 
               <div className="wrap-input">
-                <Field
+                <input
                   className={email !== "" ? "has-val input" : "input"}
                   type="email"
+                  id="email"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />   
                 <span className="focus-input" data-placeholder="Email"></span>
-                <ErrorMessage
-                  component="span"
-                  name="email"
-                  className="form-error"
-                />
               </div>
 
               <div className="wrap-input">
-                <Field
-                className={password !== "" ? "has-val input" : "input"}
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                <input
+                  className={password !== "" ? "has-val input" : "input"}
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span className="focus-input" data-placeholder="Senha"></span>
-                <ErrorMessage
-                  component="span"
-                  name="password"
-                  className="form-error"
-                />
               </div>
 
               <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit" onClick={() => {navigate("/quest")}}> Login </button>
-              </div>
-
-              <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit" onClick={() => {navigate("/feed")}}> Feed </button>
+                <button className="login-form-btn" type="submit" > Login </button>
               </div>
 
               <div className="text-center">
@@ -73,10 +57,7 @@ function Login() {
                   Alterar Senha
                 </a>
               </div>
-            </Form>
-         
-          </Formik>
-          
+            </form>       
         </div>
       </div>
     </div>
