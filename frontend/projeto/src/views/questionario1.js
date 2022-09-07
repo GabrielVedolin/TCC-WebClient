@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fakeApi from "../api";
-import "../stylesQuestionario.css";
+import fakeApi from "../api/api";
+import "../styles/stylesQuestionario.css";
 
 
 import {
@@ -71,28 +71,28 @@ export default function App() {
   }
 
   return (
-    <div className="App">
-      <h1>Questionario</h1>
-      <p className="step-guide">
-        {currentStep + 1} de {steps.length}
-      </p>
+    <div className="container">
+    <div className="container-questionario">
+    <div className="wrap-questionario">
+      <h1 className="questionario-titulo">Questionario</h1>
+    
 
-      <form className="steps-form" onSubmit={handleSubmit}>
+      <form  onSubmit={handleSubmit}>
         <div className="fields-container">
-          <p>{steps[currentStep].title}</p>
+          <p className="questionario-form-title">{steps[currentStep].title}</p>
 
           {steps[currentStep].id === "Perguntas" && (
             <div>
 
-              <p> Você assiste a séries regularmente?</p>
-              <Dropdown>
-                <Option selected value="Selecione uma opção" />
+              <p className="questionario-form-title"> Você assiste a séries regularmente?</p>
+              <Dropdown className="questionario-form-dropdown">
+                <Option className="teste" selected value="Selecione uma opção" />
                 <Option value="Sim, de 2 a 5 séries no ultimo ano" />
                 <Option value="Sim, de 5 a 10 séries" />
                 <Option value="Não assisto series regularmente" />
               </Dropdown>
 
-              <p> Com que frequência você escuta música? </p>
+              <p className="questionario-form-title"> Com que frequência você escuta música? </p>
               <Dropdown>
                 <Option selected value="Selecione uma opção" />
                 <Option value="1 a 5 vezes por semana" />
@@ -100,7 +100,7 @@ export default function App() {
                 <Option value="Não estudo musica regularmente" />
               </Dropdown>
 
-              <p> Quantos livros leu nos últimos anos? </p>
+              <p className="questionario-form-title"> Quantos livros leu nos últimos anos? </p>
               <Dropdown>
                 <Option selected value="Selecione uma opção" />
                 <Option value="2 a 5 livros no último ano" />
@@ -108,7 +108,7 @@ export default function App() {
                 <Option value="Não li nenhum livro do último ano" />
               </Dropdown>
 
-              <p> Em questionarios, você tem mais facilidade com o que? </p>
+              <p className="questionario-form-title"> Em questionarios, você tem mais facilidade com o que? </p>
               <Dropdown>
                 <Option selected value="Selecione uma opção" />
                 <Option value="Multipla escolha" />
@@ -121,7 +121,7 @@ export default function App() {
           {steps[currentStep].id === "Geral" && (
             <div>
 
-            <p> Quando você vai a um restaurente e vai escolher o seu prato, você:</p>
+            <p className="questionario-form-title"> Quando você vai a um restaurente e vai escolher o seu prato, você:</p>
             <Dropdown>
               <Option selected value="Selecione uma opção" />
               <Option value="Prefere ler o cardápio calmamente para escolher" />
@@ -129,7 +129,7 @@ export default function App() {
               <Option value="Prefere que o garçom lhe explique alguma opção" />
             </Dropdown>
 
-            <p> Nos momentos livres você prefere: </p>
+            <p className="questionario-form-title"> Nos momentos livres você prefere: </p>
             <Dropdown>
               <Option selected value="Selecione uma opção" />
               <Option value="Ver TV" />
@@ -137,14 +137,14 @@ export default function App() {
               <Option value="Escutar música" />
             </Dropdown>
 
-            <p> Quando está vendo TV, você: </p>
+            <p className="questionario-form-title"> Quando está vendo TV, você: </p>
             <Dropdown>
               <Option selected value="Selecione uma opção" />
               <Option value="Só consegue prestar atenção olhando para a tela" />
               <Option value="A imagem não tem tanta importância, servindo apenas como complementação." />
             </Dropdown>
 
-            <p> Quando está estudando, você: </p>
+            <p className="questionario-form-title"> Quando está estudando, você: </p>
             <Dropdown>
               <Option selected value="Selecione uma opção" />
               <Option value="Gosta de esquemas e mapas mentais" />
@@ -152,7 +152,7 @@ export default function App() {
               <Option value="Gosta de trabalhar com exemplos" />
             </Dropdown>
 
-            <p> Quando vai estudar prefere: </p>
+            <p className="questionario-form-title"> Quando vai estudar prefere: </p>
             <Dropdown>
               <Option selected value="Selecione uma opção" />
               <Option value="Livros que contenham esquemas e imagens" />
@@ -163,26 +163,34 @@ export default function App() {
           )}
 
           {currentStep < steps.length - 1 && (
-            <button className="button next" type="button" onClick={handleNext}>
+            <div className="container-questionario-form-btn">
+            <button className="questionario-form-btn" type="button" onClick={handleNext}>
               Next
             </button>
+            </div>
           )}
 
           {currentStep === steps.length - 1 && (
-            <button className="button submit" type="submit">
+            <div className="container-questionario-form-btn">
+            <button className="questionario-form-btn" type="submit">
               Enviar
             </button>
+            </div>
           )}
 
           {currentStep >= 1 && (
-            <button className="button next" type="button" onClick={handleBack} >
+            <div className="container-questionario-form-btn">
+            <button className="questionario-form-btn" type="button" onClick={handleBack} >
               Volta
             </button>
+            </div>
           )}
 
           {loading && <h1 className="loader" >Enviando...</h1>}
         </div>
       </form>
+    </div>
+    </div>
     </div>
   );
 }
