@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import {api, createSession} from "../services/apiLogin";
+
 export const AuthContext = createContext();
 
 
@@ -20,16 +22,20 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    const login = (email, password) => {
-        console.log("login auth", { email, password });
+    const login = async(email, password) => {
+       
+    //  API para consultar tem que ser aqui
+      //  const response = await createSession(email,password);
+      
+       // console.log("response", response.data);
+     //   const loggedUserRetornoAPI = response.data.user;
 
-        // API para consultar tem que ser aqui
-
-        const loggedUserRetornoAPI = {
-            id: '123',
-            email,
+        // teste usuario sem pegar pela api setado na mao
+         const loggedUserRetornoAPI = {
+             id: '123',
+             email,
             usuario_questionario: 1
-        };
+         };
 
         localStorage.setItem("user", JSON.stringify(loggedUserRetornoAPI));
 

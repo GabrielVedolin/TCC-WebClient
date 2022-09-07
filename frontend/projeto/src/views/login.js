@@ -27,17 +27,17 @@ function Login() {
               <img src={jpIMG} alt="Jovem Programador" />
             </span>
             <span className="login-form-title"> Bem vindo </span>
-        <p>{String(authenticated)}</p>
+          
             <div className="wrap-input">
               <input
                 className={email !== "" ? "has-val input" : "input"}
-                type="email"
+                type="text"
                 id="email"
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <span className="focus-input" data-placeholder="Email"></span>
+              <span className="focus-input" data-placeholder="Login"></span>
             </div>
 
             <div className="wrap-input">
