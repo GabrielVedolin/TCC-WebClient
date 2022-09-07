@@ -5,21 +5,21 @@ import "../styles/stylesQuestionario.css";
 
 
 import {
-  DropdownWrapper,
+  selectWrapper,
   StyledSelect,
   StyledOption,
   StyledLabel,
   StyledButton
 } from "../styles.js";
 
-function Dropdown(props) {
+function select(props) {
   return (
-    <DropdownWrapper action={props.action} onChange={props.onChange}>
+    <selectWrapper action={props.action} onChange={props.onChange}>
       <StyledLabel htmlFor="services">{props.formLabel}</StyledLabel>
       <StyledSelect id="services" name="services">
         {props.children}
       </StyledSelect>
-    </DropdownWrapper>
+    </selectWrapper>
   );
 }
 
@@ -85,36 +85,36 @@ export default function App() {
             <div>
 
               <p className="questionario-form-title"> Você assiste a séries regularmente?</p>
-              <Dropdown className="questionario-form-dropdown">
-                <Option className="teste" selected value="Selecione uma opção" />
-                <Option value="Sim, de 2 a 5 séries no ultimo ano" />
-                <Option value="Sim, de 5 a 10 séries" />
-                <Option value="Não assisto series regularmente" />
-              </Dropdown>
+              <select className="questionario-form-select">
+                <option selected value="Selecione uma opção">Selecione uma opção</option>
+                <option value="Sim, de 2 a 5 séries no ultimo ano">Sim, de 2 a 5 séries no ultimo ano</option>
+                <option value="Sim, de 5 a 10 séries" >Sim, de 5 a 10 séries</option>
+                <option value="Não assisto series regularmente" >Não assisto series regularmente</option>
+              </select>
 
               <p className="questionario-form-title"> Com que frequência você escuta música? </p>
-              <Dropdown>
-                <Option selected value="Selecione uma opção" />
-                <Option value="1 a 5 vezes por semana" />
-                <Option value="6 a 10 vezes na semana" />
-                <Option value="Não estudo musica regularmente" />
-              </Dropdown>
+              <select>
+                <option selected value="Selecione uma opção" >Selecione uma opção"</option>
+                <option value="1 a 5 vezes por semana" >1 a 5 vezes por semana</option>
+                <option value="6 a 10 vezes na semana" >6 a 10 vezes na semana</option>
+                <option value="Não estudo musica regularmente" >Não estudo musica regularmente</option>
+              </select>
 
               <p className="questionario-form-title"> Quantos livros leu nos últimos anos? </p>
-              <Dropdown>
-                <Option selected value="Selecione uma opção" />
-                <Option value="2 a 5 livros no último ano" />
-                <Option value="6 a 10 livros no último ano" />
-                <Option value="Não li nenhum livro do último ano" />
-              </Dropdown>
+              <select>
+                <option selected value="Selecione uma opção" >Selecione uma opção</option>
+                <option value="2 a 5 livros no último ano" >2 a 5 livros no último ano</option>
+                <option value="6 a 10 livros no último ano" >6 a 10 livros no último ano</option>
+                <option value="Não li nenhum livro do último ano" >ão li nenhum livro do último ano</option>
+              </select>
 
               <p className="questionario-form-title"> Em questionarios, você tem mais facilidade com o que? </p>
-              <Dropdown>
-                <Option selected value="Selecione uma opção" />
-                <Option value="Multipla escolha" />
-                <Option value="Dissertativas" />
-                <Option value="Ambos" />
-              </Dropdown>
+              <select>
+                <option selected value="Selecione uma opção" >Selecione uma opção</option>
+                <option value="Multipla escolha" >Multipla escolha</option>
+                <option value="Dissertativas" >Dissertativas</option>
+                <option value="Ambos" >Ambos</option>
+              </select>
             </div>
           )}
 
@@ -122,43 +122,43 @@ export default function App() {
             <div>
 
             <p className="questionario-form-title"> Quando você vai a um restaurente e vai escolher o seu prato, você:</p>
-            <Dropdown>
-              <Option selected value="Selecione uma opção" />
-              <Option value="Prefere ler o cardápio calmamente para escolher" />
-              <Option value="Prefere as opções de melhor aparência" />
-              <Option value="Prefere que o garçom lhe explique alguma opção" />
-            </Dropdown>
+            <select>
+              <option selected value="Selecione uma opção" >Selecione uma opção</option>
+              <option value="Prefere ler o cardápio calmamente para escolher" >Prefere ler o cardápio calmamente para escolher</option>
+              <option value="Prefere as opções de melhor aparência" >Prefere as opções de melhor aparência</option>
+              <option value="Prefere que o garçom lhe explique alguma opção">Prefere que o garçom lhe explique alguma opção</option>
+            </select>
 
             <p className="questionario-form-title"> Nos momentos livres você prefere: </p>
-            <Dropdown>
-              <Option selected value="Selecione uma opção" />
-              <Option value="Ver TV" />
-              <Option value="Ler um livro" />
-              <Option value="Escutar música" />
-            </Dropdown>
+            <select>
+              <option selected value="Selecione uma opção">Selecione uma opção</option>
+              <option value="Ver TV" >Ver TV</option>
+              <option value="Ler um livro" >Ler um livro</option>
+              <option value="Escutar música" >Escutar música</option>
+            </select>
 
             <p className="questionario-form-title"> Quando está vendo TV, você: </p>
-            <Dropdown>
-              <Option selected value="Selecione uma opção" />
-              <Option value="Só consegue prestar atenção olhando para a tela" />
-              <Option value="A imagem não tem tanta importância, servindo apenas como complementação." />
-            </Dropdown>
+            <select>
+              <option selected value="Selecione uma opção">Selecione uma opção</option>
+              <option value="Só consegue prestar atenção olhando para a tela" >Só consegue prestar atenção olhando para a tela</option>
+              <option value="A imagem não tem tanta importância, servindo apenas como complementação." >A imagem não tem tanta importância, servindo apenas como complementação.</option>
+            </select>
 
             <p className="questionario-form-title"> Quando está estudando, você: </p>
-            <Dropdown>
-              <Option selected value="Selecione uma opção" />
-              <Option value="Gosta de esquemas e mapas mentais" />
-              <Option value="Gosta de ouvir ao invés de anotar" />
-              <Option value="Gosta de trabalhar com exemplos" />
-            </Dropdown>
+            <select>
+              <option selected value="Selecione uma opção">Selecione uma opção</option>
+              <option value="Gosta de esquemas e mapas mentais" >Gosta de esquemas e mapas mentais</option>
+              <option value="Gosta de ouvir ao invés de anotar" >Gosta de ouvir ao invés de anotar</option>
+              <option value="Gosta de trabalhar com exemplos" >Gosta de trabalhar com exemplos</option>
+            </select>
 
             <p className="questionario-form-title"> Quando vai estudar prefere: </p>
-            <Dropdown>
-              <Option selected value="Selecione uma opção" />
-              <Option value="Livros que contenham esquemas e imagens" />
-              <Option value="Livros com questões e provas anteriores" />
-              <Option value="Prefere escutar uma aula e entender o que o professor fala" />
-            </Dropdown>
+            <select>
+              <option selected value="Selecione uma opção">Selecione uma opção</option>
+              <option value="Livros que contenham esquemas e imagens" >Livros que contenham esquemas e imagens</option>
+              <option value="Livros com questões e provas anteriores" >Livros com questões e provas anteriores</option>
+              <option value="Prefere escutar uma aula e entender o que o professor fala">Prefere escutar uma aula e entender o que o professor fala</option>
+            </select>
           </div>
           )}
 

@@ -1,9 +1,12 @@
 import React from 'react';
 import "../styles/feed.css"
+import { useNavigate} from "react-router-dom";
 
 function Feed() {
+    const navigate = useNavigate();
     return (
 
+        
         <div className='conteudo'>
             <head>
                 <meta charset="UTF-8" />
@@ -58,8 +61,8 @@ function Feed() {
                         <div class="sidebar__top">
                             <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" alt="imagemCabeca" />
                             <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                            <h2>Felipe Santos</h2>
-                            <h4>feliperst.contato@gmail.com</h4>
+                            <h2>Professor Leminski</h2>
+                            <h4> Professor de</h4> <h4 class="sidebar__statNumber">Matematica </h4>
                         </div>
 
                         <div class="sidebar__stats">
@@ -100,31 +103,17 @@ function Feed() {
 
                     <div class="feed">
                         <div class="feed__inputContainer">
-                            <div class="feed__input">
-                                <i class="material-icons"> create </i>
-                                <form>
-                                    <input type="text" />
-                                    <button type="submit">Enviar</button>
-                                </form>
-                            </div>
-
                             <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: '#70b5f9' }} class="material-icons"> insert_photo </i>
-                                    <h4>Foto</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: '#e7a33e' }} class="material-icons"> subscriptions </i>
-                                    <h4>Video</h4>
-                                </div>
+                            <div class="inputOption">
+                                    <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
+                                    <h4 onClick={() => {navigate("/pageProf1")}}>Area de conteúdo</h4>
+
+                        </div>
                                 <div class="inputOption">
                                     <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                    <h4>Evento</h4>
+                                    <h4>Algum botao futuro talvez</h4>
                                 </div>
-                                <div class="inputOption">
-                                    <i style={{ color: '#7fc15e' }} class="material-icons"> calendar_view_day </i>
-                                    <h4>Postar um curso</h4>
-                                </div>
+                                
                             </div>
                         </div>
 

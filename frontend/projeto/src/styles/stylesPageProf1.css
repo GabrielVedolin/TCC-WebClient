@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Knewave&family=Nunito:wght@400;600;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: Nunito, sans-serif;
+}
+.textoConteudo{
+  width: 100%;
+  height: 100px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.inputsForm{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+
+  .sidebarProf1 {
+    flex: 0.2;
+    border-radius: 10px;
+    text-align: center;
+    height: fit-content;
+    margin: 20px 20px 20px 20px;
+    padding-top: -20px;
+
+    
+  }
+  .sidebar__topProf1 > img {
+    margin-bottom: -20px;
+    margin-top: 5px;
+    width: 100%;
+    height: 60px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+    
+  }
+  
+  .sidebar__topProf1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    background: rgba(31, 28, 52, 0.65);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 7.5px );
+    -webkit-backdrop-filter: blur( 7.5px );
+    padding-bottom: 10px;
+    padding-top: -20px;
+  }
+
+ 
+.formProf1 {
+  text-align: center;
+}
+.containerProf1{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.dropdownProf1{
+  text-align: center;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.container-questionarioProf1 {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
+}
+
+.wrap-questionarioProf1{
+  width: 700px;
+  border-radius: 10px;
+  padding: 15px 55px 0px 55px;
+  background: rgba(31, 28, 52, 0.65);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 7.5px );
+  -webkit-backdrop-filter: blur( 7.5px );
+  border-radius: 10px;
+  border: 1px solid rgba(83, 23, 23, 0.18);
+}
+
+.container-questionario-form-btnProf1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 13px;
+}
+
+
+.questionario-form-btnProf1 {
+    background-color: #303030; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px
+  }
+
+.questionario-tituloProf1 {
+  font-family: Nunito, sans-serif;
+  display: block;
+  font-size: 25px;
+  color: azure;
+  line-height: 1.2;
+  margin-top: 13px;
+  text-align: center;
+ 
+}
+
+.questionario-form-titleProf1{
+  font-family: Nunito, sans-serif;
+  font-size: 15px;
+  color: azure;
+  line-height: 1.2;
+  margin-top: 13px;
+ 
+}
+
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+
