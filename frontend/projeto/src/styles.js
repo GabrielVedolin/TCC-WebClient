@@ -7,14 +7,30 @@ export const DropdownWrapper = styled.form`
 `;
 
 export const StyledSelect = styled.select`
-  max-width: 50%;
-  height: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
+font-size: 10px;
+border: none;
+border-radius: 10px;
+color: #fff;
+line-height: 1.2;
+text-transform: uppercase;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 40%;
+height: 40px;
+
+background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+margin-bottom: 13px;
 `;
 
 export const StyledOption = styled.option`
-  color: ${(props) => (props.selected ? "lightgrey" : "black")};
+  
+ background: rgb(1, 0, 0);
+ font-size: 10px;
+ 
 `;
 
 export const StyledLabel = styled.label`
