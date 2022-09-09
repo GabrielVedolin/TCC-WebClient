@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
-
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-import {api, createSession} from "../services/apiLogin";
+import endPoints, {api, createSession} from "../services/api's";
 
 export const AuthContext = createContext();
 
@@ -23,37 +23,37 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async(email, password) => {
-       
-    //  API para consultar tem que ser aqui
-      //  const response = await createSession(email,password);
-      
-       // console.log("response", response.data);
-     //   const loggedUserRetornoAPI = response.data.user;
-
-        // teste usuario sem pegar pela api setado na mao
-         const loggedUserRetornoAPI = {
-             id: '123',
-             email,
-            usuario_questionario: 1
-        
-         };
-
-        localStorage.setItem("user", JSON.stringify(loggedUserRetornoAPI));
-
-        if (password === "teste" && loggedUserRetornoAPI.usuario_questionario === 0) {
-            setUser(loggedUserRetornoAPI);
-            navigate("/quest");
+        const body = {
+            "user_email":email,
+            "user_senha":password
         }
-        if ((password === "teste" && loggedUserRetornoAPI.usuario_questionario === 1)) {
-            setUser(loggedUserRetornoAPI);
-            navigate("/feed");
-        }
-        if ((password != "teste" )) {
+
+        await axios.post(`${endPoints.GoLogin}`,body)
+        .then((resp)=>{
+            console.log(resp.data)
+            const userCredentials = resp.data
+            console.log("tipo",userCredentials[0].user_tipo)
+            console.log("toaqui",userCredentials[0].user_flag_questionario)
+
             
+            if(userCredentials[0].user_tipo == 2 && userCredentials[0].user_flag_questionario == 1){
+                localStorage.setItem("user", JSON.stringify(userCredentials));
+                navigate("/feed"); 
+            }
+            if(userCredentials[0].user_tipo == 2 && userCredentials[0].user_flag_questionario == 0){
+                localStorage.setItem("user", JSON.stringify(userCredentials));
+                navigate("/quest"); 
+            }
+            if(userCredentials[0].user_tipo === 1){
+                localStorage.setItem("user", JSON.stringify(userCredentials));
+                navigate("/alterarSenha"); 
+            }
+            
+
+        }).catch((error)=>{
             let p = document.getElementById('mensagemerro');
             p.style.display = 'block';
-            alert('usuario invalido');
-        }
+        })
 
     };
     const logout = () => {

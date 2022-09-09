@@ -3,23 +3,49 @@ import jpIMG from "../assets/icons-school.png";
 import "../styles.css"
 import { useNavigate} from "react-router-dom";
 import "../App.css";
-import * as yup from "yup";
-import { ErrorMessage, Formik, Form, Field } from "formik";
+import axios from 'axios';
+import endPoints from "../services/api's";
 
 
 
 function AlteraSenha() {
   const navigate = useNavigate();
-  const handleLogin = (values) => console.log('values');
   const [cpf, setCpf] = useState("");
   const [senhaNova, setSenhaNova] = useState("");
+  const body ={
+
+    "user_cpf":cpf,
+    "user_senha":senhaNova
+ }
+
+  async function esqueciSenha() {
+    await axios.patch(`${endPoints.esqueciMinhaSenha}`,body)
+      .then((response) => {
+        console.log(response)
+        console.log("dados",cpf,senhaNova)
+        
+       
+
+       console.log(body)
+       alert("senha alterada com sucesso")
+       navigate("/")
+
+      })
+      .catch((erro) => {
+        console.log("dados",cpf,senhaNova)
+        let p = document.getElementById('mensagemerro');
+        p.style.display = 'block';
+      })
+  }
+
+
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-          <Formik initialValues={{}}
-          onSubmit={handleLogin}>
-            <Form className="login-form">
+          
+          
+            <form className="login-form" onSubmit={esqueciSenha}>
 
 
               <span className="login-form-title">
@@ -28,7 +54,7 @@ function AlteraSenha() {
               <span className="login-form-title"> Alterar Senha </span>
 
               <div className="wrap-input">
-                <Field
+                <input
                   className={cpf !== "" ? "has-val input" : "input"}
                   type="text"
                   name="email"
@@ -36,15 +62,11 @@ function AlteraSenha() {
                   onChange={(e) => setCpf(e.target.value)}
                 />   
                 <span className="focus-input" data-placeholder="CPF"></span>
-                <ErrorMessage
-                  component="span"
-                  name="email"
-                  className="form-error"
-                />
+               
               </div>
 
               <div className="wrap-input">
-                <Field
+                <input
                   className={senhaNova !== "" ? "has-val input" : "input"}
                   type="password"
                   name="password"
@@ -52,13 +74,9 @@ function AlteraSenha() {
                   onChange={(e) => setSenhaNova(e.target.value)}
                 />
                 <span className="focus-input" data-placeholder="Senha Nova"></span>
-                <ErrorMessage
-                  component="span"
-                  name="password"
-                  className="form-error"
-                />
+                
               </div>
-
+              <p id="mensagemerro" style={{display:'none'}}> CPF não encontrado !</p>
               <div className="container-login-form-btn">
                 <button className="login-form-btn" type="submit"> Alterar </button>
               </div>
@@ -69,8 +87,8 @@ function AlteraSenha() {
                   Voltar
                 </a>
               </div>
-            </Form>
-          </Formik>
+            </form>
+          
         </div>
       </div>
     </div>
