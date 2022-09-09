@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
              id: '123',
              email,
             usuario_questionario: 1
+        
          };
 
         localStorage.setItem("user", JSON.stringify(loggedUserRetornoAPI));
@@ -46,6 +47,12 @@ export const AuthProvider = ({ children }) => {
         if ((password === "teste" && loggedUserRetornoAPI.usuario_questionario === 1)) {
             setUser(loggedUserRetornoAPI);
             navigate("/feed");
+        }
+        if ((password != "teste" )) {
+            
+            let p = document.getElementById('mensagemerro');
+            p.style.display = 'block';
+            alert('usuario invalido');
         }
 
     };

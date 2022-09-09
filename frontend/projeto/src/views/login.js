@@ -51,7 +51,7 @@ function Login() {
               />
               <span className="focus-input" data-placeholder="Senha"></span>
             </div>
-
+            <p id="mensagemerro" style={{display:'none'}}> Usuario invalido!!!</p>
             <div className="container-login-form-btn">
               <button className="login-form-btn" type="submit" > Login </button>
             </div>

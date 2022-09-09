@@ -198,3 +198,10 @@ body, html {
   line-height: 1.5;
   text-decoration: none;
 }
+
+#mensagemerro{
+  color: #f91d0e;
+  font-family: Nunito, sans-serif;
+  font-size: 20px;
+  padding-bottom: 8px;
+}
