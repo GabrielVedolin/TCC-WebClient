@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Quest from "../views/questionario1";
 import Login from "../views/login";
-import AlteraSenha from "../views/alterarSenha";
+import AlteraSenha from "../views/alteraSenha";
 import Feed from "../views/feed";
 import PageProf1 from "../views/pageProfessor1";
 import { AuthProvider, AuthContext } from "../contexts/auth";
