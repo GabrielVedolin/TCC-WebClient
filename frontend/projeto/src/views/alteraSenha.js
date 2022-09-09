@@ -4,24 +4,43 @@ import jpIMG from "../assets/icons-school.png";
 import "../styles/login.css"
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-
+import axios from 'axios';
+import endPoints from "../services/api's";
 
 function AlteraSenha() {
 
   const navigate = useNavigate();
-  const [cpf, setCpf] = useState("");
+  const [cpf, setCpf] = useState("47722431103");
   const [senhaNova, setSenhaNova] = useState("");
 
-  const handleAlterarSenha = (e) => {
-    e.preventDefault();
-    console.log(("submit:", { cpf, senhaNova }));
 
+  const  handleEsqueciSenha = async()=>{
+    
+    const body = {
+      "user_cpf": cpf,
+      "user_senha":senhaNova
   }
+    console.log(body)
+    await axios.post(`${endPoints.esqueciMinhaSenha}`, body)
+      .then((response) => {
+       console.log("response aqui",response)
+       alert("senha atualizada")
+       
+      }).catch((erro) => {
+        console.log('deu ruim', erro)
+      })
+  }
+
+  // const handleAlterarSenha = (e) => {
+  //   e.preventDefault();
+  //   console.log(("submit:", { cpf, senhaNova }));
+
+  // }
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-          <form className="login-form" onSubmit={handleAlterarSenha}>
+          <form className="login-form" onSubmit={()=>handleEsqueciSenha() }>
             <span className="login-form-title">
               <img src={jpIMG} alt="Jovem Programador" />
             </span>
@@ -31,12 +50,12 @@ function AlteraSenha() {
               <input
                 className={cpf !== "" ? "has-val input" : "input"}
                 type="text"
-                id="email"
-                name="email"
+                id="cpf"
+                name="cpf"
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
               />
-              <span className="focus-input" data-placeholder="Login"></span>
+              <span className="focus-input" data-placeholder="CPF"></span>
             </div>
 
             <div className="wrap-input">
