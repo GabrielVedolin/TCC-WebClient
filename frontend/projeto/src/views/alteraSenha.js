@@ -10,37 +10,36 @@ import endPoints from "../services/api's";
 function AlteraSenha() {
 
   const navigate = useNavigate();
-  const [cpf, setCpf] = useState("47722431103");
+  const [cpf, setCpf] = useState("");
   const [senhaNova, setSenhaNova] = useState("");
 
 
-  const  handleEsqueciSenha = async()=>{
-    
+  const handleAlterarSenha = async(e) => {
+    e.preventDefault();
+    console.log(("submit:", { cpf, senhaNova }));
     const body = {
-      "user_cpf": cpf,
-      "user_senha":senhaNova
-  }
-    console.log(body)
-    await axios.post(`${endPoints.esqueciMinhaSenha}`, body)
-      .then((response) => {
-       console.log("response aqui",response)
-       alert("senha atualizada")
-       
-      }).catch((erro) => {
-        console.log('deu ruim', erro)
-      })
-  }
+          "user_cpf": cpf,
+          "user_senha":senhaNova
+      }
+        console.log(body)
+        await axios.post(`${endPoints.esqueciMinhaSenha}`, body)
+          .then((response) => {
+           console.log("response aqui",response)
+           alert("senha atualizada com sucesso !")
+           navigate("/")
+           
+          }).catch((erro) => {
+            console.log('deu ruim', erro)
+            let p = document.getElementById('mensagemerro');
+            p.style.display = 'block';
+          })
 
-  // const handleAlterarSenha = (e) => {
-  //   e.preventDefault();
-  //   console.log(("submit:", { cpf, senhaNova }));
-
-  // }
+  }
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-          <form className="login-form" onSubmit={()=>handleEsqueciSenha() }>
+          <form className="login-form" onSubmit={handleAlterarSenha }>
             <span className="login-form-title">
               <img src={jpIMG} alt="Jovem Programador" />
             </span>
@@ -69,7 +68,7 @@ function AlteraSenha() {
               />
               <span className="focus-input" data-placeholder="Senha"></span>
             </div>
-            <p id="mensagemerro" style={{display:'none'}}> email ou senha invalidos !</p>
+            <p id="mensagemerro" style={{display:'none'}}> Usuario não encontrado !</p>
             <div className="container-login-form-btn">
               <button className="login-form-btn" type="submit" > Alterar Senha </button>
             </div>
