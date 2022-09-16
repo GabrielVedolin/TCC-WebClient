@@ -17,25 +17,38 @@ export default function App() {
     const [descricao, setDescricao] = useState([]);
     const [idTopico, setIdTopico] = useState([]);
     const [topico, setTopico] = useState([]);
-    const [valorIdCurso, setValorIdCurso] = useState ("");
+    const [valorIdCurso, setValorIdCurso] = useState("");
+
+
+    const [respCursos, setRespCursos] = useState([])
+    const [respTopicos, setRespTopicos] = useState([])
+    const [select1, setSelect1] = useState({})
+    const [select2, setSelect2] = useState([])
+    const [select3, setSelect3] = useState([])
+    const [respConteudo, setRespConteudo] = useState([])
+
 
     async function getCursos() {
         const userData = localStorage.getItem('user');
         const jsonData = JSON.parse(userData);
         const testeX = jsonData[0].user_id;
-        console.log("testeX:", testeX);
-        await axios.get(`${endPoints.buscarConteudo}/${testeX}`)
+
+        await axios.get(`${endPoints.buscarCursos}/${testeX}`)
             .then((response) => {
                 const respostaTeste = response.data;
-                console.log("response aqui AFEOPFKOPAEFOPEAK", respostaTeste)
+
+
+                setRespCursos(respostaTeste)
+
+
+
 
                 var descricoes = respostaTeste.map(function (item, indice) { return item.descricao });
                 var idDescricao = respostaTeste.map(function (item, indice) { return item.id_curso });
                 setIdDescricao(idDescricao);
                 setDescricao(descricoes);
 
-                console.log("descricao: ", descricoes);
-                console.log("id_curso: ", idDescricao);
+
 
 
             }).catch((erro) => {
@@ -45,23 +58,31 @@ export default function App() {
     }
 
 
-    const getTopicos = async(e) => {
-        
-        console.log("Testeform: ", valorIdCurso);
-        const idCurso = valorIdCurso;
-        await axios.get(`${endPoints.buscarTopico}/${idCurso}`)
+
+    const getTopicos = async (e) => {
+
+        await axios.get(`${endPoints.buscarTopico}/${select1}`)
             .then((response) => {
                 const respostaTeste = response.data;
-                console.log("response topicos: ", respostaTeste)
+                setSelect2(respostaTeste)
+                setRespTopicos(respostaTeste)
+                setRespConteudo([])
 
-                var descricao = respostaTeste.map(function (item, indice) { return item.descricao });
-                var idTopico = respostaTeste.map(function (item, indice) { return item.idTopico });
+            }).catch((erro) => {
 
-                setIdTopico(idTopico);
-                setTopico(descricao);
+            })
 
-                console.log("ID TOPICO:" , idTopico);
-                console.log("TOPICO: ", descricao);
+    }
+
+    const getconteudo = async (e) => {
+
+        await axios.get(`${endPoints.buscarConteudo}/${select3}`)
+            .then((response) => {
+                const respostaTeste = response.data;
+
+                console.log("GETcONTEUDO", respostaTeste)
+                setRespConteudo(respostaTeste)
+
 
             }).catch((erro) => {
                 console.log('deu ruim', erro)
@@ -69,20 +90,27 @@ export default function App() {
 
     }
 
+
     useEffect(() => {
-        // const userData = localStorage.getItem('user');
-
         getCursos();
-        //  if(userData){
-        //      setUser(JSON.parse(userData));
 
-        //  }
-        //setLoading(false);
     }, []);
 
-    //const teste1 = userData;
+    useEffect(() => {
+        if (select1) {
+            getTopicos()
+        }
 
-    //console.log("AAAAAAAAA", teste1);
+    }, [select1]);
+
+    useEffect(() => {
+        if (select3) {
+            getconteudo()
+        }
+
+    }, [select3]);
+
+
 
     const handleshowHide = (event) => {
         const getValue = event.target.value;
@@ -92,56 +120,22 @@ export default function App() {
 
     const handleshowHide2 = (event) => {
         const getValue = event.target.value;
-        console.log(getValue)
+        // console.log(getValue)
         setShowhide2(getValue);
     }
 
     const handleshowHide3 = (event) => {
         const getValue = event.target.value;
-        console.log(getValue)
+        // console.log(getValue)
         setShowhide3(getValue);
     }
 
 
-    // pode estourar o array TA CHUMBADO
-    const options = [
-        {
-            label: descricao[0],
-            value: idDescricao[0],
-        },
-        {
-            label: descricao[1],
-            value: idDescricao[1],
-        },
-        {
-            label: descricao[2],
-            value: idDescricao[2],
-        },
-
-    ];
 
 
-    const options2 = [
-        {
-            label: descricao[0],
-            value: idTopico[0],
-        },
-        {
-            label: descricao[1],
-            value:  idTopico[1],
-        },
-        {
-            label: descricao[2],
-            value:  idTopico[2],
-        },
 
-    ];
-
-    console.log("ID DESCRICAO ARRAY: ", idDescricao);
     return (
         <div>
-
-
             <div className="containerProf1">
 
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -163,42 +157,53 @@ export default function App() {
                                 <p className="questionario-form-titleProf1"></p>
                                 <div>
 
+
                                     <label className="questionario-form-titleProf1">
-                                        Nome do Curso:
+                                        TESTE Curso:
 
                                         <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
-                                            setValorIdCurso(e.target.value);
-                                            console.log("Teste valor xxxxx:", valorIdCurso);
-                                            setTesteform(valorIdCurso);
-                                            getTopicos(testeForm);
+                                            setSelect1(e.target.value)
 
                                         }}>
-                                            {options.map((option) => (
-                                                <option value={option.value}>{option.label}</option>
+                                            {respCursos?.map((item) => (
+                                                <option value={item.id_curso}>{item.descricao}</option>
                                             ))}
                                         </select>
                                         {testeForm};
                                     </label>
 
-                                    
-                                            <label className="questionario-form-titleProf1" onChange={(e) => (handleshowHide2(e))}>
-                                                Nome do Topico:
+                                    <label className="questionario-form-titleProf1">
+                                        Nome do topico:
 
-                                                <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
-                                                    const testeValor = e.target.value;
-                                                    setTesteform(testeValor);
-                                                  
 
-                                                }}>
-                                                    {options2.map((option) => (
-                                                        <option value={option.value}>{option.label}</option>
-                                                    ))}
-                                                </select>
-                                                {testeForm};
-                                            </label>
-                                        
+                                        <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
+                                            setSelect3(e.target.value)
 
-                                    
+                                        }}>
+                                            <option value={''}>{'Selecione uma opção'}</option>
+                                            {respTopicos?.map((item) => (
+                                                <option value={item.id_topico}>{item.descricao}</option>
+                                            ))}
+                                        </select>
+                                        {testeForm};
+                                    </label>
+
+
+                                    <label className="questionario-form-titleProf1">
+                                        Nome do Conteudo:
+
+
+                                        <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
+
+                                        }}>
+                                            <option value={''}>{'Selecione uma opção'}</option>
+                                            {respConteudo?.map((item) => (
+                                                <option value={item.id_conteudo}>{item.descricao}</option>
+                                            ))}
+                                        </select>
+                                        {testeForm};
+                                    </label>
+
 
 
 
