@@ -137,8 +137,8 @@ export default function App() {
     return (
         <div>
             <div className="containerProf1">
-
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />   
                 <div className="container-questionarioProf1">
                     <div className="sidebarProf1">
                         <div className="sidebar__topProf1">
