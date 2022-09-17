@@ -22,21 +22,24 @@ body, html {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: url('/src/img/1379437.jpg') no-repeat center center;
-  background-size: cover;
+  background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
+
 }
 
 .wrap-questionario{
   width: 700px;
-  border-radius: 10px;
   overflow: hidden;
   padding: 15px 55px 0px 55px;
-  background: rgba(31, 28, 52, 0.65);
+  background: #6a7dfe;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 7.5px );
   -webkit-backdrop-filter: blur( 7.5px );
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  
 }
 
 .container-questionario-form-btn {
@@ -59,11 +62,10 @@ body, html {
   width: 50%;
   height: 50px;
   padding: 20px;
-  background: #6a7dfe;
-  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
 }
 
 .questionario-form-btn:hover {
@@ -86,7 +88,7 @@ body, html {
 
 .questionario-form-title {
   font-family: Nunito, sans-serif;
-  display: block;
+  display: flex;
   font-size: 15px;
   color: azure;
   line-height: 1.2;
@@ -129,11 +131,10 @@ body, html {
   padding-top: 10px;
   padding-right: 100px;
   padding-bottom: 10px;
-  background: #6a7dfe;
-  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
 
 }
 
@@ -172,6 +173,7 @@ body, html {
 .questionario-form-select {
   font-size: 15px;
   border-radius: 10px;
+  border: 2px solid black;
   margin-top: 10px;
   margin-bottom: 20px;
   color: #fff;
@@ -183,11 +185,10 @@ body, html {
   width: 50%;
   height: 50px;
   padding: 14px;
-  background: #6a7dfe;
-  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
 }
 
 .questionario-form-select:hover {
@@ -205,5 +206,5 @@ body, html {
   border: 1px solid #cbcbcb;
   padding-left: 17px;
   padding-top: 12px;
-  background: rgb(16, 14, 26);
+  background:rgb(84, 82, 82);
 }

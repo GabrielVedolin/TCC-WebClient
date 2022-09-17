@@ -8,103 +8,74 @@
 body, html {
   font-family: Nunito, sans-serif;
 }
-.textoConteudo{
-  width: 100%;
-  height: 100px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-.inputsForm{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-
-  .sidebarProf1 {
-    flex: 0.2;
-    border-radius: 10px;
-    text-align: center;
-    height: fit-content;
-    margin: 20px 20px 20px 20px;
-    padding-top: -20px;
-
-    
-  }
-  .sidebar__topProf1 > img {
-    margin-bottom: -20px;
-    margin-top: 5px;
-    width: 100%;
-    height: 60px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    object-fit: cover;
-    
-  }
-  
-  .sidebar__topProf1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    background: rgba(31, 28, 52, 0.65);
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 7.5px );
-    -webkit-backdrop-filter: blur( 7.5px );
-    padding-bottom: 10px;
-    padding-top: -20px;
-  }
 
  
-.formProf1 {
-  text-align: center;
-}
-.containerProf1{
-  width: 100%;
-  margin: 0 auto;
-}
 
-.dropdownProf1{
-  text-align: center;
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
+
+
+
 .container-questionarioProf1 {
-  width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
   padding: 15px;
   background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
 }
 
-.wrap-questionarioProf1{
-  width: 700px;
+.sidebarProf1 {
+  flex: 0.2;
   border-radius: 10px;
-  padding: 15px 55px 0px 55px;
-  background: rgba(31, 28, 52, 0.65);
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  text-align: right;
+  height: fit-content;
+  width: 300px;
+  margin: 20px 20px 20px 20px;
+  padding-top: -20px;
+  padding-right: 200px;
+  float: left;
+
+  
+}
+.sidebar__topProf1 > img {
+  margin-bottom: -20px;
+  margin-top: 5px;
+  width: 100%;
+  height: 60px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+  
+}
+
+.sidebar__topProf1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 270px;
+  border-radius: 10px;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  border: 3px solid black ;
   backdrop-filter: blur( 7.5px );
   -webkit-backdrop-filter: blur( 7.5px );
-  border-radius: 10px;
-  border: 1px solid rgba(83, 23, 23, 0.18);
+  padding-bottom: 10px;
+  padding-top: -20px;
+}
+
+
+.wrap-questionarioProf1{
+  max-width:  700px;
+  margin:0 auto;
+  height: max-content;
+  border-radius: 50px;
+  margin-top: 20px ;
+  border: 3px solid black ;
+  padding: 15px 55px 0px 55px;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  backdrop-filter: blur( 7.5px );
+  -webkit-backdrop-filter: blur( 7.5px );
 }
 
 .container-questionario-form-btnProf1 {
@@ -116,16 +87,28 @@ body, html {
 
 
 .questionario-form-btnProf1 {
-    background-color: #303030; /* Green */
-    border: none;
+  font-size: 15px;
+  border-radius: 10px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50px;
+  padding: 20px;
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
+  }
+
+  .questionario-form-btnProf1:hover {
     color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
     cursor: pointer;
-    border-radius: 8px
+    border-width: 2px;
+    border-color: white;
   }
 
 .questionario-tituloProf1 {
@@ -136,11 +119,11 @@ body, html {
   line-height: 1.2;
   margin-top: 13px;
   text-align: center;
- 
 }
 
 .questionario-form-titleProf1{
   font-family: Nunito, sans-serif;
+  display: block;
   font-size: 15px;
   color: azure;
   line-height: 1.2;
@@ -149,19 +132,89 @@ body, html {
 }
 
 
-.loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.7);
+
+.questionario-form-titleProf1-select {
+  font-size: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
-  overflow: hidden;
+  width: 50%;
+  height: 50px;
+  padding: 14px;
+  border: 2px solid black;
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
+}
+.questionario-form-titleProf1-select:hover {
+  color: white;
+  cursor: pointer;
+  border-width: 2px;
+  border-color: white;
 }
 
 
 
+.questionario-form-titleProf1-select option {
+  height: 30px;
+  cursor: pointer;
+  padding-left: 17px;
+  padding-top: 12px;
+  background:rgb(84, 82, 82);
+}
+
+
+.headerProf1 {
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  justify-content: flex-end;
+  border-bottom: 0.1px solid lightgray;
+  padding-top: 10px;
+  padding-right: 100px;
+  padding-bottom: 10px;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+
+}
+
+.header__right {
+  display: flex;
+  float:right;
+}
+
+.headerOptionProf1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.headerOptionProf1:hover {
+  color: white;
+}
+
+.headerOptionProf1 h3 {
+  font-size: 15px;
+  margin-top: 10px;
+
+}
+
+.headerOptionProf1__icon {
+  margin-right: 5px;
+  height: 20px;
+  width: 20px;
+}

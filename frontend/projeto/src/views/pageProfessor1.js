@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../contexts/auth';
 import "../styles/stylesPageProf1.css";
 import axios from "axios";
 import endPoints, { api, createSession } from "../services/api's";
 
 export default function App() {
+
+    const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const handleLogout = () => {
+        logout();
+    };
     const [loading, setLoading] = useState(false);
     const [formValues, setFormValues] = useState("");
     const [show, setShow] = useState(false);
@@ -137,8 +143,49 @@ export default function App() {
     return (
         <div>
             <div className="containerProf1">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                    <link rel="stylesheet" href="style.css" />
+                    <title> Feed </title>
+                </head>
+                <div class="headerProf1">
+                    <div class="header__right">
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> home </i>
+                            <h3>Home</h3>
+                        </div>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> supervisor_account </i>
+                            <h3>Amigos</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> business_center </i>
+                            <h3>Cursos</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> chat </i>
+                            <h3>Mensagens</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> notifications </i>
+                            <h3>Notificacoes</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon"> account_circle </i>
+                            <h3>Meu perfil</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <i class="material-icons headerOptionProf1__icon" onClick={handleLogout}> account_circle </i>
+                            <h3>logout</h3>
+                        </div>
                 
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />   
+                </div>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
                 <div className="container-questionarioProf1">
                     <div className="sidebarProf1">
                         <div className="sidebar__topProf1">
@@ -149,137 +196,135 @@ export default function App() {
                             <h4 className="questionario-form-titleProf1"> Professor de</h4> <h4 className="sidebar__statNumber">Matematica </h4>
                         </div>
                     </div>
+                
                     <div className="wrap-questionarioProf1">
                         <h1 className="questionario-tituloProf1">Cadastrar Novo Curso</h1>
 
-                        <form className="formProf1">
-                            <div className="fields-containerProf1">
-                                <p className="questionario-form-titleProf1"></p>
-                                <div>
+                        <form >
+                            <div>
+                                <p className="questionario-form-titleProf1">TESTE Curso:</p>
+                                <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                    setSelect1(e.target.value)
+
+                                }}>
+                                    <option value={''}>{'Selecione uma opção'}</option>
+                                    {respCursos?.map((item) => (
+                                        <option value={item.id_curso}>{item.descricao}</option>
+                                    ))}
+                                </select>
+                                {testeForm};
 
 
-                                    <label className="questionario-form-titleProf1">
-                                        TESTE Curso:
-
-                                        <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
-                                            setSelect1(e.target.value)
-
-                                        }}>
-                                            {respCursos?.map((item) => (
-                                                <option value={item.id_curso}>{item.descricao}</option>
-                                            ))}
-                                        </select>
-                                        {testeForm};
-                                    </label>
-
-                                    <label className="questionario-form-titleProf1">
-                                        Nome do topico:
+                                <label className="questionario-form-titleProf1">
+                                    Nome do topico:
 
 
-                                        <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
-                                            setSelect3(e.target.value)
+                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                        setSelect3(e.target.value)
 
-                                        }}>
-                                            <option value={''}>{'Selecione uma opção'}</option>
-                                            {respTopicos?.map((item) => (
-                                                <option value={item.id_topico}>{item.descricao}</option>
-                                            ))}
-                                        </select>
-                                        {testeForm};
-                                    </label>
-
-
-                                    <label className="questionario-form-titleProf1">
-                                        Nome do Conteudo:
+                                    }}>
+                                        <option value={''}>{'Selecione uma opção'}</option>
+                                        {respTopicos?.map((item) => (
+                                            <option value={item.id_topico}>{item.descricao}</option>
+                                        ))}
+                                    </select>
+                                    {testeForm};
+                                </label>
 
 
-                                        <select className="dropdownProf1" id="selectProf1" onChange={(e) => {
+                                <label className="questionario-form-titleProf1">
+                                    Nome do Conteudo:
 
-                                        }}>
-                                            <option value={''}>{'Selecione uma opção'}</option>
-                                            {respConteudo?.map((item) => (
-                                                <option value={item.id_conteudo}>{item.descricao}</option>
-                                            ))}
-                                        </select>
-                                        {testeForm};
-                                    </label>
+
+                                    <select className="questionario-form-titleProf1-select" id="selectProf1" onChange={(e) => {
+
+                                    }}>
+                                        <option value={''}>{'Selecione uma opção'}</option>
+                                        {respConteudo?.map((item) => (
+                                            <option value={item.id_conteudo}>{item.descricao}</option>
+                                        ))}
+                                    </select>
+                                    {testeForm};
+                                </label>
 
 
 
 
-                                    {
-                                        showhide3 != "" && (
-                                            <div>
-                                                <p className="questionario-form-titleProf1"> Qual o tipo de conteúdo?</p>
-                                                <select className="dropdownProf1" id="selectProf1" onChange={(e) => (handleshowHide(e))}>
-                                                    <option selected value="0" > Selecione uma opção</option>
-                                                    <option value="1" >Questionario</option>
-                                                    <option value="2">Imagem</option>
-                                                    <option value="3" >Texto</option>
-                                                </select>
-                                            </div>
-                                        )
+                                {
+                                    showhide3 != "" && (
+                                        <div>
+                                            <p className="questionario-form-titleProf1"> Qual o tipo de conteúdo?</p>
+                                            <select className="questionario-form-titleProf1-select" id="selectProf1" onChange={(e) => (handleshowHide(e))}>
+                                                <option selected value="0" > Selecione uma opção</option>
+                                                <option value="1" >Questionario</option>
+                                                <option value="2">Imagem</option>
+                                                <option value="3" >Texto</option>
+                                            </select>
+                                        </div>
+                                    )
 
-                                    }
+                                }
 
-                                    {
-                                        showhide === '1' && (
-                                            <label>
+                                {
+                                    showhide === '1' && (
+                                        <label>
 
-                                                <button className="questionario-form-btnProf1" type="submit">
-                                                    Configurar questionario
-                                                </button>
-                                            </label>
-                                        )
-                                    }
-                                    {
-                                        showhide === '2' && (
-                                            <label>
+                                            <button className="questionario-form-btnProf1" type="submit">
+                                                Configurar questionario
+                                            </button>
+                                        </label>
+                                    )
+                                }
+                                {
+                                    showhide === '2' && (
+                                        <label>
 
-                                                <button className="questionario-form-btnProf1" type="submit">
-                                                    Carregar imagem
-                                                </button>
-                                            </label>
-                                        )
-                                    }
+                                            <button className="questionario-form-btnProf1" type="submit">
+                                                Carregar imagem
+                                            </button>
+                                        </label>
+                                    )
+                                }
 
-                                    {
-                                        showhide === '3' && (
+                                {
+                                    showhide === '3' && (
 
-                                            <label className="questionario-form-titleProf1">
-                                                Texto do conteúdo:
-                                                <input type="text" className="textoConteudo" />
-                                                <br />
-                                            </label>
-                                        )
-                                    }
-
-                                </div>
-
-                                <div className="container-questionario-form-btnProf1">
-
-                                    <button className="questionario-form-btnProf1" type="submit">
-                                        Voltar
-                                    </button>
-                                    <button className="questionario-form-btnProf1" type="submit">
-                                        Enviar
-                                    </button>
-
-
-                                </div>
-
-
-                                {loading && <h1 className="loader" >Enviando...</h1>}
-
+                                        <label className="questionario-form-titleProf1">
+                                            Texto do conteúdo:
+                                            <input type="text" className="textoConteudo" />
+                                            <br />
+                                        </label>
+                                    )
+                                }
 
                             </div>
+                            <div className="container-questionario-form-btnProf1">
+                                <button className="questionario-form-btnProf1" type="submit">
+                                    Enviar
+                                </button>
+                            </div>
+                            <div className="container-questionario-form-btnProf1">
+
+                                <button className="questionario-form-btnProf1" type="submit">
+                                    Voltar
+                                </button>
+                            </div>
+
+
+
+
+
+                            {loading && <h1 className="loader" >Enviando...</h1>}
+
+
+
                         </form>
 
 
                     </div>
 
-
-                </div>
+                    </div>
+               
 
             </div>
 
