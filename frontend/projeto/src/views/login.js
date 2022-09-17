@@ -3,7 +3,6 @@ import { AuthContext } from "../contexts/auth";
 import jpIMG from "../assets/icons-school.png";
 import "../styles/login.css"
 import { useNavigate } from "react-router-dom";
-import "../App.css";
 
 
 function Login() {

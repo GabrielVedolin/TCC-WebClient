@@ -3,7 +3,6 @@ import { useState } from "react";
 import jpIMG from "../assets/icons-school.png";
 import "../styles/login.css"
 import { useNavigate } from "react-router-dom";
-import "../App.css";
 import axios from 'axios';
 import endPoints from "../services/api's";
 
