@@ -10,7 +10,7 @@ import Login from "../views/login";
 import AlteraSenha from "../views/alteraSenha";
 import Feed from "../views/feed";
 import PageProf1 from "../views/pageProfessor1";
-
+import PageProf2 from "../views/pageProfessor2";
 import { AuthProvider, AuthContext } from "../contexts/auth";
 import { Children } from 'react';
 
@@ -44,7 +44,7 @@ const Private = ({children}) =>{
                     <Route exact path="/alterarSenha" element={<AlteraSenha />} />
                     <Route exact path="/feed" element={<Private><Feed /></Private>} />
                     <Route exact path="/pageProf1" element={<PageProf1/>} />
-                    {/* <Route exact path="/pageProf2" element={<PageProf2/>} /> */}
+                     <Route exact path="/pageProf2" element={<PageProf2/>} />
                 </Routes>
             </AuthProvider>
         </Router>
