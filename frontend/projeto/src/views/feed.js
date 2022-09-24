@@ -13,11 +13,34 @@ import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
 import { CSSTransition } from 'react-transition-group';
 
 function Feed() {
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = () => {
         logout();
     };
+
+    useEffect(() => {
+        const perPage = 3;
+        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
+        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
+        fetch(URL)
+            .then((response) => response.json())
+            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
+    }, [currentPage]);
+
+    useEffect(() => {
+        const intersectionObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                console.log('Sentinela apareceu!', currentPage + 1)
+                setCurrentPage((currentValue) => currentValue + 1);
+            }
+        })
+        intersectionObserver.observe(document.querySelector('#sentinela'));
+        return () => intersectionObserver.disconnect();
+    }, []);
+
     return (
 
 
@@ -105,260 +128,79 @@ function Feed() {
                     <div class="feed">
                         <div class="feedinputContainer">
                             <div class="feedinputContainer__top">
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                    <h4 onClick={() => { navigate("/pageProf1") }}>Area de conteúdo</h4>
+                                <div class="feed__inputOptions">
+                                    <div class="inputOption">
+                                        <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
+                                        <h4 onClick={() => { navigate("/pageProf1") }}>Area de conteúdo</h4>
+
+                                    </div>
+                                    <div class="inputOption">
+                                        <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
+                                        <h4>Algum botao futuro talvez</h4>
+                                    </div>
 
                                 </div>
-                                <div class="inputOption">
-                                    <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                    <h4>Algum botao futuro talvez</h4>
-                                </div>
-                                
-                            </div>
-                           
-                           
-                        
-                        </div>
-                        <div class="inputborder">
-                               
-                            </div>
-                        </div>
-                        
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>Zika_Do_Helip4</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
 
-                            <div class="post__body">
-                                <p>HAHAHA QUE TCC FODA</p>
-                            </div>
 
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
+                            </div>
+                            <div class="inputborder">
+
                             </div>
                         </div>
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>Lucas - O Cheira cola</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
 
-                            <div class="post__body">
-                                <p>bagulho é loko...</p>
-                            </div>
+                        <div className="currentFeed"></div>
 
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>Luis do mato</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
 
-                            <div class="post__body">
-                                <p>caralhowww</p>
-                            </div>
+                        <ul>
+                            {posts.map(post => (
+                                <li key={post.login}>
+                                    <div class="post">
+                                        <div class="post__header">
+                                            <i class="material-icons sidebar__topAvatar"> account_circle </i>
+                                            <div class="post__info">
+                                                <h2>Zika_Do_Helip4 BOT </h2>
+                                                <p>Aluno</p>
+                                            </div>
+                                        </div>
 
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
+                                        <div class="post__body">
+                                            <p> User que veio da API: <strong>{post.login}</strong></p>
+                                        </div>
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>Dayana DominikZ</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
+                                        <div class="feed__inputOptions">
+                                            <div class="inputOption">
+                                                <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
+                                                <h4>Curtir</h4>
+                                            </div>
+                                            <div class="inputOption">
+                                                <i style={{ color: 'gray' }} class="material-icons"> comment </i>
+                                                <h4>Comentar</h4>
+                                            </div>
+                                            <div class="inputOption">
+                                                <i style={{ color: 'gray' }} class="material-icons"> share </i>
+                                                <h4>Compartilhar</h4>
+                                            </div>
+                                            <div class="inputOption">
+                                                <i style={{ color: 'gray' }} class="material-icons"> send </i>
+                                                <h4>Enviar</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
 
-                            <div class="post__body">
-                                <p>aiii que legal</p>
-                            </div>
+                        <div id="sentinela" style={{ color: 'red' }}></div>
 
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>show popal</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
 
-                            <div class="post__body">
-                                <p>ai sim em q zika</p>
-                            </div>
 
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>pauna bowzetta</h2>
-                                    <p>Aluno</p>
-                                </div>
-                            </div>
 
-                            <div class="post__body">
-                                <p>osheee</p>
-                            </div>
-
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="post">
-                            <div class="post__header">
-                                <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                <div class="post__info">
-                                    <h2>cabaço</h2>
-                                    <p>Cabaço</p>
-                                </div>
-                            </div>
-
-                            <div class="post__body">
-                                <p>cabaço</p>
-                            </div>
-
-                            <div class="feed__inputOptions">
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                    <h4>Curtir</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                    <h4>Comentar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                    <h4>Compartilhar</h4>
-                                </div>
-                                <div class="inputOption">
-                                    <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                    <h4>Enviar</h4>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
                     <div class="widgets">
                         <div class="widgets__top">
                             <div class="widgets__header">
@@ -392,6 +234,16 @@ function Feed() {
                                 <div class="widgets__articleRight">
                                     <h4>Curso de trade 2022 - DINHEIRO FACIL</h4>
                                     <p>999999 alunos inscritos.</p>
+                                </div>
+                            </div>
+
+                            <div class="widgets__article">
+                                <div class="widgets__articleLeft">
+                                    <i class="material-icons"> fiber_manual_record </i>
+                                </div>
+                                <div class="widgets__articleRight">
+                                    <h4 style={{color: 'red'}}>PAGINA ATUAL DO FEED: {currentPage} </h4>
+                                    
                                 </div>
                             </div>
                         </div>
