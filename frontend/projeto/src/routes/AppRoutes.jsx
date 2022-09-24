@@ -42,7 +42,7 @@ const Private = ({children}) =>{
                     <Route exact path="/" element={<Login />}/>
                     <Route exact path="/quest" element={<Quest />} />
                     <Route exact path="/alterarSenha" element={<AlteraSenha />} />
-                    <Route exact path="/feed" element={<Private><Feed /></Private>} />
+                    <Route exact path="/feed" element={<Feed />} />
                     <Route exact path="/pageProf1" element={<PageProf1/>} />
                      <Route exact path="/pageProf2" element={<PageProf2/>} />
                 </Routes>

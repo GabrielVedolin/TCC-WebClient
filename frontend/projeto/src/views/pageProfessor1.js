@@ -174,6 +174,7 @@ export default function App() {
                             <NavItem icon={<CaretIcon />}>
                                 <DropdownMenu></DropdownMenu>
                             </NavItem>
+                            <i class="material-icons sidebar__topAvatar"></i>
                             <h3>Cursos</h3>
                         </div>
                         <div class="headerOptionProf1">
@@ -182,6 +183,7 @@ export default function App() {
                         </div>
                         <div class="headerOptionProf1" onClick={handleLogout} >
                             <NavItem icon={<BellIcon />} />
+                          
                             <h3>Logout</h3>
                         </div>
                     </Navbar>
@@ -395,3 +397,4 @@ function DropdownMenu() {
         </div>
     );
 }
+
