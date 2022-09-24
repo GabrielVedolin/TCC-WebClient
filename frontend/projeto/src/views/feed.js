@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from '../contexts/auth';
 import "../styles/feed.css"
 import { useNavigate } from "react-router-dom";
+import jpIMG from "../img/aluno.jpg";
 import { ReactComponent as BellIcon } from '../assets/bell.svg';
 import { ReactComponent as MessengerIcon } from '../assets/messenger.svg';
 import { ReactComponent as CaretIcon } from '../assets/caret.svg';
@@ -84,10 +85,10 @@ function Feed() {
                 <div class="body__main">
                     <div class="sidebar">
                         <div class="sidebar__top">
-                            <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" alt="imagemCabeca" />
+                            <img src={jpIMG} alt="imagemCabeca" />
                             <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                            <h2>Professor Leminski</h2>
-                            <h4> Professor de</h4> <h4 class="sidebar__statNumber">Matematica </h4>
+                            
+                            <h4> Aluno</h4> <h4>ZEZINHO </h4>
                         </div>
 
                         <div class="sidebar__stats">
