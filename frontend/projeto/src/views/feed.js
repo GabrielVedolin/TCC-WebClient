@@ -79,6 +79,7 @@ function Feed() {
                         </div>
                     </Navbar>
                 </div>
+            
 
                 <div class="body__main">
                     <div class="sidebar">

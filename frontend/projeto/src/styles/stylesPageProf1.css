@@ -177,12 +177,12 @@ body, html {
   display: flex;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 998;
   justify-content: flex-end;
   border-bottom: 0.1px solid lightgray;
   padding-top: 10px;
   padding-right: 100px;
-  padding-bottom: 10px;
+
   background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
   background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
   background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
@@ -210,7 +210,7 @@ body, html {
 
 .headerOptionProf1 h3 {
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: 5px;
 
 }
 
