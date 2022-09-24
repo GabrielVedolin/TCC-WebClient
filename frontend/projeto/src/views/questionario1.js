@@ -1,8 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import fakeApi from "../api/api";
 import "../styles/stylesQuestionario.css";
 import { AuthContext } from '../contexts/auth';
+import axios from 'axios';
+import endPoints from "../services/api's";
 
 
 import {
@@ -40,6 +42,7 @@ const steps = [
 export default function App() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+  const [idUser, setIdUser] = useState('')
   let [loading, setLoading] = useState(false);
   const { logout } = useContext(AuthContext);
   let arrayRespostas = [];
@@ -58,6 +61,25 @@ export default function App() {
   });
 
 
+
+function getUserID(){
+  const userData = localStorage.getItem('user');
+  const jsonData = JSON.parse(userData);
+  const testeX = jsonData[0].user_id;
+
+  setIdUser(testeX)
+}
+
+
+
+
+
+useEffect(() => {
+  getUserID();
+
+}, []);
+
+
   const handleLogout = () => {
     logout();
   };
@@ -71,15 +93,39 @@ export default function App() {
     setCurrentStep((prevState) => prevState - 1);
   }
 
+
+
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log("Form sent...", formValues);
+    const body = [ 
+      {"user_id_aprendiz":idUser,"id_pergunta":1,"resposta":formValues.quest1Field1,"peso":70," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":2,"resposta":formValues.quest1Field2,"peso":71," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":3,"resposta":formValues.quest1Field3,"peso":72," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":4,"resposta":formValues.quest1Field4,"peso":73," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":5,"resposta":formValues.quest2Field1,"peso":74," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":6,"resposta":formValues.quest2Field2,"peso":75," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":7,"resposta":formValues.quest2Field3,"peso":76," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":8,"resposta":formValues.quest2Field4,"peso":77," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":9,"resposta":formValues.quest2Field5,"peso":78," tipo_alternativa":"video"}
+  ]
 
-    setLoading(true);
+    console.log("Form sent...", body);
 
-    // simulate api
-    await fakeApi(() => setLoading(false), 2000);
+    await axios.post(`${endPoints.cadastrarFormulario}`, body)
+    .then((response) => {
+     console.log("response aqui",response)
+     alert("Cadastro feito com sucesso")
+     navigate("/feed")
+     
+    }).catch((erro) => {
+      console.log('deu ruim', erro)
+      let p = document.getElementById('mensagemerro');
+      alert("Ero chamada")
+      p.style.display = 'block';
+    })
+
+    setLoading(true);  
   }
 
   function nextAction (){
@@ -153,6 +199,8 @@ export default function App() {
     formValues.quest2Field5 = arrayRespostas2[3];
     //console.log("array respostas 2: ", arrayRespostas2);
   }
+
+
 
 
   return (

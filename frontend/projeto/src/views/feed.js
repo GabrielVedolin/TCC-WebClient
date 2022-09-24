@@ -16,13 +16,27 @@ import { CSSTransition } from 'react-transition-group';
 function Feed() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [username,setUserName] = useState('')
+    const [urlImg,setUrlImg] = useState('')
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = () => {
         logout();
     };
 
+    function getUserLocalStorage(){
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_name;
+        const img = jsonData[0].img_perfil
+        
+        setUserName(testeX)
+        setUrlImg(img)
+      }
+
+
     useEffect(() => {
+        getUserLocalStorage()
         const perPage = 3;
         const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
         const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
@@ -42,6 +56,8 @@ function Feed() {
         return () => intersectionObserver.disconnect();
     }, []);
 
+
+    
     return (
 
 
@@ -85,10 +101,10 @@ function Feed() {
                 <div class="body__main">
                     <div class="sidebar">
                         <div class="sidebar__top">
-                            <img src={jpIMG} alt="imagemCabeca" />
-                            <i class="material-icons sidebar__topAvatar"> account_circle </i>
+                            <img src={urlImg} alt="imagemCabeca" />
                             
-                            <h4> Aluno</h4> <h4>ZEZINHO </h4>
+                            
+                            <h4> Aluno</h4> <h4>{username} </h4>
                         </div>
 
                         <div class="sidebar__stats">

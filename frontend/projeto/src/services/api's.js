@@ -5,7 +5,8 @@ const endPoints = {
     esqueciMinhaSenha:`${BASE_URL}esqueciMinhaSenha`,
     buscarCursos:`${BASE_URL}cursos`,
     buscarTopico:`${BASE_URL}listarTopicosPorCurso`,
-    buscarConteudo:`${BASE_URL}listarConteudoPorTopico`
+    buscarConteudo:`${BASE_URL}listarConteudoPorTopico`,
+    cadastrarFormulario:`${BASE_URL}formulario`
 
 }
 
