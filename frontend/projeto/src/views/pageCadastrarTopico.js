@@ -13,26 +13,36 @@ import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
 import { CSSTransition } from 'react-transition-group';
 
+
+
+
 function Feed() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [username,setUserName] = useState('')
-    const [urlImg,setUrlImg] = useState('')
+    const [username, setUserName] = useState('')
+    const [urlImg, setUrlImg] = useState('')
+    const [loading, setLoading] = useState(false);
+
+
+    const [respCursos, setRespCursos] = useState('')
+    const [respTopico, setRespTopico] = useState('')
+
+
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = () => {
         logout();
     };
 
-    function getUserLocalStorage(){
+    function getUserLocalStorage() {
         const userData = localStorage.getItem('user');
         const jsonData = JSON.parse(userData);
         const testeX = jsonData[0].user_name;
         const img = jsonData[0].img_perfil
-        
+
         setUserName(testeX)
         setUrlImg(img)
-      }
+    }
 
 
     useEffect(() => {
@@ -57,7 +67,7 @@ function Feed() {
     }, []);
 
 
-    
+
     return (
 
 
@@ -71,8 +81,8 @@ function Feed() {
                 <link rel="stylesheet" href="style.css" />
                 <title> Feed </title>
             </head>
-            <body class="bodyFeed">
-                <div class="headerfeed">
+            <body class="bodyProf1">
+                <div class="headerProf1">
                     <Navbar>
                         <div class="headerOptionProf1">
                             <NavItem icon={<PlusIcon />} />
@@ -96,51 +106,27 @@ function Feed() {
                         </div>
                     </Navbar>
                 </div>
-            
 
-                <div class="body__main">
-                    <div class="sidebar">
+
+                <div class="body__mainProf1">
+                    <div class="sidebarProf1">
                         <div class="sidebar__top">
                             <img src={urlImg} alt="imagemCabeca" />
-                            
-                            
-                            <h4> Aluno</h4> <h4>{username} </h4>
+
+
+
                         </div>
 
                         <div class="sidebar__stats">
                             <div class="sidebar__stat">
-                                <p>Cursos em andamento</p>
-                                <p class="sidebar__statNumber">2,453</p>
+                                <p>Nome do Professor: {username}</p>
+
                             </div>
-                            <div class="sidebar__stat">
-                                <p>Nivel de zika do baile: </p>
-                                <p class="sidebar__statNumber">2,650</p>
-                            </div>
+
                         </div>
 
-                        <div class="sidebar__bottom">
-                            <p>Recentes</p>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>Bolsonaro2022</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>Blaze</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>UNIP</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>AloEliane</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>AAAAAA</p>
-                            </div>
-                        </div>
+
+
                     </div>
 
                     <div class="feed">
@@ -149,12 +135,12 @@ function Feed() {
                                 <div class="feed__inputOptions">
                                     <div class="inputOption">
                                         <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf1") }}>Area de conteúdo</h4>
+                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Tópico</h4>
 
                                     </div>
                                     <div class="inputOption">
                                         <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                        <h4>Algum botao futuro talvez</h4>
+                                        <h4 onClick={() => { navigate("/pageProf2") }}>Voltar para visualizar Cursos</h4>
                                     </div>
 
                                 </div>
@@ -162,54 +148,57 @@ function Feed() {
 
 
                             </div>
-                            <div class="inputborder">
 
-                            </div>
                         </div>
 
 
                         <div className="currentFeed"></div>
 
+                        <div className="wrap-questionarioProf1">
+                            <h1 className="questionario-tituloProf1">Cadastrar Novo Tópico</h1>
 
-
-                        <ul>
-                            {posts.map(post => (
-                                <li key={post.login}>
-                                    <div class="post">
-                                        <div class="post__header">
-                                            <i class="material-icons sidebar__topAvatar"> account_circle </i>
-                                            <div class="post__info">
-                                                <h2>Zika_Do_Helip4 BOT </h2>
-                                                <p>Aluno</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="post__body">
-                                            <p> User que veio da API: <strong>{post.login}</strong></p>
-                                        </div>
-
-                                        <div class="feed__inputOptions">
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                                <h4>Curtir</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                                <h4>Comentar</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                                <h4>Compartilhar</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                                <h4>Enviar</h4>
-                                            </div>
-                                        </div>
+                            <form >
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={respCursos !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="curso"
+                                            name="curso"
+                                            value={respCursos}
+                                            onChange={(e) => setRespCursos(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Nome do Curso"></span>
                                     </div>
-                                </li>
-                            ))}
-                        </ul>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={respTopico !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="curso"
+                                            name="curso"
+                                            value={respTopico}
+                                            onChange={(e) => setRespTopico(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                {loading && <h1 className="loader" >Enviando...</h1>}
+
+
+
+                            </form>
+
+
+                        </div>
+
+
 
                         <div id="sentinela" style={{ color: 'red' }}></div>
 
@@ -218,53 +207,6 @@ function Feed() {
 
 
 
-                    </div>
-                    <div class="widgets">
-                        <div class="widgets__top">
-                            <div class="widgets__header">
-                                <h2>Artigos</h2>
-                                <i class="material-icons"> info </i>
-                            </div>
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de fisica</h4>
-                                    <p>200 alunos estão inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de lol</h4>
-                                    <p>23824343 alunos estão inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de trade 2022 - DINHEIRO FACIL</h4>
-                                    <p>999999 alunos inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4 style={{color: 'red'}}>PAGINA ATUAL DO FEED: {currentPage} </h4>
-                                    
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>

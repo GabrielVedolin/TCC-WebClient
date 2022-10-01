@@ -11,6 +11,10 @@ import AlteraSenha from "../views/alteraSenha";
 import Feed from "../views/feed";
 import PageProf1 from "../views/pageProfessor1";
 import PageProf2 from "../views/pageProfessor2";
+import CadastrarTopico from "../views/pageCadastrarTopico";
+import CadastrarConteudo from "../views/pageCadastrarConteudo";
+
+
 import { AuthProvider, AuthContext } from "../contexts/auth";
 import { Children } from 'react';
 
@@ -45,6 +49,8 @@ const Private = ({children}) =>{
                     <Route exact path="/feed" element={<Feed />} />
                     <Route exact path="/pageProf1" element={<PageProf1/>} />
                      <Route exact path="/pageProf2" element={<PageProf2/>} />
+                     <Route exact path="/cadastrartopico" element={<CadastrarTopico/>} />
+                     <Route exact path="/cadastrarconteudo" element={<CadastrarConteudo/>} />
                 </Routes>
             </AuthProvider>
         </Router>

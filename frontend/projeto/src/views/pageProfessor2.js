@@ -174,6 +174,7 @@ export default function App() {
                             <NavItem icon={<CaretIcon />}>
                                 <DropdownMenu></DropdownMenu>
                             </NavItem>
+                            <i class="material-icons sidebar__topAvatar"></i>
                             <h3>Cursos</h3>
                         </div>
                         <div class="headerOptionProf1">
@@ -182,6 +183,7 @@ export default function App() {
                         </div>
                         <div class="headerOptionProf1" onClick={handleLogout} >
                             <NavItem icon={<BellIcon />} />
+                          
                             <h3>Logout</h3>
                         </div>
                     </Navbar>
@@ -199,10 +201,11 @@ export default function App() {
                     </div>
 
                     <div className="wrap-questionarioProf1">
-                        <h1 className="questionario-tituloProf1">Cadastrar Novo Curso</h1>
+                        <h1 className="questionario-tituloProf1">Consultar Cursos</h1>
 
                         <form >
                             <div>
+                                <div>
                                 <p className="questionario-form-titleProf1">Curso:</p>
                                 <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
                                     setSelect1(e.target.value)
@@ -214,12 +217,11 @@ export default function App() {
                                     ))}
                                 </select>
                                 {testeForm};
+                                </div>
 
 
+                                <div>
                                 <p className="questionario-form-titleProf1">Nome do topico:</p>
-                                   
-
-
                                     <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
                                         setSelect3(e.target.value)
 
@@ -230,9 +232,9 @@ export default function App() {
                                         ))}
                                     </select>
                                     {testeForm};
-                        
+                                </div>
 
-
+                                <div>
                                 <p className="questionario-form-titleProf1">Nome do Conteudo:</p>
                                     
 
@@ -246,57 +248,7 @@ export default function App() {
                                         ))}
                                     </select>
                                     {testeForm};
-                         
-
-
-
-
-                                {
-                                    showhide3 != "" && (
-                                        <div>
-                                            <p className="questionario-form-titleProf1"> Qual o tipo de conteúdo?</p>
-                                            <select className="questionario-form-titleProf1-select" id="selectProf1" onChange={(e) => (handleshowHide(e))}>
-                                                <option selected value="0" > Selecione uma opção</option>
-                                                <option value="1" >Questionario</option>
-                                                <option value="2">Imagem</option>
-                                                <option value="3" >Texto</option>
-                                            </select>
-                                        </div>
-                                    )
-
-                                }
-
-                                {
-                                    showhide === '1' && (
-                                        <label>
-
-                                            <button className="questionario-form-btnProf1" type="submit">
-                                                Configurar questionario
-                                            </button>
-                                        </label>
-                                    )
-                                }
-                                {
-                                    showhide === '2' && (
-                                        <label>
-
-                                            <button className="questionario-form-btnProf1" type="submit">
-                                                Carregar imagem
-                                            </button>
-                                        </label>
-                                    )
-                                }
-
-                                {
-                                    showhide === '3' && (
-
-                                        <label className="questionario-form-titleProf1">
-                                            Texto do conteúdo:
-                                            <input type="text" className="textoConteudo" />
-                                            <br />
-                                        </label>
-                                    )
-                                }
+                                </div>
 
                             </div>
                             <div className="container-questionario-form-btnProf1">
@@ -445,3 +397,4 @@ function DropdownMenu() {
         </div>
     );
 }
+

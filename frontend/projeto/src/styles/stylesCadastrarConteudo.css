@@ -78,9 +78,9 @@ body, html {
   -webkit-backdrop-filter: blur( 7.5px );
 }
 
-.bodyProf1 {
+.bodyCadastrarConteudo {
   background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
-  height:100vh;
+
 
   flex-wrap: wrap;
   justify-content: center;
@@ -88,7 +88,8 @@ body, html {
  
 }
 
-.body__mainProf1 {
+
+.body__mainCadastrarConteudo {
   display: flex;
 
   max-width: 1200px;
@@ -190,12 +191,23 @@ body, html {
   background:rgb(84, 82, 82);
 }
 
-.wrap-input-input1 {
+.wrap-input-textarea {
   width: 100%;
   position: relative;
   border-bottom: 2px solid #adadad;
   margin-top: 70px;
   margin-bottom: 50px;
+}
+
+textarea {
+    color: WHITE;
+    font-weight: bold;
+    background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    border: 5px solid white;
+    overflow: hidden;
 }
 
 
@@ -247,6 +259,10 @@ body, html {
   height: 20px;
   width: 20px;
 }
+
+
+
+
 
 
 

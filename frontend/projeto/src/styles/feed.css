@@ -6,11 +6,14 @@
 
   .bodyFeed {
     background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
-    background-repeat: repeat;
-    background-size: 100%;
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    padding-bottom: 13px;
+    background-size: 100%;
+   
   }
   
   .header__left img {
@@ -31,6 +34,25 @@
     padding-bottom: 10px;
     background-color: rgb(255, 255, 255);
  
+  }
+  
+  .headerfeed {
+    width: 100%;
+    display: flex;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 998;
+    justify-content: flex-end;
+    border-bottom: 0.1px solid lightgray;
+    padding-top: 10px;
+    padding-right: 100px;
+  
+    background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+    background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  
   }
   
   .header__left {
@@ -136,9 +158,8 @@
   }
   
   .sidebar__stats {
-    padding: 10px;
-    color: white;
-    margin-bottom: 10px;
+    padding: 70px;
+    color: white; 
     border: 3px solid black;
     background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
     background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
