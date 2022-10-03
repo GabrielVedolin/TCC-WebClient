@@ -12,12 +12,17 @@ import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
 import { CSSTransition } from 'react-transition-group';
+import endPoints from "../services/api's";
+import axios from "axios";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [username,setUserName] = useState('')
     const [urlImg,setUrlImg] = useState('')
+    const [userId,setUserId] = useState('')
+    const [userTipo,setUserTipo] = useState('')
+    const [conteudoFeed,setConteudoFeed] = useState([]);
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -28,22 +33,38 @@ function Feed() {
         const userData = localStorage.getItem('user');
         const jsonData = JSON.parse(userData);
         const testeX = jsonData[0].user_name;
-        const img = jsonData[0].img_perfil
-        
+        const img = jsonData[0].img_perfil;
+        const userID = jsonData[0].user_id;
+        const userTpo = jsonData[0].user_tipo;
+        setUserId(userID)
+        setUserTipo(userTpo)
         setUserName(testeX)
         setUrlImg(img)
       }
 
+    async function getFeed() {
+        
+        await axios.get(`${endPoints.buscarFeed}/${userId}/${userTipo}`).then((response) => {
+            const resFeed = response.data
+            setConteudoFeed(resFeed)
+            console.log(resFeed);
+        })
+    } 
 
-    useEffect(() => {
-        getUserLocalStorage()
-        const perPage = 3;
-        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
-        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
-        fetch(URL)
-            .then((response) => response.json())
-            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
+    useEffect(() =>{
+        getUserLocalStorage();
+        getFeed();
     }, [currentPage]);
+
+    // useEffect(() => {
+    //     getUserLocalStorage()
+    //     const perPage = 3;
+    //     const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
+    //     const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
+    //     fetch(URL)
+    //         .then((response) => response.json())
+    //         .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
+    // }, [currentPage]);
 
     useEffect(() => {
         const intersectionObserver = new IntersectionObserver(entries => {
@@ -56,7 +77,32 @@ function Feed() {
         return () => intersectionObserver.disconnect();
     }, []);
 
+ function getConteudoInformacao(res){
 
+    if (res.tipo == "texto") {
+       return <p>{res.descricao_texto}</p>    
+    } 
+    else if (res.tipo == "video"){
+        //console.log(res.url);
+        return <video controls>
+            <source src={res.url}></source>
+        </video>
+    }
+    else if (res.tipo == "imagem"){
+        return <img src={res.url}></img>
+    } 
+    else if (res.tipo == "audio"){
+        return <audio controls>
+            <source src="horse.ogg" type="audio/ogg"></source>
+            <source src="horse.mp3" type="audio/mpeg"></source>
+        </audio>
+    }
+    
+    else {
+        
+    }
+
+ }
     
     return (
 
@@ -173,21 +219,26 @@ function Feed() {
 
 
                         <ul>
-                            {posts.map(post => (
-                                <li key={post.login}>
+                            {conteudoFeed.map(res => (
+                                <li key={res.idConteudo}>
                                     <div class="post">
+                                        {/* informaçoes do professor */}
                                         <div class="post__header">
                                             <i class="material-icons sidebar__topAvatar"> account_circle </i>
                                             <div class="post__info">
-                                                <h2>Zika_Do_Helip4 BOT </h2>
-                                                <p>Aluno</p>
+                                                <h2>{res.nome_especialista} </h2>
+                                                <p>Professor</p>
+                                                <p>tipo conteudo :{res.tipo}</p>
                                             </div>
                                         </div>
-
+                                        
+                                        {/* descricao conteudo */}
                                         <div class="post__body">
-                                            <p> User que veio da API: <strong>{post.login}</strong></p>
+                                            <h1> {res.descricao} </h1>
+                                            {getConteudoInformacao(res)}
                                         </div>
-
+                                        
+                                        {/* botoes do conteudo */}
                                         <div class="feed__inputOptions">
                                             <div class="inputOption">
                                                 <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
