@@ -8,6 +8,7 @@ const endPoints = {
     buscarTopico:`${BASE_URL}listarTopicosPorCurso`,
     buscarConteudo:`${BASE_URL}listarConteudoPorTopico`,
     cadastrarFormulario:`${BASE_URL}formulario`,
+    favoritarConteudo: `${BASE_URL}adicionarFavoritos`,
     buscarFeed:`${BASE_URL_FEED}obter_recomendacao` 
 
 }

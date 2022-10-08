@@ -442,5 +442,8 @@
     flex: 1;
   }
   
-
+  .formatImgVideo{
+    height: 100%;
+    width: 100%;
+  }
 

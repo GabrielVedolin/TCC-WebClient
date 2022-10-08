@@ -51,6 +51,12 @@ function Feed() {
         })
     } 
 
+   async function Gostar(user_id,id_conteudo,id_feed){
+        console.log("usuario : " + user_id  + "\n" + "id_conteudo : " + id_conteudo + "\n" + "id_Feed : " + id_feed);
+        const res = await axios.put(`${endPoints.favoritarConteudo}`,{id_conteudo:userId, id_aprendiz:id_conteudo})
+        console.log(res);
+    }
+
     useEffect(() =>{
         getUserLocalStorage();
         getFeed();
@@ -84,12 +90,12 @@ function Feed() {
     } 
     else if (res.tipo == "video"){
         //console.log(res.url);
-        return <video controls>
+        return <video class='formatImgVideo' controls>
             <source src={res.url}></source>
         </video>
     }
     else if (res.tipo == "imagem"){
-        return <img src={res.url}></img>
+        return <img class='formatImgVideo'src={res.url}></img>
     } 
     else if (res.tipo == "audio"){
         return <audio controls>
@@ -240,21 +246,13 @@ function Feed() {
                                         
                                         {/* botoes do conteudo */}
                                         <div class="feed__inputOptions">
-                                            <div class="inputOption">
+                                            <div class="inputOption" onClick={() => Gostar(userId,res.idConteudo,res.id_feed)}>
                                                 <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
-                                                <h4>Curtir</h4>
+                                                <h4>Gostei</h4>
                                             </div>
                                             <div class="inputOption">
                                                 <i style={{ color: 'gray' }} class="material-icons"> comment </i>
                                                 <h4>Comentar</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> share </i>
-                                                <h4>Compartilhar</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> send </i>
-                                                <h4>Enviar</h4>
                                             </div>
                                         </div>
                                     </div>
