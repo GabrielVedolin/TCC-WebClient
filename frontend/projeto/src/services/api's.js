@@ -9,7 +9,9 @@ const endPoints = {
     buscarConteudo:`${BASE_URL}listarConteudoPorTopico`,
     cadastrarFormulario:`${BASE_URL}formulario`,
     favoritarConteudo: `${BASE_URL}adicionarFavoritos`,
-    buscarFeed:`${BASE_URL_FEED}obter_recomendacao` 
+    buscarFeed:`${BASE_URL_FEED}obter_recomendacao`,
+    buscarSegundoFeed:`${BASE_URL_FEED}obter_feed`,
+    buscarFeedAdaptativo:`${BASE_URL_FEED}obter_feed_adaptado` 
 
 }
 

@@ -17,7 +17,7 @@ import axios from "axios";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const [username,setUserName] = useState('')
     const [urlImg,setUrlImg] = useState('')
     const [userId,setUserId] = useState('')
@@ -42,41 +42,47 @@ function Feed() {
         setUrlImg(img)
       }
 
-    async function getFeed() {
-        
-        await axios.get(`${endPoints.buscarFeed}/${userId}/${userTipo}`).then((response) => {
-            const resFeed = response.data
-            setConteudoFeed(resFeed)
-            console.log(resFeed);
-        })
+    async function getFeed(scroolFeed) {
+        if(scroolFeed == 1){
+            await axios.get(`${endPoints.buscarFeed}/${userId}/${userTipo}`).then((response) => {
+                const resFeed = response.data
+                setConteudoFeed(resFeed)
+                console.log(resFeed);
+            })
+        }else if (scroolFeed == 2){
+            await axios.get(`${endPoints.buscarSegundoFeed}/${userId}/${userTipo}`).then((response) => {
+                const resFeed = response.data
+                setConteudoFeed(resFeed)
+                console.log(resFeed);
+            })
+        }
+        else{
+            await axios.get(`${endPoints.buscarFeedAdaptativo}/${userId}/${userTipo}`).then((response) => {
+                const resFeed = response.data
+                setConteudoFeed(resFeed)
+                console.log(resFeed);
+            })
+        }
+
     } 
 
    async function Gostar(user_id,id_conteudo,id_feed){
         console.log("usuario : " + user_id  + "\n" + "id_conteudo : " + id_conteudo + "\n" + "id_Feed : " + id_feed);
-        const res = await axios.put(`${endPoints.favoritarConteudo}`,{id_conteudo:userId, id_aprendiz:id_conteudo})
+        const res = await axios.put(`${endPoints.favoritarConteudo}`,{id_conteudo:id_conteudo, id_aprendiz:userId})
         console.log(res);
     }
 
     useEffect(() =>{
         getUserLocalStorage();
-        getFeed();
+        getFeed(currentPage);
     }, [currentPage]);
 
-    // useEffect(() => {
-    //     getUserLocalStorage()
-    //     const perPage = 3;
-    //     const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
-    //     const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
-    //     fetch(URL)
-    //         .then((response) => response.json())
-    //         .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
-    // }, [currentPage]);
-
     useEffect(() => {
-        const intersectionObserver = new IntersectionObserver(entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                console.log('Sentinela apareceu!', currentPage + 1)
-                setCurrentPage((currentValue) => currentValue + 1);
+        const intersectionObserver = new IntersectionObserver((entries) => {
+           console.log(entries);
+            if (entries.some((entry) => entry.isIntersecting)) {
+                console.log('Sentinela apareceu!', currentPage)
+                setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
             }
         })
         intersectionObserver.observe(document.querySelector('#sentinela'));
@@ -221,8 +227,6 @@ function Feed() {
 
 
                         <div className="currentFeed"></div>
-
-
 
                         <ul>
                             {conteudoFeed.map(res => (
