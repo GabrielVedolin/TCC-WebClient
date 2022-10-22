@@ -102,11 +102,33 @@ function Feed() {
     else if (res.tipo == "imagem"){
         return <img class='formatImgVideo'src={res.url}></img>
     } 
-    else if (res.tipo == "audio"){
+    else if (res.tipo == "audio"){  
+
+        var url = res.url;
+        var id = "";
+
+        function getIdFrom(url) {
+            var parts = url.split(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/);
+            if (url.indexOf('?id=') >= 0){
+               id = (parts[6].split("=")[1]).replace("&usp","");
+               return id;
+             } else {
+             id = parts[5].split("/");
+             var sortArr = id.sort(function(a,b){return b.length - a.length});
+             id = sortArr[0];
+             return id;
+             }
+           }
+
+        var idDrive = getIdFrom(url);
+        console.log("pathID: ", idDrive);
+
+        var source = "https://docs.google.com/uc?export=download&id=" + idDrive;
+        
         return <audio controls>
-            <source src="horse.ogg" type="audio/ogg"></source>
-            <source src="horse.mp3" type="audio/mpeg"></source>
+            <source src={source} type="audio/mp3"></source>
         </audio>
+
     }else if(res.tipo == "questionario"){
         let resQuerionario = null
         return Questionario(resQuerionario);
