@@ -56,7 +56,7 @@ function Feed() {
                 console.log(resFeed);
             })
         }
-        else{
+        else if (scroolFeed > 2){
             await axios.get(`${endPoints.buscarFeedAdaptativo}/${userId}/${userTipo}`).then((response) => {
                 const resFeed = response.data
                 setConteudoFeed(resFeed)
@@ -96,9 +96,8 @@ function Feed() {
     } 
     else if (res.tipo == "video"){
         //console.log(res.url);
-        return <video class='formatImgVideo' controls>
-            <source src={res.url}></source>
-        </video>
+        return <iframe class='formatImgVideo' title="YouTube video player" src={res.url} >
+        </iframe>
     }
     else if (res.tipo == "imagem"){
         return <img class='formatImgVideo'src={res.url}></img>
@@ -108,6 +107,9 @@ function Feed() {
             <source src="horse.ogg" type="audio/ogg"></source>
             <source src="horse.mp3" type="audio/mpeg"></source>
         </audio>
+    }else if(res.tipo == "questionario"){
+        let resQuerionario = null
+        return Questionario(resQuerionario);
     }
     
     else {
@@ -115,7 +117,34 @@ function Feed() {
     }
 
  }
-    
+ 
+ function Questionario(resQuerionario){
+    return <div>
+                <h2>Dado as informaçoes acima responda:</h2>
+                <br/>
+                <div>
+                    <div>
+                    <input type="radio" id="huey" name="drone" value="huey"
+                            checked/>
+                    <label for="huey">Huey</label>
+                    </div>
+
+                    <div>
+                    <input type="radio" id="dewey" name="drone" value="dewey"/>
+                    <label for="dewey">Dewey</label>
+                    </div>
+
+                    <div>
+                    <input type="radio" id="louie" name="drone" value="louie"/>
+                    <label for="louie">Louie</label>
+                    </div>
+
+                </div>
+            </div>
+
+ }
+ 
+
     return (
 
 
@@ -225,7 +254,7 @@ function Feed() {
                             </div>
                         </div>
 
-
+                        <h1>feed atual: {currentPage}</h1>
                         <div className="currentFeed"></div>
 
                         <ul>
