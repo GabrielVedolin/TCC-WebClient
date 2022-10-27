@@ -19,13 +19,20 @@ import { CSSTransition } from 'react-transition-group';
 function Feed() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [username, setUserName] = useState('')
-    const [urlImg, setUrlImg] = useState('')
+    const [username, setUserName] = useState('');
+    const [urlImg, setUrlImg] = useState('');
+    const [login, setLogin] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [email, Setemail] = useState('');
+    const [estado, Setestado] = useState('');
+    const [municipio, Setmunicipio] = useState('');
+    const [logradouro, Setlogradouro] = useState('');
+    const [cep, Setcep] = useState('');
     const [loading, setLoading] = useState(false);
 
 
-    const [respCursos, setRespCursos] = useState('')
-    const [respTopico, setRespTopico] = useState('')
+    const [respCursos, setRespCursos] = useState([])
 
 
     const { logout } = useContext(AuthContext);
@@ -38,10 +45,26 @@ function Feed() {
         const userData = localStorage.getItem('user');
         const jsonData = JSON.parse(userData);
         const testeX = jsonData[0].user_name;
-        const img = jsonData[0].img_perfil
-
+        const img = jsonData[0].img_perfil;
+        const login = jsonData[0].user_login;
+        const cpf = jsonData[0].user_cpf;
+        const telefone = jsonData[0].user_telefone;
+        const email = jsonData[0].user_email;
+        const estado = jsonData[0].user_estado;
+        const municipio = jsonData[0].user_municipio;
+        const logradouro = jsonData[0].user_logradouro;
+        const cep = jsonData[0].user_cep;
         setUserName(testeX)
         setUrlImg(img)
+        setLogin(login)
+        setCpf(cpf)
+        setTelefone(telefone)
+        Setemail(email)
+        Setestado(estado)
+        Setmunicipio(municipio)
+        Setlogradouro(logradouro)
+        Setcep(cep)
+        
     }
 
 
@@ -83,7 +106,7 @@ function Feed() {
             </head>
             <body class="bodyProf1">
                 <div class="headerProf1">
-                <Navbar>
+                    <Navbar>
                         <div class="headerOptionProf1">
                             <NavItem1 icon={<PlusIcon />} />
                             <h3>Meu Perfil</h3>
@@ -137,58 +160,130 @@ function Feed() {
                     </div>
 
                     <div class="feed">
-                        <div class="feedinputContainer">
-                            <div class="feedinputContainer__top">
-                                <div class="feed__inputOptions">
-                                    <div class="inputOption">
-                                        <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Tópico</h4>
-
-                                    </div>
-                                    <div class="inputOption">
-                                        <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Voltar para visualizar Cursos</h4>
-                                    </div>
-
-                                </div>
-
-
-
-                            </div>
-
-                        </div>
+                       
 
 
                         <div className="currentFeed"></div>
 
                         <div className="wrap-questionarioProf1">
-                            <h1 className="questionario-tituloProf1">Cadastrar Novo Tópico</h1>
+                            <h1 className="questionario-tituloProf1">Meu Perfil</h1>
 
                             <form >
                                 <div>
                                     <div className="wrap-input-input1">
                                         <input
-                                            className={respCursos !== "" ? "has-val input" : "input"}
+                                            className={username !== "" ? "has-val input" : "input"}
                                             type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respCursos}
-                                            onChange={(e) => setRespCursos(e.target.value)}
+                                            id="username"
+                                            name="username"
+                                            value={username}
+                                            disabled="true"
                                         />
-                                        <span className="focus-input" data-placeholder="Nome do Curso"></span>
+                                        <span className="focus-input" data-placeholder="Nome"></span>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="wrap-input-input1">
                                         <input
-                                            className={respTopico !== "" ? "has-val input" : "input"}
+                                            className={login !== "" ? "has-val input" : "input"}
                                             type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respTopico}
-                                            onChange={(e) => setRespTopico(e.target.value)}
+                                            id="login"
+                                            name="login"
+                                            value={login}
+                                            disabled="true"
                                         />
-                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
+                                        <span className="focus-input" data-placeholder="Login"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={cpf !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="cpf"
+                                            name="cpf"
+                                            value={cpf}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="CPF"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={telefone !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="telefone"
+                                            name="telefone"
+                                            value={telefone}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Telefone"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={email !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="E-mail"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={estado !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="estado"
+                                            name="estado"
+                                            value={estado}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Estado"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={municipio !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="municipio"
+                                            name="municipio"
+                                            value={municipio}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Municipio"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={logradouro !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="logradouro"
+                                            name="logradouro"
+                                            value={logradouro}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Logradouro"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={cep !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="cep"
+                                            name="cep"
+                                            value={cep}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Cep"></span>
                                     </div>
                                 </div>
 
@@ -196,8 +291,8 @@ function Feed() {
 
 
 
-                                {loading && <h1 className="loader" >Enviando...</h1>}
-
+                              
+                              
 
 
                             </form>
@@ -234,6 +329,7 @@ function Navbar(props) {
         </nav>
     );
 }
+
 
 function NavItem(props) {
     const [open, setOpen] = useState(false);
@@ -323,7 +419,6 @@ function NavItem5(props) {
         </li>
     );
 }
-
 
 
 

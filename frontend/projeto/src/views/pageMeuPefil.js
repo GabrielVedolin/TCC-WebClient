@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../contexts/auth';
-import "../styles/stylesPageProf1.css";
-import axios from "axios";
-import '../styles/teste.css';
+import "../styles/feed.css"
+import { useNavigate } from "react-router-dom";
+import jpIMG from "../img/aluno.jpg";
 import { ReactComponent as BellIcon } from '../assets/bell.svg';
 import { ReactComponent as MessengerIcon } from '../assets/messenger.svg';
 import { ReactComponent as CaretIcon } from '../assets/caret.svg';
@@ -12,178 +11,304 @@ import { ReactComponent as CogIcon } from '../assets/cog.svg';
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
-
-
 import { CSSTransition } from 'react-transition-group';
-import endPoints, { api, createSession } from "../services/api's";
 
-export default function App() {
+
+
+
+function Feed() {
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [username, setUserName] = useState('');
+    const [urlImg, setUrlImg] = useState('');
+    const [login, setLogin] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [email, Setemail] = useState('');
+    const [estado, Setestado] = useState('');
+    const [municipio, Setmunicipio] = useState('');
+    const [logradouro, Setlogradouro] = useState('');
+    const [cep, Setcep] = useState('');
+    const [loading, setLoading] = useState(false);
+
+
+    const [respCursos, setRespCursos] = useState([])
+
 
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = () => {
         logout();
     };
-    const [loading, setLoading] = useState(false);
-    const [formValues, setFormValues] = useState("");
-    const [show, setShow] = useState(false);
-    const [showhide, setShowhide] = useState("");
-    const [showhide2, setShowhide2] = useState("");
-    const [showhide3, setShowhide3] = useState("");
-    const [testeForm, setTesteform] = useState("");
-    const [idDescricao, setIdDescricao] = useState([]);
-    const [descricao, setDescricao] = useState([]);
-    const [idTopico, setIdTopico] = useState([]);
-    const [topico, setTopico] = useState([]);
-    const [valorIdCurso, setValorIdCurso] = useState("");
+
+    function getUserLocalStorage() {
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_name;
+        const img = jsonData[0].img_perfil;
+        const login = jsonData[0].user_login;
+        const cpf = jsonData[0].user_cpf;
+        const telefone = jsonData[0].user_telefone;
+        const email = jsonData[0].user_email;
+        const estado = jsonData[0].user_estado;
+        const municipio = jsonData[0].user_municipio;
+        const logradouro = jsonData[0].user_logradouro;
+        const cep = jsonData[0].user_cep;
+        setUserName(testeX)
+        setUrlImg(img)
+        setLogin(login)
+        setCpf(cpf)
+        setTelefone(telefone)
+        Setemail(email)
+        Setestado(estado)
+        Setmunicipio(municipio)
+        Setlogradouro(logradouro)
+        Setcep(cep)
+        
+    }
 
 
-    const [respCursos, setRespCursos] = useState([])
-    const [respTopicos, setRespTopicos] = useState([])
-    const [select1, setSelect1] = useState({})
-    const [select2, setSelect2] = useState([])
-    const [select3, setSelect3] = useState([])
-    const [respConteudo, setRespConteudo] = useState([])
+    useEffect(() => {
+        getUserLocalStorage()
+        const perPage = 3;
+        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
+        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
+        fetch(URL)
+            .then((response) => response.json())
+            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
+    }, [currentPage]);
 
-
+    useEffect(() => {
+        const intersectionObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                console.log('Sentinela apareceu!', currentPage + 1)
+                setCurrentPage((currentValue) => currentValue + 1);
+            }
+        })
+        intersectionObserver.observe(document.querySelector('#sentinela'));
+        return () => intersectionObserver.disconnect();
+    }, []);
 
 
 
     return (
-        <div>
-            <div className="containerProf1">
-                <head>
-                    <meta charset="UTF-8" />
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                    <link rel="stylesheet" href="style.css" />
-                    <title> Feed </title>
-                </head>
+
+        <div className='conteudo'>
+            <head>
+                <meta charset="UTF-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                <link rel="stylesheet" href="style.css" />
+                <title> Feed </title>
+            </head>
+            <body class="bodyProf1">
                 <div class="headerProf1">
                     <Navbar>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<PlusIcon />} />
-                            <h3>Home</h3>
+                            <NavItem1 icon={<MessengerIcon />} />
+                            <h3>Meu Perfil</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<CaretIcon />}>
-                                <DropdownMenu></DropdownMenu>
-                            </NavItem>
-                            <i class="material-icons sidebar__topAvatar"></i>
-                            <h3>Cursos</h3>
+                            <NavItem2 icon={<PlusIcon />} />
+                            <h3>Feed</h3>
                         </div>
-                        <div class="headerOptionProf1">
-                            <NavItem icon={<MessengerIcon />} />
-                            <h3>Cursos</h3>
-                        </div>
+                       
+
+
                         <div class="headerOptionProf1" onClick={handleLogout} >
-                            <NavItem icon={<BellIcon />} />
-                          
+                            <NavItem icon={<BoltIcon />} />
+
                             <h3>Logout</h3>
                         </div>
                     </Navbar>
                 </div>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <div className="container-questionarioProf1">
-                    <div className="sidebarProf1">
-                        <div className="sidebar__topProf1">
-                            <h4 className="questionario-form-titleProf1">Entrando como:</h4>
-                            <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" alt="imagemCabeca" />
-                            <br />
-                            <h2 className="questionario-form-titleProf1">Professor Leminski</h2>
-                            <h4 className="questionario-form-titleProf1"> Professor de</h4> <h4 className="sidebar__statNumber">Matematica </h4>
+
+
+                <div class="body__mainProf1">
+                    <div class="sidebarProf1">
+                        <div class="sidebar__top">
+                            <img src={urlImg} alt="imagemCabeca" />
+
+
+
                         </div>
+
+                        <div class="sidebar__stats">
+                            <div class="sidebar__stat">
+                                <p>Nome do Aluno: {username}</p>
+
+                            </div>
+
+                        </div>
+
+
+
                     </div>
 
-                    <div className="wrap-questionarioProf1">
-                        <h1 className="questionario-tituloProf1">Meu Perfil</h1>
+                    <div class="feed">
+                       
 
-                        <form >
-                            <div>
+
+                        <div className="currentFeed"></div>
+
+                        <div className="wrap-questionarioProf1">
+                            <h1 className="questionario-tituloProf1">Meu Perfil</h1>
+
+                            <form >
                                 <div>
-                                <p className="questionario-form-titleProf1">Curso:</p>
-                                <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
-                                    setSelect1(e.target.value)
-
-                                }}>
-                                    <option value={''}>{'Selecione uma opção'}</option>
-                                    {respCursos?.map((item) => (
-                                        <option value={item.id_curso}>{item.descricao}</option>
-                                    ))}
-                                </select>
-                                {testeForm};
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={username !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            value={username}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Nome"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={login !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="login"
+                                            name="login"
+                                            value={login}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Login"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={cpf !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="cpf"
+                                            name="cpf"
+                                            value={cpf}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="CPF"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={telefone !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="telefone"
+                                            name="telefone"
+                                            value={telefone}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Telefone"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={email !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="E-mail"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={estado !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="estado"
+                                            name="estado"
+                                            value={estado}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Estado"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={municipio !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="municipio"
+                                            name="municipio"
+                                            value={municipio}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Municipio"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={logradouro !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="logradouro"
+                                            name="logradouro"
+                                            value={logradouro}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Logradouro"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={cep !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="cep"
+                                            name="cep"
+                                            value={cep}
+                                            disabled="true"
+                                        />
+                                        <span className="focus-input" data-placeholder="Cep"></span>
+                                    </div>
                                 </div>
 
 
-                                <div>
-                                <p className="questionario-form-titleProf1">Nome do topico:</p>
-                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
-                                        setSelect3(e.target.value)
-
-                                    }}>
-                                        <option value={''}>{'Selecione uma opção'}</option>
-                                        {respTopicos?.map((item) => (
-                                            <option value={item.id_topico}>{item.descricao}</option>
-                                        ))}
-                                    </select>
-                                    {testeForm};
-                                </div>
-
-                                <div>
-                                <p className="questionario-form-titleProf1">Nome do Conteudo:</p>
-                                    
 
 
-                                    <select className="questionario-form-titleProf1-select" id="selectProf1" onChange={(e) => {
 
-                                    }}>
-                                        <option value={''}>{'Selecione uma opção'}</option>
-                                        {respConteudo?.map((item) => (
-                                            <option value={item.id_conteudo}>{item.descricao}</option>
-                                        ))}
-                                    </select>
-                                    {testeForm};
-                                </div>
+                              
+                              
 
-                            </div>
-                            <div className="container-questionario-form-btnProf1">
-                                <button className="questionario-form-btnProf1" type="submit">
-                                    Enviar
-                                </button>
-                            </div>
-                            <div className="container-questionario-form-btnProf1">
 
-                                <button className="questionario-form-btnProf1" type="submit">
-                                    Voltar
-                                </button>
-                            </div>
+                            </form>
+
+
+                        </div>
+
+
+
+                        <div id="sentinela" style={{ color: 'red' }}></div>
 
 
 
 
-
-                            {loading && <h1 className="loader" >Enviando...</h1>}
-
-
-
-                        </form>
 
 
                     </div>
 
                 </div>
-
-
-            </div>
-
+            </body>
         </div>
 
-    );
+
+    )
+
+
 }
-
-
 
 // Configuracao do Navbar
 function Navbar(props) {
@@ -193,6 +318,7 @@ function Navbar(props) {
         </nav>
     );
 }
+
 
 function NavItem(props) {
     const [open, setOpen] = useState(false);
@@ -208,90 +334,39 @@ function NavItem(props) {
     );
 }
 
-function DropdownMenu() {
-    const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
-
-    function calcHeight(el) {
-        const height = el.offsetHeight;
-        setMenuHeight(height);
-    }
-
-    function DropdownItem(props) {
-        return (
-            <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                <span className="icon-button">{props.leftIcon}</span>
-                {props.children}
-                <span className="icon-right">{props.rightIcon}</span>
-            </a>
-        );
-    }
+function NavItem1(props) {
+    const [open, setOpen] = useState(false);
 
     return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+        <li className="nav-item">
+            <a href="/meuperfil" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
 
-            <CSSTransition
-                in={activeMenu === 'main'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>My Profile</DropdownItem>
-                    <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="settings">
-                        Settings
-                    </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>My Tutorial</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>HTML</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>CSS</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>JavaScript</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>Animals</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon="🦘">Kangaroo</DropdownItem>
-                    <DropdownItem leftIcon="🐸">Frog</DropdownItem>
-                    <DropdownItem leftIcon="🦋">Horse?</DropdownItem>
-                    <DropdownItem leftIcon="🦔">Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
-        </div>
+            {open && props.children}
+        </li>
     );
 }
 
+
+function NavItem2(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/feed" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+
+
+
+
+export default Feed;
