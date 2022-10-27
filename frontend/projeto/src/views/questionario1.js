@@ -45,8 +45,8 @@ export default function App() {
   const [idUser, setIdUser] = useState('')
   let [loading, setLoading] = useState(false);
   const { logout } = useContext(AuthContext);
-  let arrayRespostas = [];
-  let arrayRespostas2 = [];
+  let arrayRespostas = [Objresposta];
+  let arrayRespostas2 = [Objresposta];
   const [formValues, setFormValues] = useState({
     quest1Field1: "",
     quest1Field2: "",
@@ -59,8 +59,24 @@ export default function App() {
     quest2Field5: "",
 
   });
+  const [valoresForm, setvaloresForm] = useState({
+    quest1Field1: Objresposta,
+    quest1Field2: Objresposta,
+    quest1Field3: Objresposta,
+    quest1Field4: Objresposta,
+    quest2Field1: Objresposta,
+    quest2Field2: Objresposta,
+    quest2Field3: Objresposta,
+    quest2Field4: Objresposta,
+    quest2Field5: Objresposta,
 
+  });
 
+ var Objresposta = {
+  resposta:'',
+  peso:0,
+  tipo:''
+ }
 
 function getUserID(){
   const userData = localStorage.getItem('user');
@@ -99,10 +115,10 @@ useEffect(() => {
     e.preventDefault();
 
     const body = [ 
-      {"user_id_aprendiz":idUser,"id_pergunta":1,"resposta":formValues.quest1Field1,"peso":70," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":2,"resposta":formValues.quest1Field2,"peso":71," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":3,"resposta":formValues.quest1Field3,"peso":72," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":4,"resposta":formValues.quest1Field4,"peso":73," tipo_alternativa":"video"},
+      {"user_id_aprendiz":idUser,"id_pergunta":1,"resposta":valoresForm.quest1Field1.resposta,"peso":valoresForm.quest1Field1.peso," tipo_alternativa":valoresForm.quest1Field1.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":2,"resposta":formValues.quest1Field2,"peso":71," tipo_alternativa":"audio"},
+      {"user_id_aprendiz":idUser,"id_pergunta":3,"resposta":formValues.quest1Field3,"peso":72," tipo_alternativa":"texto"},
+      {"user_id_aprendiz":idUser,"id_pergunta":4,"resposta":formValues.quest1Field4,"peso":73," tipo_alternativa":"questionario"},
       {"user_id_aprendiz":idUser,"id_pergunta":5,"resposta":formValues.quest2Field1,"peso":74," tipo_alternativa":"video"},
       {"user_id_aprendiz":idUser,"id_pergunta":6,"resposta":formValues.quest2Field2,"peso":75," tipo_alternativa":"video"},
       {"user_id_aprendiz":idUser,"id_pergunta":7,"resposta":formValues.quest2Field3,"peso":76," tipo_alternativa":"video"},
@@ -134,8 +150,61 @@ useEffect(() => {
     formValues.quest1Field2 = arrayRespostas[1];
     formValues.quest1Field3 = arrayRespostas[2];
     formValues.quest1Field4 = arrayRespostas[3];
-
+    
     handleNext();
+  }
+
+  function preencheQuestionario(){
+    valoresForm.quest1Field1.Objresposta = {
+        resposta: arrayRespostas[0].resposta,
+        peso: arrayRespostas[0].peso,
+        tipo: arrayRespostas[0].tipo
+    };
+    valoresForm.quest1Field2.Objresposta = {
+      resposta: arrayRespostas[1].resposta,
+      peso: arrayRespostas[1].peso,
+      tipo: arrayRespostas[1].tipo
+    };
+  
+  }
+
+  function lerValores(){
+    var questao1 = document.getElementById("questao1");
+    var questao1Reposta = questao1.value != 0 ? questao1.value.split(','):0;
+    
+    var questao2 = document.getElementById("questao2");
+    var questao2Reposta = questao2.value != 0 ? questao2.value.split(','):0;
+    
+    var questao3 = document.getElementById("questao3");
+    var questao3Reposta = questao3.value != 0 ? questao3.value.split(','):0;
+    
+    var questao4 = document.getElementById("questao4");
+    var questao4Reposta = questao4.value != 0 ? questao4.value.split(','):0;
+    
+     arrayRespostas[0] = {
+      resposta:questao1Reposta[0],
+      peso:questao1Reposta[1],
+      tipo:questao1Reposta[2]
+     };
+     arrayRespostas[1] = {
+      resposta:questao2Reposta[0],
+      peso:questao2Reposta[1],
+      tipo:questao2Reposta[2]
+     };
+     arrayRespostas[2] = {
+      resposta:questao3Reposta[0],
+      peso:questao3Reposta[1],
+      tipo:questao3Reposta[2]
+     };
+     arrayRespostas[3] = {
+      resposta:questao4Reposta[0],
+      peso:questao4Reposta[1],
+      tipo:questao4Reposta[2]
+     };
+     
+    // arrayRespostas[1] = questao2Reposta;
+    // arrayRespostas[2] = questao3Reposta;
+    // arrayRespostas[3] = questao4Reposta;
   }
 
   function readValues(){
@@ -233,35 +302,36 @@ useEffect(() => {
                 <div>
 
                   <p className="questionario-form-title"> Você assiste a séries regularmente?</p>
-                  <select id="questao1" className="questionario-form-select" onChange= {readValues} >
+                  <select id="questao1" className="questionario-form-select" onChange= {lerValores} >
                   <option selected value={0}>Selecione uma opção</option>
-                    <option value={1}>Sim, de 2 a 5 séries no ultimo ano</option>
-                    <option  value={2}>Sim, de 5 a 10 séries</option>
-                    <option  value={3}>Não assisto series regularmente</option>
+                    <option value={[1,1,'video']}>Sim, de 2 a 5 séries no ultimo ano</option>
+                    <option  value={[2,2,'video']}>Sim, de 5 a 10 séries</option>
+                    <option  value={[3,0,'video']}>Não assisto series regularmente</option>
                   </select>
 
                   <p className="questionario-form-title"> Com que frequência você escuta música? </p>
                   <select id="questao2" className="questionario-form-select" onChange= {readValues} >
                     <option selected value= {0}>Selecione uma opção"</option>
-                    <option value={1}>1 a 5 vezes por semana</option>
-                    <option value={2}>6 a 10 vezes na semana</option>
-                    <option value={3} >Não estudo musica regularmente</option>
+                    <option value={[1,1,'audio']}>1 a 5 vezes por semana</option>
+                    <option value={[2,2,'audio']}>6 a 10 vezes na semana</option>
+                    <option value={[3,0,'audio']} >Não estudo musica regularmente</option>
                   </select>
 
                   <p className="questionario-form-title"> Quantos livros leu nos últimos anos? </p>
                   <select id="questao3" className="questionario-form-select" onChange= {readValues}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>2 a 5 livros no último ano</option>
-                    <option value= {2}>6 a 10 livros no último ano</option>
-                    <option value= {3}> Não li nenhum livro do último ano</option>
+                    <option value= {[1,1,'texto']}>2 a 5 livros no último ano</option>
+                    <option value= {[2,2,'texto']}>6 a 10 livros no último ano</option>
+                    <option value= {[3,0,'texto']}> Não li nenhum livro do último ano</option>
                   </select>
 
                   <p className="questionario-form-title"> Em questionarios, você tem mais facilidade com o que? </p>
                   <select  id="questao4" className="questionario-form-select" onChange= {readValues}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Multipla escolha</option>
-                    <option value= {2}>Dissertativas</option>
-                    <option value= {3}>Ambos</option>
+                    <option value= {[1,1,'questionario']}>Multipla escolha</option>
+                    <option value= {[2,1,'questionario']}>Dissertativas</option>
+                    <option value= {[3,1,'questionario']}>Ambos</option>
+                    <option value= {[4,0,'questionario']}>Não gosto de testes/provas</option>
                   </select>
 
                   
