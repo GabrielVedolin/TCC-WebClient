@@ -11,7 +11,9 @@ const endPoints = {
     favoritarConteudo: `${BASE_URL}adicionarFavoritos`,
     buscarFeed:`${BASE_URL_FEED}obter_recomendacao`,
     buscarSegundoFeed:`${BASE_URL_FEED}obter_feed`,
-    buscarFeedAdaptativo:`${BASE_URL_FEED}obter_feed_adaptado` 
+    buscarFeedAdaptativo:`${BASE_URL_FEED}obter_feed_adaptado`,
+    criarNovoCurso:`${BASE_URL_FEED}cadastrarCurso`,
+    criarTopico:`${BASE_URL_FEED}cadastrarTopico`
 
 }
 

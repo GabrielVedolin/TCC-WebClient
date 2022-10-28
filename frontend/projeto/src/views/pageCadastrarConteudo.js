@@ -31,10 +31,16 @@ function Feed() {
     const [respConteudo, setRespConteudo] = useState('')
     const [urlAudio, setRespUrlAudio] = useState('')
     const [urlVideo, setRespUrlVideo] = useState('')
+    const [pergunta1, setResPergunta1] = useState('')
+    const [pergunta2, setResPergunta2] = useState('')
+    const [pergunta3, setResPergunta3] = useState('')
+    const [pergunta4, setResPergunta4] = useState('')
+    const [questinariolabel, setQuestionarioLabel] = useState('')
 
     const [divtipoTexto, setdivtipoTexto] = useState(false)
     const [divtipoVideo, setdivtipoVideo] = useState(false)
     const [divtipoAudio, setdivtipoAudio] = useState(false)
+    const [divtipoQuestionario, setdivtipoQuestionario] = useState(false)
 
 
     const { logout } = useContext(AuthContext);
@@ -51,6 +57,7 @@ function Feed() {
         var divTipoTexto = document.getElementById("divTipoTexto");
         var divTipoAudio = document.getElementById("divTipoAudio");
         var divTipoVideo = document.getElementById("divTipoVideo");
+        var divTipoQuestionario = document.getElementById("divTipoQuestionario");
         var questao1Reposta = questao1.value;
 
 
@@ -62,21 +69,31 @@ function Feed() {
             setdivtipoTexto(false);
             setdivtipoAudio(false);
             setdivtipoVideo(false);
+            setdivtipoQuestionario(false);
         }
         if (questao1Reposta == 'Texto') {
             setdivtipoTexto(true);
             setdivtipoAudio(false);
             setdivtipoVideo(false);
+            setdivtipoQuestionario(false);
         }
         if (questao1Reposta == 'Video') {
             setdivtipoTexto(false);
             setdivtipoAudio(false);
             setdivtipoVideo(true);
+            setdivtipoQuestionario(false);
         }
         if (questao1Reposta == 'Audio') {
             setdivtipoTexto(false);
             setdivtipoAudio(true);
             setdivtipoVideo(false);
+            setdivtipoQuestionario(false);
+        }
+        if (questao1Reposta == 'Questionario') {
+            setdivtipoTexto(false);
+            setdivtipoAudio(false);
+            setdivtipoVideo(false);
+            setdivtipoQuestionario(true);
         }
 
     }
@@ -132,7 +149,7 @@ function Feed() {
             </head>
             <body class="bodyCadastrarConteudo">
                 <div class="headerProf1">
-                <Navbar>
+                    <Navbar>
                         <div class="headerOptionProf1">
                             <NavItem1 icon={<PlusIcon />} />
                             <h3>Meu Perfil</h3>
@@ -263,6 +280,126 @@ function Feed() {
                                 </div>
                                     : null}
 
+                                {divtipoQuestionario ?
+                                    <div id="divtipoQuestionario">
+                                         <div className="wrap-input-input1">
+                                            <input
+                                                className={questinariolabel !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="questinariolabel"
+                                                name="questinariolabel"
+                                                value={questinariolabel}
+                                                onChange={(e) => setQuestionarioLabel(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta do Questionário"></span>
+                                        </div>
+                                          <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta1 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta1"
+                                                name="pergunta1"
+                                                value={pergunta1}
+                                                onChange={(e) => setResPergunta1(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
+                                        </div>
+                                        <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta1 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta1"
+                                                name="pergunta1"
+                                                value={pergunta1}
+                                                onChange={(e) => setResPergunta1(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
+                                        </div>
+                                        <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta1 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta1"
+                                                name="pergunta1"
+                                                value={pergunta1}
+                                                onChange={(e) => setResPergunta1(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
+                                        </div>
+
+                                        <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta2 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta2"
+                                                name="pergunta2"
+                                                value={pergunta2}
+                                                onChange={(e) => setResPergunta2(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 2"></span>
+                                        </div>
+                                        <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta3 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta3"
+                                                name="pergunta3"
+                                                value={pergunta3}
+                                                onChange={(e) => setResPergunta3(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 3"></span>
+                                        </div>
+                                        <div className="wrap-input-input1">
+                                            <input
+                                                className={pergunta4 !== "" ? "has-val input" : "input"}
+                                                type="text"
+                                                id="pergunta4"
+                                                name="pergunta4"
+                                                value={pergunta4}
+                                                onChange={(e) => setResPergunta4(e.target.value)}
+                                            />
+                                            <span className="focus-input" data-placeholder="Pergunta 4"></span>
+                                        </div>
+                                        <div className="check-form">
+
+                                            <fieldset>
+                                                <legend className="Questionario-label"> Qual das alternativas está é a verdadeira? </ legend>
+                                                <div>
+                                                    <input
+
+                                                        type="radio"
+                                                        id="opcao1"
+                                                        name="OPCAO"
+
+                                                    /><p className="Questionario-label">Pergunta1</p>
+                                                   
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="radio"
+                                                        id="opcao2"
+                                                        name="OPCAO"
+                                                    /><p className="Questionario-label">Pergunta2</p>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="radio"
+                                                        id="opcao3"
+                                                        name="OPCAO"
+                                                    /><p className="Questionario-label">Pergunta3</p>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="radio"
+                                                        id="opcao4"
+                                                        name="OPCAO"
+                                                    /><p className="Questionario-label">Pergunta4</p>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    : null}
+
                                 {divtipoVideo ?
                                     <div id="divTipoVideo">
                                         <div className="wrap-input-input1">
@@ -277,7 +414,10 @@ function Feed() {
                                             <span className="focus-input" data-placeholder="URL Vídeo"></span>
                                         </div>
                                     </div>
+
+
                                     : null}
+
 
 
                                 <div className="container-questionario-form-btnProf1">
@@ -436,9 +576,9 @@ function DropdownMenu() {
         setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
     }, [])
 
- 
 
-   
+
+
 }
 
 export default Feed;

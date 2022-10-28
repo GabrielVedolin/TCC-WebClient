@@ -12,8 +12,8 @@ import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
 import { CSSTransition } from 'react-transition-group';
-
-
+import axios from 'axios';
+import endPoints from "../services/api's";
 
 
 function Feed() {
@@ -21,6 +21,7 @@ function Feed() {
     const [currentPage, setCurrentPage] = useState(1);
     const [username, setUserName] = useState('')
     const [urlImg, setUrlImg] = useState('')
+    const [idprofessor, setIdProfessor] = useState('')
     const [loading, setLoading] = useState(false);
 
 
@@ -38,7 +39,8 @@ function Feed() {
         const jsonData = JSON.parse(userData);
         const testeX = jsonData[0].user_name;
         const img = jsonData[0].img_perfil
-
+        const user_id = jsonData[0].user_id
+        setIdProfessor(user_id)   
         setUserName(testeX)
         setUrlImg(img)
     }
@@ -46,26 +48,35 @@ function Feed() {
 
     useEffect(() => {
         getUserLocalStorage()
-        const perPage = 3;
-        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
-        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
-        fetch(URL)
-            .then((response) => response.json())
-            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
-    }, [currentPage]);
+       
+    });
 
-    useEffect(() => {
-        const intersectionObserver = new IntersectionObserver(entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                console.log('Sentinela apareceu!', currentPage + 1)
-                setCurrentPage((currentValue) => currentValue + 1);
-            }
-        })
-        intersectionObserver.observe(document.querySelector('#sentinela'));
-        return () => intersectionObserver.disconnect();
-    }, []);
+   
 
+    const handleCadastrarCurso = async(e) => {
+        e.preventDefault();
+       
+        const body = {
+              "descricao": respCursos,
+              "user_id_especialista":idprofessor
+          }
+          console.log(("submit:", { body }));
+            
+            await axios.post(`${endPoints.criarNovoCurso}`, body)
+              .then((response) => {
+               console.log("response aqui",response)
+               alert("Curso Cadastrado Com Sucesso !")
+               //navigate("/pageProf2")
+               
+              }).catch((erro) => {
+                console.log('deu ruim', erro)
+                let p = document.getElementById('mensagemerro');
+                p.style.display = 'block';
+              })
+    
+      }
 
+    
 
     return (
 
@@ -163,7 +174,7 @@ function Feed() {
                         <div className="wrap-questionarioProf1">
                             <h1 className="questionario-tituloProf1">Cadastrar Novo Curso</h1>
 
-                            <form >
+                            <form onSubmit={handleCadastrarCurso }>
                                 <div>
                                     <div className="wrap-input-input1">
                                         <input

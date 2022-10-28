@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from '../contexts/auth';
 import "../styles/feed.css"
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import jpIMG from "../img/aluno.jpg";
 import { ReactComponent as BellIcon } from '../assets/bell.svg';
@@ -11,7 +12,7 @@ import { ReactComponent as CogIcon } from '../assets/cog.svg';
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
-import { CSSTransition } from 'react-transition-group';
+import endPoints, { api, createSession } from "../services/api's";
 
 
 
@@ -22,11 +23,12 @@ function Feed() {
     const [username, setUserName] = useState('')
     const [urlImg, setUrlImg] = useState('')
     const [loading, setLoading] = useState(false);
-
+    const [idDescricao, setIdDescricao] = useState([]);
+    const [descricao, setDescricao] = useState([]);
 
     const [respCursos, setRespCursos] = useState('')
     const [respTopico, setRespTopico] = useState('')
-
+    const [select1, setSelect1] = useState({})
 
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -47,25 +49,10 @@ function Feed() {
 
     useEffect(() => {
         getUserLocalStorage()
-        const perPage = 3;
-        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
-        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
-        fetch(URL)
-            .then((response) => response.json())
-            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
-    }, [currentPage]);
+      
+    });
 
-    useEffect(() => {
-        const intersectionObserver = new IntersectionObserver(entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                console.log('Sentinela apareceu!', currentPage + 1)
-                setCurrentPage((currentValue) => currentValue + 1);
-            }
-        })
-        intersectionObserver.observe(document.querySelector('#sentinela'));
-        return () => intersectionObserver.disconnect();
-    }, []);
-
+    
 
 
     return (
@@ -167,14 +154,7 @@ function Feed() {
                             <form >
                                 <div>
                                     <div className="wrap-input-input1">
-                                        <input
-                                            className={respCursos !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respCursos}
-                                            onChange={(e) => setRespCursos(e.target.value)}
-                                        />
+                                 
                                         <span className="focus-input" data-placeholder="Nome do Curso"></span>
                                     </div>
                                 </div>

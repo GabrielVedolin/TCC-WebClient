@@ -24,18 +24,13 @@ export default function App() {
     const handleLogout = () => {
         logout();
     };
-    const [loading, setLoading] = useState(false);
-    const [formValues, setFormValues] = useState("");
-    const [show, setShow] = useState(false);
+
     const [showhide, setShowhide] = useState("");
     const [showhide2, setShowhide2] = useState("");
     const [showhide3, setShowhide3] = useState("");
     const [testeForm, setTesteform] = useState("");
     const [idDescricao, setIdDescricao] = useState([]);
     const [descricao, setDescricao] = useState([]);
-    const [idTopico, setIdTopico] = useState([]);
-    const [topico, setTopico] = useState([]);
-    const [valorIdCurso, setValorIdCurso] = useState("");
     const [username,setUserName] = useState('');
     const [urlImg,setUrlImg] = useState('');
     const [respCursos, setRespCursos] = useState([])

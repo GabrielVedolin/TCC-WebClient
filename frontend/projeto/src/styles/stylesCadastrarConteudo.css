@@ -210,6 +210,15 @@ textarea {
     overflow: hidden;
 }
 
+.Questionario-label{
+
+color:#adadad
+
+}
+
+.check-form{
+  padding-bottom: 30px;
+}
 
 .headerProf1 {
   width: 100%;
