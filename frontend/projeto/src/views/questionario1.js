@@ -116,14 +116,14 @@ useEffect(() => {
 
     const body = [ 
       {"user_id_aprendiz":idUser,"id_pergunta":1,"resposta":valoresForm.quest1Field1.resposta,"peso":valoresForm.quest1Field1.peso," tipo_alternativa":valoresForm.quest1Field1.tipo},
-      {"user_id_aprendiz":idUser,"id_pergunta":2,"resposta":formValues.quest1Field2,"peso":71," tipo_alternativa":"audio"},
-      {"user_id_aprendiz":idUser,"id_pergunta":3,"resposta":formValues.quest1Field3,"peso":72," tipo_alternativa":"texto"},
-      {"user_id_aprendiz":idUser,"id_pergunta":4,"resposta":formValues.quest1Field4,"peso":73," tipo_alternativa":"questionario"},
-      {"user_id_aprendiz":idUser,"id_pergunta":5,"resposta":formValues.quest2Field1,"peso":74," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":6,"resposta":formValues.quest2Field2,"peso":75," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":7,"resposta":formValues.quest2Field3,"peso":76," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":8,"resposta":formValues.quest2Field4,"peso":77," tipo_alternativa":"video"},
-      {"user_id_aprendiz":idUser,"id_pergunta":9,"resposta":formValues.quest2Field5,"peso":78," tipo_alternativa":"video"}
+      {"user_id_aprendiz":idUser,"id_pergunta":2,"resposta":valoresForm.quest1Field2.resposta,"peso":valoresForm.quest1Field2.peso," tipo_alternativa":valoresForm.quest1Field2.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":3,"resposta":valoresForm.quest1Field3.resposta,"peso":valoresForm.quest1Field3.peso," tipo_alternativa":valoresForm.quest1Field3.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":4,"resposta":valoresForm.quest1Field4.resposta,"peso":valoresForm.quest1Field4.peso," tipo_alternativa":valoresForm.quest1Field4.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":5,"resposta":valoresForm.quest2Field1.resposta,"peso":valoresForm.quest2Field1.peso," tipo_alternativa":valoresForm.quest2Field1.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":6,"resposta":valoresForm.quest2Field2.resposta,"peso":valoresForm.quest2Field2.peso," tipo_alternativa":valoresForm.quest2Field2.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":7,"resposta":valoresForm.quest2Field3.resposta,"peso":valoresForm.quest2Field3.peso," tipo_alternativa":valoresForm.quest2Field3.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":8,"resposta":valoresForm.quest2Field4.resposta,"peso":valoresForm.quest2Field4.peso," tipo_alternativa":valoresForm.quest2Field4.tipo},
+      {"user_id_aprendiz":idUser,"id_pergunta":9,"resposta":valoresForm.quest2Field5.resposta,"peso":valoresForm.quest2Field5.peso," tipo_alternativa":valoresForm.quest2Field5.tipo}
   ]
 
     console.log("Form sent...", body);
@@ -154,19 +154,6 @@ useEffect(() => {
     handleNext();
   }
 
-  function preencheQuestionario(){
-    valoresForm.quest1Field1.Objresposta = {
-        resposta: arrayRespostas[0].resposta,
-        peso: arrayRespostas[0].peso,
-        tipo: arrayRespostas[0].tipo
-    };
-    valoresForm.quest1Field2.Objresposta = {
-      resposta: arrayRespostas[1].resposta,
-      peso: arrayRespostas[1].peso,
-      tipo: arrayRespostas[1].tipo
-    };
-  
-  }
 
   function lerValores(){
     var questao1 = document.getElementById("questao1");
@@ -201,10 +188,52 @@ useEffect(() => {
       peso:questao4Reposta[1],
       tipo:questao4Reposta[2]
      };
-     
-    // arrayRespostas[1] = questao2Reposta;
-    // arrayRespostas[2] = questao3Reposta;
-    // arrayRespostas[3] = questao4Reposta;
+ 
+  }
+
+  function lerValores2(){
+    
+    var questao1 = document.getElementById("page2Questao1");
+    var questao1Reposta = questao1.value != 0 ? questao1.value.split(','):0;
+    
+    var questao2 = document.getElementById("page2Questao2");
+    var questao2Reposta = questao2.value != 0 ? questao2.value.split(','):0;
+    
+    var questao3 = document.getElementById("page2Questao3");
+    var questao3Reposta = questao3.value != 0 ? questao3.value.split(','):0;
+    
+    var questao4 = document.getElementById("page2Questao4");
+    var questao4Reposta = questao4.value != 0 ? questao4.value.split(','):0;
+    
+    var questao5 = document.getElementById("page2Questao5");
+    var questao5Reposta = questao5.value != 0 ? questao5.value.split(','):0;
+    
+
+     arrayRespostas2[0] = {
+      resposta:questao1Reposta[0],
+      peso:questao1Reposta[1],
+      tipo:questao1Reposta[2]
+     };
+     arrayRespostas2[1] = {
+      resposta:questao2Reposta[0],
+      peso:questao2Reposta[1],
+      tipo:questao2Reposta[2]
+     };
+     arrayRespostas2[2] = {
+      resposta:questao3Reposta[0],
+      peso:questao3Reposta[1],
+      tipo:questao3Reposta[2]
+     };
+     arrayRespostas2[3] = {
+      resposta:questao4Reposta[0],
+      peso:questao4Reposta[1],
+      tipo:questao4Reposta[2]
+     };
+     arrayRespostas2[4] = {
+      resposta:questao5Reposta[0],
+      peso:questao5Reposta[1],
+      tipo:questao5Reposta[2]
+     };
   }
 
   function readValues(){
@@ -230,8 +259,6 @@ useEffect(() => {
     
   }
   
-
-
   function readValuesPage2(){
 
     //Repostas das questoes page 2
@@ -267,6 +294,24 @@ useEffect(() => {
     formValues.quest2Field4 = arrayRespostas2[3];
     formValues.quest2Field5 = arrayRespostas2[3];
     //console.log("array respostas 2: ", arrayRespostas2);
+  }
+  function preencheForm(){
+    console.log(arrayRespostas[0]);
+    valoresForm.quest1Field1 = arrayRespostas[0];
+    valoresForm.quest1Field2 = arrayRespostas[1];
+    valoresForm.quest1Field3 = arrayRespostas[2];
+    valoresForm.quest1Field4 = arrayRespostas[3];
+
+    handleNext();
+  }
+
+  function preencheForm2(){
+    valoresForm.quest2Field1 = arrayRespostas2[0];
+    valoresForm.quest2Field2 = arrayRespostas2[1];
+    valoresForm.quest2Field3 = arrayRespostas2[2];
+    valoresForm.quest2Field4 = arrayRespostas2[3];
+    valoresForm.quest2Field5 = arrayRespostas2[4];
+    
   }
 
 
@@ -310,7 +355,7 @@ useEffect(() => {
                   </select>
 
                   <p className="questionario-form-title"> Com que frequência você escuta música? </p>
-                  <select id="questao2" className="questionario-form-select" onChange= {readValues} >
+                  <select id="questao2" className="questionario-form-select" onChange= {lerValores} >
                     <option selected value= {0}>Selecione uma opção"</option>
                     <option value={[1,1,'audio']}>1 a 5 vezes por semana</option>
                     <option value={[2,2,'audio']}>6 a 10 vezes na semana</option>
@@ -318,7 +363,7 @@ useEffect(() => {
                   </select>
 
                   <p className="questionario-form-title"> Quantos livros leu nos últimos anos? </p>
-                  <select id="questao3" className="questionario-form-select" onChange= {readValues}>
+                  <select id="questao3" className="questionario-form-select" onChange= {lerValores}>
                     <option selected value= {0}>Selecione uma opção</option>
                     <option value= {[1,1,'texto']}>2 a 5 livros no último ano</option>
                     <option value= {[2,2,'texto']}>6 a 10 livros no último ano</option>
@@ -326,7 +371,7 @@ useEffect(() => {
                   </select>
 
                   <p className="questionario-form-title"> Em questionarios, você tem mais facilidade com o que? </p>
-                  <select  id="questao4" className="questionario-form-select" onChange= {readValues}>
+                  <select  id="questao4" className="questionario-form-select" onChange= {lerValores}>
                     <option selected value= {0}>Selecione uma opção</option>
                     <option value= {[1,1,'questionario']}>Multipla escolha</option>
                     <option value= {[2,1,'questionario']}>Dissertativas</option>
@@ -342,49 +387,49 @@ useEffect(() => {
                 <div>
 
                 <p className="questionario-form-title"> Quando você vai a um restaurente e vai escolher o seu prato, você:</p>
-                  <select id="page2Questao1" className="questionario-form-select" onChange= {readValuesPage2}>
+                  <select id="page2Questao1" className="questionario-form-select" onChange= {lerValores2}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Prefere ler o cardápio calmamente para escolher</option>
-                    <option value= {2}>Prefere as opções de melhor aparência</option>
-                    <option value= {3}>Prefere que o garçom lhe explique alguma opção</option>
+                    <option value= {[1,1,'texto']}>Prefere ler o cardápio calmamente para escolher</option>
+                    <option value= {[2,1,'video']}>Prefere as opções de melhor aparência</option>
+                    <option value= {[3,1,'audio']}>Prefere que o garçom lhe explique alguma opção</option>
                   </select>
 
                   <p className="questionario-form-title"> Nos momentos livres você prefere: </p>
-                  <select  id="page2Questao2"className="questionario-form-select" onChange= {readValuesPage2}>
+                  <select  id="page2Questao2"className="questionario-form-select" onChange= {lerValores2}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Ver TV</option>
-                    <option value= {2}>Ler um livro</option>
-                    <option value= {3}>Escutar música</option>
+                    <option value= {[1,1,'video']}>Ver TV</option>
+                    <option value= {[2,1,'texto']}>Ler um livro</option>
+                    <option value= {[3,1,'audio']}>Escutar música</option>
                   </select>
 
                   <p className="questionario-form-title"> Quando está vendo TV, você: </p>
-                  <select  id="page2Questao3"className="questionario-form-select" onChange= {readValuesPage2}>
+                  <select  id="page2Questao3"className="questionario-form-select" onChange= {lerValores2}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Só consegue prestar atenção olhando para a tela</option>
-                    <option value= {2}>A imagem não tem tanta importância, servindo apenas como complementação.</option>
+                    <option value= {[1,1,'video']}>Só consegue prestar atenção olhando para a tela</option>
+                    <option value= {[2,1,'audio']}>A imagem não tem tanta importância, servindo apenas como complementação.</option>
                   </select>
 
                   <p className="questionario-form-title"> Quando está estudando, você: </p>
-                  <select id="page2Questao4" className="questionario-form-select" onChange= {readValuesPage2}>
+                  <select id="page2Questao4" className="questionario-form-select" onChange= {lerValores2}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Gosta de esquemas e mapas mentais</option>
-                    <option value= {2}>Gosta de ouvir ao invés de anotar</option>
-                    <option value= {3}>Gosta de trabalhar com exemplos</option>
+                    <option value= {[1,1,'texto']}>Gosta de esquemas e mapas mentais</option>
+                    <option value= {[2,1,'audio']}>Gosta de ouvir ao invés de anotar</option>
+                    <option value= {[3,1,'questionario']}>Gosta de trabalhar com exemplos</option>
                   </select>
 
                   <p className="questionario-form-title" > Quando vai estudar prefere: </p>
-                  <select  id="page2Questao5"className="questionario-form-select" onChange= {readValuesPage2}>
+                  <select  id="page2Questao5"className="questionario-form-select" onChange= {lerValores2}>
                     <option selected value= {0}>Selecione uma opção</option>
-                    <option value= {1}>Livros que contenham esquemas e imagens</option>
-                    <option value= {2}>Livros com questões e provas anteriores</option>
-                    <option value= {3}>Prefere escutar uma aula e entender o que o professor fala</option>
+                    <option value= {[1,1,'texto']}>Livros que contenham esquemas e imagens</option>
+                    <option value= {[2,1,'questionario']}>Livros com questões e provas anteriores</option>
+                    <option value= {[3,1,'video']}>Prefere escutar uma aula e entender o que o professor fala</option>
                   </select>
                 </div>
               )}
 
               {currentStep < steps.length - 1 && (
                 <div className="container-questionario-form-btn">
-                  <button className="questionario-form-btn" type="button" onClick={nextAction}>
+                  <button className="questionario-form-btn" type="button" onClick={preencheForm}>
                     Next
                   </button>
                 </div>
@@ -392,7 +437,7 @@ useEffect(() => {
 
               {currentStep === steps.length - 1 && (
                 <div className="container-questionario-form-btn">
-                  <button className="questionario-form-btn" type="submit" onClick={sendJson}>
+                  <button className="questionario-form-btn" type="submit" onClick={preencheForm2}>
                     Enviar
                   </button>
                 </div>
