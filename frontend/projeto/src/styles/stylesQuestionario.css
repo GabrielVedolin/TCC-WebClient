@@ -21,23 +21,25 @@ body, html {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 15px;
-  background: url('/src/img/1379437.jpg') no-repeat center center;
-  background-size: cover;
-  background-color: #21d4fd;
+  padding: 20px;
+  background: url("https://thumbs.dreamstime.com/b/vector-school-pattern-seamless-background-illustration-114473930.jpg");
+
 }
 
 .wrap-questionario{
   width: 700px;
-  border-radius: 10px;
   overflow: hidden;
   padding: 15px 55px 0px 55px;
-  background: rgba(31, 28, 52, 0.65);
+  background: #6a7dfe;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 7.5px );
   -webkit-backdrop-filter: blur( 7.5px );
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  
 }
 
 .container-questionario-form-btn {
@@ -50,9 +52,9 @@ body, html {
 
 .questionario-form-btn {
   font-size: 15px;
-  border: none;
   border-radius: 10px;
   color: #fff;
+  border: 3px solid black ;
   line-height: 1.2;
   text-transform: uppercase;
   display: flex;
@@ -60,11 +62,18 @@ body, html {
   align-items: center;
   width: 50%;
   height: 50px;
-  background: #6a7dfe;
-  background: -webkit-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -o-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: -moz-linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
-  background: linear-gradient(to left, rgb(1, 0, 0), rgb(31, 28, 52));
+  padding: 20px;
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
+}
+
+.questionario-form-btn:hover {
+  color: white;
+  cursor: pointer;
+  border-width: 2px;
+  border-color: white;
 }
 
 .questionario-titulo {
@@ -80,7 +89,7 @@ body, html {
 
 .questionario-form-title {
   font-family: Nunito, sans-serif;
-  display: block;
+  display: flex;
   font-size: 15px;
   color: azure;
   line-height: 1.2;
@@ -111,3 +120,89 @@ body, html {
 }
 
 
+
+.headerquestionario {
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  justify-content: flex-end;
+  border-bottom: 0.1px solid lightgray;
+  padding-top: 10px;
+  padding-right: 100px;
+  padding-bottom: 10px;
+  background: -webkit-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -o-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: -moz-linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+  background: linear-gradient(to left, rgb(1, 0, 0,0.95), rgb(31, 28, 52,0.95));
+
+}
+
+
+
+
+
+.headerquestionarioOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.headerquestionarioOption:hover {
+  color: white;
+}
+
+.headerquestionarioOption h3 {
+  font-size: 15px;
+  margin-top: 10px;
+
+}
+
+.headerquestionarioOption__icon {
+  margin-right: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+.questionario-form-select {
+  font-size: 15px;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50px;
+  padding: 14px;
+  background: -webkit-linear-gradient(to left, rgb(207, 205, 205), rgba(255, 255, 255, 0.18));
+  background: -o-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: -moz-linear-gradient(to left, rgb(207, 205, 205),  rgba(255, 255, 255, 0.18));
+  background: linear-gradient(to left, rgb(50, 50, 50),  rgba(255, 255, 255, 0.18));
+}
+
+.questionario-form-select:hover {
+  color: white;
+  cursor: pointer;
+  border-width: 2px;
+  border-color: white;
+}
+
+
+
+.questionario-form-select option {
+  height: 30px;
+  cursor: pointer;
+  border: 1px solid #cbcbcb;
+  padding-left: 17px;
+  padding-top: 12px;
+  background:rgb(84, 82, 82);
+}

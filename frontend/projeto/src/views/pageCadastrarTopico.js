@@ -24,7 +24,8 @@ function Feed() {
     const [loading, setLoading] = useState(false);
 
 
-    const [respCursos, setRespCursos] = useState([])
+    const [respCursos, setRespCursos] = useState('')
+    const [respTopico, setRespTopico] = useState('')
 
 
     const { logout } = useContext(AuthContext);
@@ -134,7 +135,7 @@ function Feed() {
                                 <div class="feed__inputOptions">
                                     <div class="inputOption">
                                         <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Curso</h4>
+                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Tópico</h4>
 
                                     </div>
                                     <div class="inputOption">
@@ -154,7 +155,7 @@ function Feed() {
                         <div className="currentFeed"></div>
 
                         <div className="wrap-questionarioProf1">
-                            <h1 className="questionario-tituloProf1">Cadastrar Novo Curso</h1>
+                            <h1 className="questionario-tituloProf1">Cadastrar Novo Tópico</h1>
 
                             <form >
                                 <div>
@@ -168,6 +169,19 @@ function Feed() {
                                             onChange={(e) => setRespCursos(e.target.value)}
                                         />
                                         <span className="focus-input" data-placeholder="Nome do Curso"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={respTopico !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="curso"
+                                            name="curso"
+                                            value={respTopico}
+                                            onChange={(e) => setRespTopico(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
                                     </div>
                                 </div>
 

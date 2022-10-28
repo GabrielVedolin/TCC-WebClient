@@ -1,82 +1,68 @@
-import {useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/auth";
 import jpIMG from "../assets/icons-school.png";
 import "../styles/login.css"
-import { useNavigate} from "react-router-dom";
-import "../App.css";
-import * as yup from "yup";
-import { ErrorMessage, Formik, Form, Field } from "formik";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+
   const navigate = useNavigate();
-  const handleLogin = (values) => console.log('values');
+  const {authenticated, login} = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(("submit:", { email, password }));
+    login(email, password);
+  }
+
   return (
     <div className="container">
       <div className="container-login">
         <div className="wrap-login">
-        <Formik initialValues={{}}
-          onSubmit={handleLogin}> 
-            <Form className="login-form">
+          <form className="login-form" onSubmit={handleSubmit}>
+            <span className="login-form-title">
+              <img src={jpIMG} alt="Jovem Programador" />
+            </span>
+            <span className="login-form-title"> Bem vindo </span>
+          
+            <div className="wrap-input">
+              <input
+                className={email !== "" ? "has-val input" : "input"}
+                type="text"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <span className="focus-input" data-placeholder="Login"></span>
+            </div>
 
-
-              <span className="login-form-title">
-                <img src={jpIMG} alt="Jovem Programador" />
-              </span>
-              <span className="login-form-title"> Bem vindo </span>
-
-              <div className="wrap-input">
-                <Field
-                  className={email !== "" ? "has-val input" : "input"}
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />   
-                <span className="focus-input" data-placeholder="Email"></span>
-                <ErrorMessage
-                  component="span"
-                  name="email"
-                  className="form-error"
-                />
-              </div>
-
-              <div className="wrap-input">
-                <Field
+            <div className="wrap-input">
+              <input
                 className={password !== "" ? "has-val input" : "input"}
                 type="password"
+                id="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                />
-                <span className="focus-input" data-placeholder="Senha"></span>
-                <ErrorMessage
-                  component="span"
-                  name="password"
-                  className="form-error"
-                />
-              </div>
+              />
+              <span className="focus-input" data-placeholder="Senha"></span>
+            </div>
+            <p id="mensagemerro" style={{display:'none'}}> email ou senha invalidos !</p>
+            <div className="container-login-form-btn">
+              <button className="login-form-btn" type="submit" > Login </button>
+            </div>
 
-              <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit" onClick={() => {navigate("/quest")}}> Login </button>
-              </div>
-
-              <div className="container-login-form-btn">
-                <button className="login-form-btn" type="submit" onClick={() => {navigate("/feed")}}> Feed </button>
-              </div>
-
-              <div className="text-center">
-                <span className="txt1">Esqueceu a Senha? </span>
-                <a className="txt2" onClick={() => {navigate("/alterarSenha")}}>
-                  Alterar Senha
-                </a>
-              </div>
-            </Form>
-         
-          </Formik>
-          
+            <div className="text-center">
+              <span className="txt1">Esqueceu a Senha? </span>
+              <a className="txt2" onClick={() => { navigate("/alterarSenha") }}>
+                Alterar Senha
+              </a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
