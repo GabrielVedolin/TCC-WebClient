@@ -139,23 +139,23 @@ export default function App() {
 
 
 
-    const handleshowHide = (event) => {
-        const getValue = event.target.value;
-        console.log(getValue)
-        setShowhide(getValue);
-    }
+    // const handleshowHide = (event) => {
+    //     const getValue = event.target.value;
+    //     console.log(getValue)
+    //     setShowhide(getValue);
+    // }
 
-    const handleshowHide2 = (event) => {
-        const getValue = event.target.value;
-        // console.log(getValue)
-        setShowhide2(getValue);
-    }
+    // const handleshowHide2 = (event) => {
+    //     const getValue = event.target.value;
+    //     // console.log(getValue)
+    //     setShowhide2(getValue);
+    // }
 
-    const handleshowHide3 = (event) => {
-        const getValue = event.target.value;
-        // console.log(getValue)
-        setShowhide3(getValue);
-    }
+    // const handleshowHide3 = (event) => {
+    //     const getValue = event.target.value;
+    //     // console.log(getValue)
+    //     setShowhide3(getValue);
+    // }
 
 
 

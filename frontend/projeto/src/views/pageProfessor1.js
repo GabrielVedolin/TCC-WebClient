@@ -60,13 +60,13 @@ function Feed() {
               "descricao": respCursos,
               "user_id_especialista":idprofessor
           }
-          console.log(("submit:", { body }));
+          
             
             await axios.post(`${endPoints.criarNovoCurso}`, body)
               .then((response) => {
                console.log("response aqui",response)
                alert("Curso Cadastrado Com Sucesso !")
-               //navigate("/pageProf2")
+               navigate("/pageProf2")
                
               }).catch((erro) => {
                 console.log('deu ruim', erro)
@@ -152,7 +152,7 @@ function Feed() {
                                 <div class="feed__inputOptions">
                                     <div class="inputOption">
                                         <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Curso</h4>
+                                        <h4 onClick={handleCadastrarCurso}>Cadastrar Curso</h4>
 
                                     </div>
                                     <div class="inputOption">
@@ -174,7 +174,7 @@ function Feed() {
                         <div className="wrap-questionarioProf1">
                             <h1 className="questionario-tituloProf1">Cadastrar Novo Curso</h1>
 
-                            <form onSubmit={handleCadastrarCurso }>
+                     
                                 <div>
                                     <div className="wrap-input-input1">
                                         <input
@@ -197,7 +197,6 @@ function Feed() {
 
 
 
-                            </form>
 
 
                         </div>

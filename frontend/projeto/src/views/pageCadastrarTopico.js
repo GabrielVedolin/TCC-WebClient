@@ -25,10 +25,9 @@ function Feed() {
     const [loading, setLoading] = useState(false);
     const [idDescricao, setIdDescricao] = useState([]);
     const [descricao, setDescricao] = useState([]);
-
-    const [respCursos, setRespCursos] = useState('')
     const [respTopico, setRespTopico] = useState('')
     const [select1, setSelect1] = useState({})
+    const [respCursos, setRespCursos] = useState([])
 
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -49,12 +48,61 @@ function Feed() {
 
     useEffect(() => {
         getUserLocalStorage()
-      
+
     });
+    async function getCursos() {
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_id;
 
+        await axios.get(`${endPoints.buscarCursos}/${testeX}`)
+            .then((response) => {
+                const respostaTeste = response.data;
+              
+                setRespCursos(respostaTeste)
+
+                var descricoes = respostaTeste.map(function (item, indice) { return item.descricao });
+                var idDescricao = respostaTeste.map(function (item, indice) { return item.id_curso });
+             
+                setIdDescricao(idDescricao);
+                setDescricao(descricoes);
+
+            }).catch((erro) => {
+                console.log('deu ruim', erro)
+            })
+
+    }
+
+    useEffect(() => {
+        getCursos();
+
+    }, []);
+   
+
+
+
+    const handleCadastrarTopico = async(e) => {
+        e.preventDefault();
+        console.log(select1)
+        const body = {
+                "descricao":respTopico,
+                "id_curso":select1
+          }
+      
+            
+          await axios.post(`${endPoints.criarTopico}`, body)
+          .then((response) => {
+           console.log("response aqui",response)
+           alert("Tópico Cadastrado Com Sucesso!")
+           navigate("/pageProf2")
+           
+          }).catch((erro) => {
+            console.log('deu ruim', erro)
+            let p = document.getElementById('mensagemerro');
+            p.style.display = 'block';
+          })
     
-
-
+      }
     return (
 
 
@@ -70,7 +118,7 @@ function Feed() {
             </head>
             <body class="bodyProf1">
                 <div class="headerProf1">
-                <Navbar>
+                    <Navbar>
                         <div class="headerOptionProf1">
                             <NavItem1 icon={<PlusIcon />} />
                             <h3>Meu Perfil</h3>
@@ -129,7 +177,7 @@ function Feed() {
                                 <div class="feed__inputOptions">
                                     <div class="inputOption">
                                         <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Tópico</h4>
+                                        <h4 onClick={handleCadastrarTopico}>Cadastrar Tópico</h4>
 
                                     </div>
                                     <div class="inputOption">
@@ -151,36 +199,45 @@ function Feed() {
                         <div className="wrap-questionarioProf1">
                             <h1 className="questionario-tituloProf1">Cadastrar Novo Tópico</h1>
 
-                            <form >
-                                <div>
-                                    <div className="wrap-input-input1">
-                                 
-                                        <span className="focus-input" data-placeholder="Nome do Curso"></span>
-                                    </div>
+
+                            <div>
+                                <div className="wrap-input-input1">
+                              
+                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                        setSelect1(e.target.value)
+
+                                    }}>
+                                        <option value={''}>{'Selecione um Curso'}</option>
+                                        {respCursos?.map((item) => (
+                                            <option value={item.id_curso}>{item.descricao}</option>
+                                        ))}
+                                    </select>
+                                  
                                 </div>
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respTopico !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respTopico}
-                                            onChange={(e) => setRespTopico(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
-                                    </div>
+                            </div>
+                            <div>
+                                <div className="wrap-input-input1">
+                                    <input
+                                        className={respTopico !== "" ? "has-val input" : "input"}
+                                        type="text"
+                                        id="curso"
+                                        name="curso"
+                                        value={respTopico}
+                                        onChange={(e) => setRespTopico(e.target.value)}
+                                    />
+                                    <span className="focus-input" data-placeholder="Nome do Tópico"></span>
                                 </div>
+                            </div>
 
 
 
 
 
-                                {loading && <h1 className="loader" >Enviando...</h1>}
+                            {loading && <h1 className="loader" >Enviando...</h1>}
 
 
 
-                            </form>
+
 
 
                         </div>

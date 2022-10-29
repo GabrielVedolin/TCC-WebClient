@@ -12,8 +12,8 @@ import { ReactComponent as CogIcon } from '../assets/cog.svg';
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
-import { CSSTransition } from 'react-transition-group';
-
+import endPoints, { api, createSession } from "../services/api's";
+import axios from "axios";
 
 
 
@@ -24,10 +24,13 @@ function Feed() {
     const [username, setUserName] = useState('')
     const [urlImg, setUrlImg] = useState('')
     const [loading, setLoading] = useState(false);
-
-
-    const [respCursos, setRespCursos] = useState('')
-    const [respTopico, setRespTopico] = useState('')
+    const [idDescricao, setIdDescricao] = useState([]);
+    const [descricao, setDescricao] = useState([]);
+    const [select1, setSelect1] = useState({})
+    const [select2, setSelect2] = useState([])
+    const [select3, setSelect3] = useState([])
+    const [respCursos, setRespCursos] = useState([])
+    const [respTopicos, setRespTopicos] = useState([])
     const [respConteudo, setRespConteudo] = useState('')
     const [urlAudio, setRespUrlAudio] = useState('')
     const [urlVideo, setRespUrlVideo] = useState('')
@@ -36,11 +39,13 @@ function Feed() {
     const [pergunta3, setResPergunta3] = useState('')
     const [pergunta4, setResPergunta4] = useState('')
     const [questinariolabel, setQuestionarioLabel] = useState('')
+   
 
     const [divtipoTexto, setdivtipoTexto] = useState(false)
     const [divtipoVideo, setdivtipoVideo] = useState(false)
     const [divtipoAudio, setdivtipoAudio] = useState(false)
     const [divtipoQuestionario, setdivtipoQuestionario] = useState(false)
+    const [divtipoImagem, setdivdivtipoImagem] = useState(false)
 
 
     const { logout } = useContext(AuthContext);
@@ -58,6 +63,7 @@ function Feed() {
         var divTipoAudio = document.getElementById("divTipoAudio");
         var divTipoVideo = document.getElementById("divTipoVideo");
         var divTipoQuestionario = document.getElementById("divTipoQuestionario");
+        var divtipoImagem = document.getElementById("divtipoImagem");
         var questao1Reposta = questao1.value;
 
 
@@ -70,18 +76,21 @@ function Feed() {
             setdivtipoAudio(false);
             setdivtipoVideo(false);
             setdivtipoQuestionario(false);
+            setdivdivtipoImagem(false);
         }
         if (questao1Reposta == 'Texto') {
             setdivtipoTexto(true);
             setdivtipoAudio(false);
             setdivtipoVideo(false);
             setdivtipoQuestionario(false);
+            setdivdivtipoImagem(false);
         }
         if (questao1Reposta == 'Video') {
             setdivtipoTexto(false);
             setdivtipoAudio(false);
             setdivtipoVideo(true);
             setdivtipoQuestionario(false);
+            setdivdivtipoImagem(false);
         }
         if (questao1Reposta == 'Audio') {
             setdivtipoTexto(false);
@@ -94,6 +103,14 @@ function Feed() {
             setdivtipoAudio(false);
             setdivtipoVideo(false);
             setdivtipoQuestionario(true);
+            setdivdivtipoImagem(false);
+        }
+        if (questao1Reposta == 'Imagem') {
+            setdivtipoTexto(false);
+            setdivtipoAudio(false);
+            setdivtipoVideo(false);
+            setdivtipoQuestionario(false);
+            setdivdivtipoImagem(true);
         }
 
     }
@@ -134,6 +151,133 @@ function Feed() {
 
 
 
+    async function getCursos() {
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_id;
+
+        await axios.get(`${endPoints.buscarCursos}/${testeX}`)
+            .then((response) => {
+                const respostaTeste = response.data;
+              
+                setRespCursos(respostaTeste)
+
+                var descricoes = respostaTeste.map(function (item, indice) { return item.descricao });
+                var idDescricao = respostaTeste.map(function (item, indice) { return item.id_curso });
+             
+                setIdDescricao(idDescricao);
+                setDescricao(descricoes);
+
+            }).catch((erro) => {
+                console.log('deu ruim', erro)
+            })
+
+    }
+
+
+    const getTopicos = async (e) => {
+
+        await axios.get(`${endPoints.buscarTopico}/${select1}`)
+            .then((response) => {
+                const respostaTeste = response.data;
+                setSelect2(respostaTeste)
+                setRespTopicos(respostaTeste)
+                setRespConteudo([])
+
+            }).catch((erro) => {
+
+            })
+
+    }
+
+    useEffect(() => {
+        getCursos();
+
+    }, []);
+
+
+    useEffect(() => {
+        if (select1) {
+            getTopicos()
+        }
+
+    }, [select1]);
+
+
+
+    const handleCadastraConteudo = async(e) => {
+        e.preventDefault();
+        var questao1 = document.getElementById("questao1");
+        var questao1Reposta = questao1.value;
+       
+        if (questao1Reposta == 'Texto') {
+            var textareaTexto = document.getElementById("textareaTexto");
+            var textareaTextoResposta = textareaTexto.value;
+            const body ={
+                "descricao":respConteudo,
+                "tipo":"texto",
+                "id_topico":select3,
+                "descricao_texto":textareaTextoResposta
+              }
+
+              await axios.post(`${endPoints.criarConteudo}`, body)
+              .then((response) => {
+               console.log("response aqui",response)
+               alert("Conteúdo do tipo Texto Cadastrado Com Sucesso!")
+               navigate("/pageProf2")
+               
+              }).catch((erro) => {
+                console.log('deu ruim', erro)
+                let p = document.getElementById('mensagemerro');
+                p.style.display = 'block';
+              })
+        
+
+        }
+        if (questao1Reposta == 'Video') {
+            const body ={
+                "descricao":respConteudo,
+                "tipo":"video",
+                "id_topico":select3,
+                "url_video_imagem":urlVideo
+              }
+
+              await axios.post(`${endPoints.criarConteudo}`, body)
+              .then((response) => {
+               console.log("response aqui",response)
+               alert("Conteúdo do tipo Vídeo Cadastrado Com Sucesso!")
+               navigate("/pageProf2")
+               
+              }).catch((erro) => {
+                console.log('deu ruim', erro)
+                let p = document.getElementById('mensagemerro');
+                p.style.display = 'block';
+              })
+        
+        }
+        if (questao1Reposta == 'Audio') {
+            const body ={
+                "descricao":"TESTE TESTE",
+                "tipo":"audio",
+                "id_topico":7,
+                "descricao_texto":"URL",
+                "url_video_imagem":""
+              }
+        }
+        if (questao1Reposta == 'Questionario') {
+            const body ={
+                "descricao":"TESTE TESTE",
+                "tipo":"questionario",
+                "id_topico":7,
+                "descricao_texto":"URL",
+                "url_video_imagem":""
+              }
+        }
+
+        
+
+    
+      }
     return (
 
 
@@ -170,11 +314,8 @@ function Feed() {
                             <NavItem5 icon={<PlusIcon />} />
                             <h3>Cadastrar Conteúdo</h3>
                         </div>
-
-
                         <div class="headerOptionProf1" onClick={handleLogout} >
                             <NavItem icon={<BoltIcon />} />
-
                             <h3>Logout</h3>
                         </div>
                     </Navbar>
@@ -185,280 +326,250 @@ function Feed() {
                     <div class="sidebarProf1">
                         <div class="sidebar__top">
                             <img src={urlImg} alt="imagemCabeca" />
-
-
-
                         </div>
-
                         <div class="sidebar__stats">
                             <div class="sidebar__stat">
                                 <p>Nome do Professor: {username}</p>
-
                             </div>
-
                         </div>
-
-
-
                     </div>
-
                     <div class="feed">
                         <div className="currentFeed"></div>
-
                         <div className="wrap-questionarioProf1">
                             <h1 className="questionario-tituloProf1">Formulário para Novo Contéudo</h1>
-
-                            <form >
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respCursos !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respCursos}
-                                            onChange={(e) => setRespCursos(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Curso"></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respTopico !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respTopico}
-                                            onChange={(e) => setRespTopico(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respConteudo !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respConteudo}
-                                            onChange={(e) => setRespConteudo(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Contéudo"></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p className="questionario-form-title"> Tipo do Contéudo</p>
-                                    <select id="questao1" className="questionario-form-select" onChange={readValues}>
-                                        <option selected value={'nada'}>Selecione uma opção</option>
-                                        <option value={'Texto'}>Texto</option>
-                                        <option value={'Video'}>Video</option>
-                                        <option value={'Audio'}>Audio</option>
-                                        <option value={'Questionario'}>Questionario</option>
+                            <div>
+                                <div className="wrap-input-input1">
+                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                        setSelect1(e.target.value)
+                                    }}>
+                                        <option value={''}>{'Selecione um Curso'}</option>
+                                        {respCursos?.map((item) => (
+                                            <option value={item.id_curso}>{item.descricao}</option>
+                                        ))}
                                     </select>
                                 </div>
+                            </div>
+                            <div>
+                                <div className="wrap-input-input1">
+                                <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                        setSelect3(e.target.value)
 
-                                {divtipoTexto ? <div id="divTipoTexto" className="wrap-input-textarea">
-                                    <p className="questionario-form-title"> Digite o texto:</p>
-                                    <textarea cols="60" rows="10"></textarea>
+                                    }}>
+                                        <option value={''}>{'Selecione um Tópico'}</option>
+                                        {respTopicos?.map((item) => (
+                                            <option value={item.id_topico}>{item.descricao}</option>
+                                        ))}
+                                    </select>
+                                 
                                 </div>
-                                    : null}
+                            </div>
+                            <div>
+                                <div className="wrap-input-input1">
+                                    <input
+                                        className={respConteudo !== "" ? "has-val input" : "input"}
+                                        type="text"
+                                        id="conteudo"
+                                        name="conteudo"
+                                        value={respConteudo}
+                                        onChange={(e) => setRespConteudo(e.target.value)}
+                                    />
+                                    <span className="focus-input" data-placeholder="Nome do Contéudo"></span>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="questionario-form-title"> Tipo do Contéudo</p>
+                                <select id="questao1" className="questionario-form-select" onChange={readValues}>
+                                    <option selected value={'nada'}>Selecione uma opção</option>
+                                    <option value={'Texto'}>Texto</option>
+                                    <option value={'Video'}>Video</option>
+                                    <option value={'Audio'}>Audio</option>
+                                    <option value={'Questionario'}>Questionario</option>
+                                    <option value={'Imagem'}>Imagem</option>
+                                </select>
+                            </div>
 
-                                {divtipoAudio ? <div id="divTipoAudio">
+                            {divtipoTexto ? <div id="divTipoTexto" className="wrap-input-textarea">
+                                <p className="questionario-form-title"> Digite o texto:</p>
+                                <textarea id="textareaTexto" cols="60" rows="10"></textarea>
+                            </div>
+                                : null}
+
+                            {divtipoAudio ? <div id="divTipoAudio">
+                                <div className="wrap-input-input1">
+                                    <input
+                                        className={urlAudio !== "" ? "has-val input" : "input"}
+                                        type="text"
+                                        id="audio"
+                                        name="audio"
+                                        value={urlAudio}
+                                        onChange={(e) => setRespUrlAudio(e.target.value)}
+                                    />
+                                    <span className="focus-input" data-placeholder="URL Aúdio"></span>
+                                </div>
+                            </div>
+                                : null}
+                                {divtipoImagem ? <div id="divtipoImagem">
+                                <div className="wrap-input-input1">
+                                    <input
+                                        className={urlAudio !== "" ? "has-val input" : "input"}
+                                        type="text"
+                                        id="imagem"
+                                        name="imagem"
+                                        value={urlAudio}
+                                        onChange={(e) => setRespUrlAudio(e.target.value)}
+                                    />
+                                    <span className="focus-input" data-placeholder="URL da Imagem"></span>
+                                </div>
+                            </div>
+                                : null}
+
+                            {divtipoQuestionario ?
+                                <div id="divtipoQuestionario">
                                     <div className="wrap-input-input1">
                                         <input
-                                            className={urlAudio !== "" ? "has-val input" : "input"}
+                                            className={questinariolabel !== "" ? "has-val input" : "input"}
                                             type="text"
-                                            id="audio"
-                                            name="audio"
-                                            value={urlAudio}
-                                            onChange={(e) => setRespUrlAudio(e.target.value)}
+                                            id="questinariolabel"
+                                            name="questinariolabel"
+                                            value={questinariolabel}
+                                            onChange={(e) => setQuestionarioLabel(e.target.value)}
                                         />
-                                        <span className="focus-input" data-placeholder="URL Aúdio"></span>
-                                    </div>
-                                </div>
-                                    : null}
-
-                                {divtipoQuestionario ?
-                                    <div id="divtipoQuestionario">
-                                         <div className="wrap-input-input1">
-                                            <input
-                                                className={questinariolabel !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="questinariolabel"
-                                                name="questinariolabel"
-                                                value={questinariolabel}
-                                                onChange={(e) => setQuestionarioLabel(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta do Questionário"></span>
-                                        </div>
-                                          <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta1 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta1"
-                                                name="pergunta1"
-                                                value={pergunta1}
-                                                onChange={(e) => setResPergunta1(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
-                                        </div>
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta1 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta1"
-                                                name="pergunta1"
-                                                value={pergunta1}
-                                                onChange={(e) => setResPergunta1(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
-                                        </div>
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta1 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta1"
-                                                name="pergunta1"
-                                                value={pergunta1}
-                                                onChange={(e) => setResPergunta1(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 1"></span>
-                                        </div>
-
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta2 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta2"
-                                                name="pergunta2"
-                                                value={pergunta2}
-                                                onChange={(e) => setResPergunta2(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 2"></span>
-                                        </div>
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta3 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta3"
-                                                name="pergunta3"
-                                                value={pergunta3}
-                                                onChange={(e) => setResPergunta3(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 3"></span>
-                                        </div>
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={pergunta4 !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="pergunta4"
-                                                name="pergunta4"
-                                                value={pergunta4}
-                                                onChange={(e) => setResPergunta4(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="Pergunta 4"></span>
-                                        </div>
-                                        <div className="check-form">
-
-                                            <fieldset>
-                                                <legend className="Questionario-label"> Qual das alternativas está é a verdadeira? </ legend>
-                                                <div>
-                                                    <input
-
-                                                        type="radio"
-                                                        id="opcao1"
-                                                        name="OPCAO"
-
-                                                    /><p className="Questionario-label">Pergunta1</p>
-                                                   
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        type="radio"
-                                                        id="opcao2"
-                                                        name="OPCAO"
-                                                    /><p className="Questionario-label">Pergunta2</p>
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        type="radio"
-                                                        id="opcao3"
-                                                        name="OPCAO"
-                                                    /><p className="Questionario-label">Pergunta3</p>
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        type="radio"
-                                                        id="opcao4"
-                                                        name="OPCAO"
-                                                    /><p className="Questionario-label">Pergunta4</p>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    : null}
-
-                                {divtipoVideo ?
-                                    <div id="divTipoVideo">
-                                        <div className="wrap-input-input1">
-                                            <input
-                                                className={urlVideo !== "" ? "has-val input" : "input"}
-                                                type="text"
-                                                id="video"
-                                                name="video"
-                                                value={urlVideo}
-                                                onChange={(e) => setRespUrlVideo(e.target.value)}
-                                            />
-                                            <span className="focus-input" data-placeholder="URL Vídeo"></span>
-                                        </div>
+                                        <span className="focus-input" data-placeholder="Pergunta do Questionário"></span>
                                     </div>
 
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={pergunta1 !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="alternativa1"
+                                            name="alternativa1"
+                                            value={pergunta1}
+                                            onChange={(e) => setResPergunta1(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Alternativa 1"></span>
+                                    </div>
 
-                                    : null}
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={pergunta2 !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="alternativa2"
+                                            name="alternativa2"
+                                            value={pergunta2}
+                                            onChange={(e) => setResPergunta2(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Alternativa 2"></span>
+                                    </div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={pergunta3 !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="alternativa3"
+                                            name="alternativa3"
+                                            value={pergunta3}
+                                            onChange={(e) => setResPergunta3(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Alternativa 3"></span>
+                                    </div>
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={pergunta4 !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="alternativa4"
+                                            name="alternativa4"
+                                            value={pergunta4}
+                                            onChange={(e) => setResPergunta4(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="Alternativa 4"></span>
+                                    </div>
+                                    <div className="check-form">
 
+                                        <fieldset>
+                                            <legend className="Questionario-label"> Qual das alternativas está é a verdadeira? </ legend>
+                                            <div>
+                                                <p className="Questionario-label">Pergunta1</p>
+                                                <input
 
+                                                    type="radio"
+                                                    id="opcao1"
+                                                    name="OPCAO"
 
-                                <div className="container-questionario-form-btnProf1">
-                                    <button className="questionario-form-btnProf1" type="submit">
+                                                />
 
-                                        <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-
-                                        Cadastrar Contéudo
-                                    </button>
+                                            </div>
+                                            <div>
+                                                <p className="Questionario-label">Pergunta2</p>
+                                                <input
+                                                    type="radio"
+                                                    id="opcao2"
+                                                    name="OPCAO"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p className="Questionario-label">Pergunta3</p>
+                                                <input
+                                                    type="radio"
+                                                    id="opcao3"
+                                                    name="OPCAO"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p className="Questionario-label">Pergunta4</p>
+                                                <input
+                                                    type="radio"
+                                                    id="opcao4"
+                                                    name="OPCAO"
+                                                />
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                                <div className="container-questionario-form-btnProf1">
+                                : null}
 
-                                    <button className="questionario-form-btnProf1" onClick={() => { navigate("/pageProf2") }}>
-                                        <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                        Voltar para visualizar Cursos
-                                    </button>
+                            {divtipoVideo ?
+                                <div id="divTipoVideo">
+                                    <div className="wrap-input-input1">
+                                        <input
+                                            className={urlVideo !== "" ? "has-val input" : "input"}
+                                            type="text"
+                                            id="video"
+                                            name="video"
+                                            value={urlVideo}
+                                            onChange={(e) => setRespUrlVideo(e.target.value)}
+                                        />
+                                        <span className="focus-input" data-placeholder="URL Vídeo"></span>
+                                    </div>
                                 </div>
 
 
-
-
-                                {loading && <h1 className="loader" >Enviando...</h1>}
+                                : null}
 
 
 
-                            </form>
+                            <div className="container-questionario-form-btnProf1">
+                                <button className="questionario-form-btnProf1" onClick={handleCadastraConteudo}>
 
+                                    <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
+
+                                    Cadastrar Contéudo
+                                </button>
+                            </div>
+                            <div className="container-questionario-form-btnProf1">
+
+                                <button className="questionario-form-btnProf1" onClick={() => { navigate("/pageProf2") }}>
+                                    <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
+                                    Voltar para visualizar Cursos
+                                </button>
+                            </div>
+
+
+
+
+                            {loading && <h1 className="loader" >Enviando...</h1>}
 
                         </div>
-
-
-
                         <div id="sentinela" style={{ color: 'red' }}></div>
-
-
-
-
-
-
                     </div>
-
                 </div>
             </body>
         </div>
@@ -567,18 +678,6 @@ function NavItem5(props) {
     );
 }
 
-function DropdownMenu() {
-    const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
 
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
-
-
-
-
-}
 
 export default Feed;

@@ -12,8 +12,9 @@ const endPoints = {
     buscarFeed:`${BASE_URL_FEED}obter_recomendacao`,
     buscarSegundoFeed:`${BASE_URL_FEED}obter_feed`,
     buscarFeedAdaptativo:`${BASE_URL_FEED}obter_feed_adaptado`,
-    criarNovoCurso:`${BASE_URL_FEED}cadastrarCurso`,
-    criarTopico:`${BASE_URL_FEED}cadastrarTopico`
+    criarNovoCurso:`${BASE_URL}cadastrarCurso`,
+    criarTopico:`${BASE_URL}cadastrarTopico`,
+    criarConteudo:`${BASE_URL}cadastrarConteudo`
 
 }
 
