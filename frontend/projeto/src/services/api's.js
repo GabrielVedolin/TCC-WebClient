@@ -14,8 +14,8 @@ const endPoints = {
     buscarFeedAdaptativo:`${BASE_URL_FEED}obter_feed_adaptado`,
     criarNovoCurso:`${BASE_URL}cadastrarCurso`,
     criarTopico:`${BASE_URL}cadastrarTopico`,
-    criarConteudo:`${BASE_URL}cadastrarConteudo`
-
+    criarConteudo:`${BASE_URL}cadastrarConteudo`,
+    buscarFormQuestionarioFeed:`${BASE_URL}feed`
 }
 
 export default endPoints

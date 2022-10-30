@@ -126,6 +126,7 @@ function Feed() {
         </audio>
 
     }else if(res.tipo == "questionario"){
+        FormQuestionario(res.idConteudo)
         let resQuerionario = null
         return Questionario(resQuerionario);
     }
@@ -136,6 +137,13 @@ function Feed() {
 
  }
  
+ async function FormQuestionario(id_conteudo){
+    await axios.get(`${endPoints.buscarFormQuestionarioFeed}/${id_conteudo}`).then((response) => {
+        const resFormFeed = response.data
+        console.log(resFormFeed);
+    })
+ }
+
  function Questionario(resQuerionario){
     return <div>
                 <h2>Dado as informaçoes acima responda:</h2>
