@@ -34,12 +34,13 @@ function Feed() {
     const [respConteudo, setRespConteudo] = useState('')
     const [urlAudio, setRespUrlAudio] = useState('')
     const [urlVideo, setRespUrlVideo] = useState('')
+    const [urlImagem, setRespUrlImagem] = useState('')
     const [pergunta1, setResPergunta1] = useState('')
     const [pergunta2, setResPergunta2] = useState('')
     const [pergunta3, setResPergunta3] = useState('')
     const [pergunta4, setResPergunta4] = useState('')
     const [questinariolabel, setQuestionarioLabel] = useState('')
-   
+
 
     const [divtipoTexto, setdivtipoTexto] = useState(false)
     const [divtipoVideo, setdivtipoVideo] = useState(false)
@@ -159,12 +160,12 @@ function Feed() {
         await axios.get(`${endPoints.buscarCursos}/${testeX}`)
             .then((response) => {
                 const respostaTeste = response.data;
-              
+
                 setRespCursos(respostaTeste)
 
                 var descricoes = respostaTeste.map(function (item, indice) { return item.descricao });
                 var idDescricao = respostaTeste.map(function (item, indice) { return item.id_curso });
-             
+
                 setIdDescricao(idDescricao);
                 setDescricao(descricoes);
 
@@ -205,79 +206,167 @@ function Feed() {
 
 
 
-    const handleCadastraConteudo = async(e) => {
+    const handleCadastraConteudo = async (e) => {
         e.preventDefault();
         var questao1 = document.getElementById("questao1");
         var questao1Reposta = questao1.value;
-       
+
         if (questao1Reposta == 'Texto') {
             var textareaTexto = document.getElementById("textareaTexto");
             var textareaTextoResposta = textareaTexto.value;
-            const body ={
-                "descricao":respConteudo,
-                "tipo":"texto",
-                "id_topico":select3,
-                "descricao_texto":textareaTextoResposta
-              }
 
-              await axios.post(`${endPoints.criarConteudo}`, body)
-              .then((response) => {
-               console.log("response aqui",response)
-               alert("Conteúdo do tipo Texto Cadastrado Com Sucesso!")
-               navigate("/pageProf2")
-               
-              }).catch((erro) => {
-                console.log('deu ruim', erro)
-                let p = document.getElementById('mensagemerro');
-                p.style.display = 'block';
-              })
-        
+            const body = {
+                "descricao_conteudo": respConteudo,
+                "tipo": "texto",
+                "id_topico": select3,
+                "descricao_texto": textareaTextoResposta
+            }
+
+
+            await axios.post(`${endPoints.criarConteudo}`, body)
+                .then((response) => {
+                    console.log("response aqui", response)
+                    alert("Conteúdo do tipo Texto Cadastrado Com Sucesso!")
+                    navigate("/pageProf2")
+
+                }).catch((erro) => {
+                    console.log('deu ruim', erro)
+                    let p = document.getElementById('mensagemerro');
+                    p.style.display = 'block';
+                })
+
 
         }
         if (questao1Reposta == 'Video') {
-            const body ={
-                "descricao":respConteudo,
-                "tipo":"video",
-                "id_topico":select3,
-                "url_video_imagem":urlVideo
-              }
+            const body = {
+                "descricao_conteudo": respConteudo,
+                "tipo": "video",
+                "id_topico": select3,
+                "url_video_imagem": urlVideo
+            }
 
-              await axios.post(`${endPoints.criarConteudo}`, body)
-              .then((response) => {
-               console.log("response aqui",response)
-               alert("Conteúdo do tipo Vídeo Cadastrado Com Sucesso!")
-               navigate("/pageProf2")
-               
-              }).catch((erro) => {
-                console.log('deu ruim', erro)
-                let p = document.getElementById('mensagemerro');
-                p.style.display = 'block';
-              })
-        
+            await axios.post(`${endPoints.criarConteudo}`, body)
+                .then((response) => {
+                    console.log("response aqui", response)
+                    alert("Conteúdo do tipo Vídeo Cadastrado Com Sucesso!")
+                    navigate("/pageProf2")
+
+                }).catch((erro) => {
+                    console.log('deu ruim', erro)
+                    let p = document.getElementById('mensagemerro');
+                    p.style.display = 'block';
+                })
+
         }
         if (questao1Reposta == 'Audio') {
-            const body ={
-                "descricao":"TESTE TESTE",
-                "tipo":"audio",
-                "id_topico":7,
-                "descricao_texto":"URL",
-                "url_video_imagem":""
-              }
+            const body = {
+                "descricao_conteudo": respConteudo,
+                "tipo": "audio",
+                "id_topico": select3,
+                "url_video_imagem": urlAudio
+            }
+
+            console.log("response aqui", body)
+            await axios.post(`${endPoints.criarConteudo}`, body)
+                .then((response) => {
+                    console.log("response aqui", response)
+                    alert("Conteúdo do tipo Aúdio Cadastrado Com Sucesso!")
+                    navigate("/pageProf2")
+
+                }).catch((erro) => {
+                    console.log('deu ruim', erro)
+                    let p = document.getElementById('mensagemerro');
+                    p.style.display = 'block';
+                })
+        }
+        if (questao1Reposta == 'Imagem') {
+            const body = {
+                "descricao_conteudo": respConteudo,
+                "tipo": "imagem",
+                "id_topico": select3,
+                "url_video_imagem": urlImagem
+            }
+
+            console.log("response aqui", body)
+            await axios.post(`${endPoints.criarConteudo}`, body)
+                .then((response) => {
+                    console.log("response aqui", response)
+                    alert("Conteúdo do tipo Imagem Cadastrado Com Sucesso!")
+                    navigate("/pageProf2")
+
+                }).catch((erro) => {
+                    console.log('deu ruim', erro)
+                    let p = document.getElementById('mensagemerro');
+                    p.style.display = 'block';
+                })
         }
         if (questao1Reposta == 'Questionario') {
-            const body ={
-                "descricao":"TESTE TESTE",
-                "tipo":"questionario",
-                "id_topico":7,
-                "descricao_texto":"URL",
-                "url_video_imagem":""
-              }
+
+            var opcao1 = false;
+            var opcao2 = false;
+            var opcao3 = false;
+            var opcao4 = false;
+
+            const selectedRadio = document.querySelector("input[name='OPCAO']:checked").value
+            if (selectedRadio == "opcao1") {
+                opcao1 = true;
+                opcao2 = false;
+                opcao3 = false;
+                opcao4 = false;
+
+            }
+            if (selectedRadio == "opcao2") {
+                opcao1 = false;
+                opcao2 = true;
+                opcao3 = false;
+                opcao4 = false;
+
+            }
+            if (selectedRadio == "opcao3") {
+                opcao1 = false;
+                opcao2 = false;
+                opcao3 = true;
+                opcao4 = false;
+
+            }
+            if (selectedRadio == "opcao4") {
+                opcao1 = false;
+                opcao2 = false;
+                opcao3 = false;
+                opcao4 = true;
+
+            }
+
+            const body = {
+                "descricao_conteudo": respConteudo,
+                "tipo": "questionario",
+                "id_topico": select3,
+                "descricao_questionario": questinariolabel,
+                "alternativas": [
+                    { "descricao": pergunta1, "ordem": 1, "resposta_correta": opcao1 },
+                    { "descricao": pergunta2, "ordem": 2, "resposta_correta": opcao2 },
+                    { "descricao": pergunta3, "ordem": 3, "resposta_correta": opcao3 },
+                    { "descricao": pergunta4, "ordem": 4, "resposta_correta": opcao4 }
+                ]
+            }
+            console.log("response aqui", body)
+            await axios.post(`${endPoints.criarConteudo}`, body)
+                .then((response) => {
+                    console.log("response aqui", response)
+                    alert("Conteúdo do tipo Questionario Cadastrado Com Sucesso!")
+                    navigate("/pageProf2")
+
+                }).catch((erro) => {
+                    console.log('deu ruim', erro)
+                
+                
+                })
         }
 
-        
 
-    
-      }
+
+
+    }
     return (
 
 
@@ -351,7 +440,7 @@ function Feed() {
                             </div>
                             <div>
                                 <div className="wrap-input-input1">
-                                <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
                                         setSelect3(e.target.value)
 
                                     }}>
@@ -360,7 +449,7 @@ function Feed() {
                                             <option value={item.id_topico}>{item.descricao}</option>
                                         ))}
                                     </select>
-                                 
+
                                 </div>
                             </div>
                             <div>
@@ -408,15 +497,15 @@ function Feed() {
                                 </div>
                             </div>
                                 : null}
-                                {divtipoImagem ? <div id="divtipoImagem">
+                            {divtipoImagem ? <div id="divtipoImagem">
                                 <div className="wrap-input-input1">
                                     <input
-                                        className={urlAudio !== "" ? "has-val input" : "input"}
+                                        className={urlImagem !== "" ? "has-val input" : "input"}
                                         type="text"
                                         id="imagem"
                                         name="imagem"
-                                        value={urlAudio}
-                                        onChange={(e) => setRespUrlAudio(e.target.value)}
+                                        value={urlImagem}
+                                        onChange={(e) => setRespUrlImagem(e.target.value)}
                                     />
                                     <span className="focus-input" data-placeholder="URL da Imagem"></span>
                                 </div>
@@ -493,6 +582,7 @@ function Feed() {
                                                     type="radio"
                                                     id="opcao1"
                                                     name="OPCAO"
+                                                    value="opcao1"
 
                                                 />
 
@@ -503,6 +593,7 @@ function Feed() {
                                                     type="radio"
                                                     id="opcao2"
                                                     name="OPCAO"
+                                                    value="opcao2"
                                                 />
                                             </div>
                                             <div>
@@ -511,6 +602,7 @@ function Feed() {
                                                     type="radio"
                                                     id="opcao3"
                                                     name="OPCAO"
+                                                    value="opcao3"
                                                 />
                                             </div>
                                             <div>
@@ -519,6 +611,7 @@ function Feed() {
                                                     type="radio"
                                                     id="opcao4"
                                                     name="OPCAO"
+                                                    value="opcao4"
                                                 />
                                             </div>
                                         </fieldset>
