@@ -10,7 +10,19 @@ import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
 import endPoints from "../services/api's";
 import axios from "axios";
 
+//variaveis questionario
+var arrayQuest;
+var questDesc;
+var questAlternativas;
+var styleBotao = {hidden: ''};
+var renderedQuest = false;
+
+
 function Feed() {
+    const [showButton, setShowButton] = useState(true);
+    const [showAcerto, setAcerto] = useState(false);
+    const [showErro, setErro] = useState(false);
+    let [respostaCorreta, setRespostacorreta] = useState(""); 
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [username,setUserName] = useState('')
@@ -68,6 +80,13 @@ function Feed() {
         console.log(res);
     }
 
+    async function validaAlternativa (alternativa){
+       
+        console.log('enviado');
+    
+    }
+    
+
     useEffect(() =>{
         getUserLocalStorage();
         getFeed(currentPage);
@@ -86,17 +105,17 @@ function Feed() {
     }, []);
 
  function getConteudoInformacao(res){
-
+    
     if (res.tipo == "texto") {
-       return <p>{res.descricao_texto}</p>    
+       return <div><h1> {res.descricao} </h1> <p>{res.descricao_texto}</p>    </div>
     } 
     else if (res.tipo == "video"){
         //console.log(res.url);
-        return <iframe class='formatImgVideo' title="YouTube video player" src={res.url} >
-        </iframe>
+        return <div><h1> {res.descricao} </h1><iframe class='formatImgVideo' title="YouTube video player" src={res.url} >
+        </iframe> </div>
     }
     else if (res.tipo == "imagem"){
-        return <img class='formatImgVideo'src={res.url}></img>
+        return <div><h1> {res.descricao} </h1> <img class='formatImgVideo'src={res.url}></img> </div>
     } 
     else if (res.tipo == "audio"){  
 
@@ -121,14 +140,10 @@ function Feed() {
 
         var source = "https://docs.google.com/uc?export=download&id=" + idDrive;
         
-        return <audio controls>
+        return <div><h1> {res.descricao} </h1><audio controls>
             <source src={source} type="audio/mp3"></source>
-        </audio>
+        </audio> </div>
 
-    }else if(res.tipo == "questionario"){
-        FormQuestionario(res.idConteudo)
-        let resQuerionario = null
-        return Questionario(resQuerionario);
     }
     
     else {
@@ -136,40 +151,61 @@ function Feed() {
     }
 
  }
- 
+
  async function FormQuestionario(id_conteudo){
     await axios.get(`${endPoints.buscarFormQuestionarioFeed}/${id_conteudo}`).then((response) => {
-        const resFormFeed = response.data
-        console.log(resFormFeed);
+        arrayQuest = response.data
+        //console.log("chamou formquest")
+        Questionario(arrayQuest);
     })
  }
 
- function Questionario(resQuerionario){
-    return <div>
-                <h2>Dado as informaçoes acima responda:</h2>
-                <br/>
-                <div>
-                    <div>
-                    <input type="radio" id="huey" name="drone" value="huey"
-                            checked/>
-                    <label for="huey">Huey</label>
-                    </div>
+ 
+function Questionario(arrayQuest1){
+ 
+    if(arrayQuest1 != undefined){
+        questDesc = arrayQuest1[0][0].descricao;
+        questAlternativas = arrayQuest1[1];
 
-                    <div>
-                    <input type="radio" id="dewey" name="drone" value="dewey"/>
-                    <label for="dewey">Dewey</label>
-                    </div>
+    return 
+        
+    }
+    else{
+        return <div>
 
-                    <div>
-                    <input type="radio" id="louie" name="drone" value="louie"/>
-                    <label for="louie">Louie</label>
-                    </div>
-
-                </div>
-            </div>
+            <h1> Erro ao carregar questionário, tente recarregar a página.</h1> 
+        </div>
+    }
 
  }
+
+ function botaoQuest (alternativa){
  
+        
+        return <div class="feed__inputOptions">
+            <div class="inputOption" onClick={() => {
+               
+                if (alternativa == true){
+                    setShowButton(false)
+                    setAcerto(true);
+                    console.log("acertou")
+                    
+                
+                }else if (alternativa == false){
+                    setShowButton(false)
+                    setErro(true);
+                    console.log("errou");
+                }}}>
+            
+            {showButton && <h4 style ={styleBotao}>Enviar</h4>}
+            {showAcerto && <p style={{color: "green"}}> Resposta correta!</p>}
+            {showErro && <p style={{color: "Red"}}> Tente novamente.</p>}
+            </div>
+        </div>
+    
+ }
+
+
 
     return (
 
@@ -237,8 +273,70 @@ function Feed() {
                                         
                                         {/* descricao conteudo */}
                                         <div class="post__body">
-                                            <h1> {res.descricao} </h1>
-                                            {getConteudoInformacao(res)}
+
+                                            
+
+                                            {(() => {
+                                                if(res.tipo == "questionario"){
+                                                    
+                                                    if(renderedQuest == false){
+                                                        FormQuestionario(res.idConteudo);
+                                                        renderedQuest = true;
+                                                    }
+                                                    //console.log("array quest dentro:" ,arrayQuest)
+                                                    //console.log("questDesc:" , questDesc);
+                                                    //console.log(" questAlternativas",  questAlternativas)
+
+                                                    function setInfo (resposta){
+                                                        setRespostacorreta(resposta);
+                                                        setShowButton(true);
+                                                        setAcerto(false);
+                                                        setErro(false);
+
+                                                    }
+                                                    
+                                                    if (questAlternativas != undefined && questDesc != undefined && arrayQuest != undefined){
+                                                        return <div>
+                                                            <div>
+                                                        <div>
+                                                            <h2> {questDesc} </h2>
+                                                        <input onClick={() =>  setInfo(questAlternativas[0].resposta_correta)}type="radio" id="huey" name="drone" value={questAlternativas[0].resposta_correta}/>
+                                                                
+                                                        <label >{questAlternativas[0].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[1].resposta_correta)}type="radio" id="dewey" name="drone" value={questAlternativas[1].resposta_correta}/>
+                                                        <label >{questAlternativas[1].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[2].resposta_correta)}type="radio" id="louie" name="drone" value={questAlternativas[2].resposta_correta}/>
+                                                        <label >{questAlternativas[2].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[3].resposta_correta)}type="radio" id="louie" name="drone" value={questAlternativas[3].resposta_correta}/>
+                                                        <label >{questAlternativas[3].descricao_alternativa}</label>
+                                                        </div>
+
+                                                    </div>
+                                                    {botaoQuest(respostaCorreta)}
+                                                    </div>
+                                                  
+                                                   
+                                                    }
+                                               
+                                            }
+
+                                            else {
+                                           
+                                                return getConteudoInformacao(res)
+
+                                            }
+
+                                            })()}
                                         </div>
                                         
                                         {/* botoes do conteudo */}
@@ -325,7 +423,6 @@ function NavItem2(props) {
         </li>
     );
 }
-
 
 
 
