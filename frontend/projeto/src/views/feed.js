@@ -300,24 +300,24 @@ function Questionario(arrayQuest1){
                                                             <div>
                                                         <div>
                                                             <h2> {questDesc} </h2>
-                                                        <input onClick={() =>  setInfo(questAlternativas[0].resposta_correta)}type="radio" id="huey" name="drone" value={questAlternativas[0].resposta_correta}/>
+                                                        <input onClick={() =>  setInfo(questAlternativas[0].resposta_correta)}type="radio"  value={questAlternativas[0].resposta_correta}/>
                                                                 
                                                         <label >{questAlternativas[0].descricao_alternativa}</label>
                                                         </div>
 
                                                         <div>
-                                                        <input onClick={() =>  setInfo(questAlternativas[1].resposta_correta)}type="radio" id="dewey" name="drone" value={questAlternativas[1].resposta_correta}/>
+                                                        <input onClick={() =>  setInfo(questAlternativas[1].resposta_correta)}type="radio"  value={questAlternativas[1].resposta_correta}/>
                                                         <label >{questAlternativas[1].descricao_alternativa}</label>
                                                         </div>
 
                                                         <div>
-                                                        <input onClick={() =>  setInfo(questAlternativas[2].resposta_correta)}type="radio" id="louie" name="drone" value={questAlternativas[2].resposta_correta}/>
+                                                        <input onClick={() =>  setInfo(questAlternativas[2].resposta_correta)}type="radio"  value={questAlternativas[2].resposta_correta}/>
                                                         <label >{questAlternativas[2].descricao_alternativa}</label>
                                                         </div>
 
                                                         
                                                         <div>
-                                                        <input onClick={() =>  setInfo(questAlternativas[3].resposta_correta)}type="radio" id="louie" name="drone" value={questAlternativas[3].resposta_correta}/>
+                                                        <input onClick={() =>  setInfo(questAlternativas[3].resposta_correta)}type="radio"  value={questAlternativas[3].resposta_correta}/>
                                                         <label >{questAlternativas[3].descricao_alternativa}</label>
                                                         </div>
 
