@@ -24,20 +24,15 @@ export default function App() {
     const handleLogout = () => {
         logout();
     };
-    const [loading, setLoading] = useState(false);
-    const [formValues, setFormValues] = useState("");
-    const [show, setShow] = useState(false);
+
     const [showhide, setShowhide] = useState("");
     const [showhide2, setShowhide2] = useState("");
     const [showhide3, setShowhide3] = useState("");
     const [testeForm, setTesteform] = useState("");
     const [idDescricao, setIdDescricao] = useState([]);
     const [descricao, setDescricao] = useState([]);
-    const [idTopico, setIdTopico] = useState([]);
-    const [topico, setTopico] = useState([]);
-    const [valorIdCurso, setValorIdCurso] = useState("");
-
-
+    const [username,setUserName] = useState('');
+    const [urlImg,setUrlImg] = useState('');
     const [respCursos, setRespCursos] = useState([])
     const [respTopicos, setRespTopicos] = useState([])
     const [select1, setSelect1] = useState({})
@@ -45,6 +40,20 @@ export default function App() {
     const [select3, setSelect3] = useState([])
     const [respConteudo, setRespConteudo] = useState([])
 
+
+    function getUserLocalStorage(){
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_name;
+        const img = jsonData[0].img_perfil;
+        setUserName(testeX)
+        setUrlImg(img)
+      }
+
+      useEffect(() =>{
+        getUserLocalStorage();
+       
+    });
 
     async function getCursos() {
         const userData = localStorage.getItem('user');
@@ -130,23 +139,23 @@ export default function App() {
 
 
 
-    const handleshowHide = (event) => {
-        const getValue = event.target.value;
-        console.log(getValue)
-        setShowhide(getValue);
-    }
+    // const handleshowHide = (event) => {
+    //     const getValue = event.target.value;
+    //     console.log(getValue)
+    //     setShowhide(getValue);
+    // }
 
-    const handleshowHide2 = (event) => {
-        const getValue = event.target.value;
-        // console.log(getValue)
-        setShowhide2(getValue);
-    }
+    // const handleshowHide2 = (event) => {
+    //     const getValue = event.target.value;
+    //     // console.log(getValue)
+    //     setShowhide2(getValue);
+    // }
 
-    const handleshowHide3 = (event) => {
-        const getValue = event.target.value;
-        // console.log(getValue)
-        setShowhide3(getValue);
-    }
+    // const handleshowHide3 = (event) => {
+    //     const getValue = event.target.value;
+    //     // console.log(getValue)
+    //     setShowhide3(getValue);
+    // }
 
 
 
@@ -165,41 +174,46 @@ export default function App() {
                     <title> Feed </title>
                 </head>
                 <div class="headerProf1">
-                    <Navbar>
+                <Navbar>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<PlusIcon />} />
-                            <h3>Home</h3>
+                            <NavItem1 icon={<PlusIcon />} />
+                            <h3>Meu Perfil</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<CaretIcon />}>
-                                <DropdownMenu></DropdownMenu>
-                            </NavItem>
-                            <i class="material-icons sidebar__topAvatar"></i>
-                            <h3>Cursos</h3>
+                            <NavItem2 icon={<MessengerIcon />} />
+                            <h3>Consultar Meus Cursos</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<MessengerIcon />} />
-                            <h3>Cursos</h3>
+                            <NavItem3 icon={<ArrowIcon />} />
+                            <h3>Cadastrar Curso</h3>
                         </div>
+                        <div class="headerOptionProf1">
+                            <NavItem4 icon={<CogIcon />} />
+                            <h3>Cadastrar Tópico</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <NavItem5 icon={<PlusIcon />} />
+                            <h3>Cadastrar Conteúdo</h3>
+                        </div>
+
+
                         <div class="headerOptionProf1" onClick={handleLogout} >
-                            <NavItem icon={<BellIcon />} />
-                          
+                            <NavItem icon={<BoltIcon />} />
+
                             <h3>Logout</h3>
                         </div>
                     </Navbar>
                 </div>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
                 <div className="container-questionarioProf1">
-                    <div className="sidebarProf1">
-                        <div className="sidebar__topProf1">
-                            <h4 className="questionario-form-titleProf1">Entrando como:</h4>
-                            <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" alt="imagemCabeca" />
-                            <br />
-                            <h2 className="questionario-form-titleProf1">Professor Leminski</h2>
-                            <h4 className="questionario-form-titleProf1"> Professor de</h4> <h4 className="sidebar__statNumber">Matematica </h4>
+                    <div class="sidebar">
+                        <div class="sidebar__top">
+                          
+                            <img src={urlImg} alt="imagemCabeca" />
+                            
+                            <h4> Aluno</h4> <h4>{username} </h4>
                         </div>
                     </div>
-
                     <div className="wrap-questionarioProf1">
                         <h1 className="questionario-tituloProf1">Consultar Cursos</h1>
 
@@ -251,23 +265,12 @@ export default function App() {
                                 </div>
 
                             </div>
-                            <div className="container-questionario-form-btnProf1">
-                                <button className="questionario-form-btnProf1" type="submit">
-                                    Enviar
-                                </button>
-                            </div>
-                            <div className="container-questionario-form-btnProf1">
-
-                                <button className="questionario-form-btnProf1" type="submit">
-                                    Voltar
-                                </button>
-                            </div>
+                           
 
 
 
 
-
-                            {loading && <h1 className="loader" >Enviando...</h1>}
+                         
 
 
 
@@ -297,6 +300,7 @@ function Navbar(props) {
     );
 }
 
+
 function NavItem(props) {
     const [open, setOpen] = useState(false);
 
@@ -311,90 +315,77 @@ function NavItem(props) {
     );
 }
 
-function DropdownMenu() {
-    const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
-
-    function calcHeight(el) {
-        const height = el.offsetHeight;
-        setMenuHeight(height);
-    }
-
-    function DropdownItem(props) {
-        return (
-            <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                <span className="icon-button">{props.leftIcon}</span>
-                {props.children}
-                <span className="icon-right">{props.rightIcon}</span>
-            </a>
-        );
-    }
+function NavItem1(props) {
+    const [open, setOpen] = useState(false);
 
     return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+        <li className="nav-item">
+            <a href="/meuperfilprofessor" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
 
-            <CSSTransition
-                in={activeMenu === 'main'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>My Profile</DropdownItem>
-                    <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="settings">
-                        Settings
-                    </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>My Tutorial</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>HTML</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>CSS</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>JavaScript</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>Animals</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon="🦘">Kangaroo</DropdownItem>
-                    <DropdownItem leftIcon="🐸">Frog</DropdownItem>
-                    <DropdownItem leftIcon="🦋">Horse?</DropdownItem>
-                    <DropdownItem leftIcon="🦔">Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
-        </div>
+            {open && props.children}
+        </li>
     );
 }
 
+
+function NavItem2(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/pageProf2" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+function NavItem3(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/pageProf1" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+function NavItem4(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrartopico" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+function NavItem5(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrarconteudo" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}

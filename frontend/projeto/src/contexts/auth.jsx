@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
             }
             if(userCredentials[0].user_tipo === 1){
                 localStorage.setItem("user", JSON.stringify(userCredentials));
-                navigate("/pageProf1"); 
+                navigate("/pageProf2"); 
             }
             
 

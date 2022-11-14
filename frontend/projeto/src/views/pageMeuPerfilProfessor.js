@@ -108,14 +108,25 @@ function Feed() {
                 <div class="headerProf1">
                     <Navbar>
                         <div class="headerOptionProf1">
-                            <NavItem1 icon={<MessengerIcon />} />
+                            <NavItem1 icon={<PlusIcon />} />
                             <h3>Meu Perfil</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem2 icon={<PlusIcon />} />
-                            <h3>Feed</h3>
+                            <NavItem2 icon={<MessengerIcon />} />
+                            <h3>Consultar Meus Cursos</h3>
                         </div>
-                       
+                        <div class="headerOptionProf1">
+                            <NavItem3 icon={<ArrowIcon />} />
+                            <h3>Cadastrar Curso</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <NavItem4 icon={<CogIcon />} />
+                            <h3>Cadastrar Tópico</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <NavItem5 icon={<PlusIcon />} />
+                            <h3>Cadastrar Conteúdo</h3>
+                        </div>
 
 
                         <div class="headerOptionProf1" onClick={handleLogout} >
@@ -138,7 +149,7 @@ function Feed() {
 
                         <div class="sidebar__stats">
                             <div class="sidebar__stat">
-                                <p>Nome do Aluno: {username}</p>
+                                <p>Nome do Professor: {username}</p>
 
                             </div>
 
@@ -339,7 +350,7 @@ function NavItem1(props) {
 
     return (
         <li className="nav-item">
-            <a href="/meuperfil" className="icon-button" onClick={() => setOpen(!open)}>
+            <a href="/meuperfilprofessor" className="icon-button" onClick={() => setOpen(!open)}>
                 {props.icon}
             </a>
 
@@ -354,7 +365,7 @@ function NavItem2(props) {
 
     return (
         <li className="nav-item">
-            <a href="/feed" className="icon-button" onClick={() => setOpen(!open)}>
+            <a href="/pageProf2" className="icon-button" onClick={() => setOpen(!open)}>
                 {props.icon}
             </a>
 
@@ -365,7 +376,49 @@ function NavItem2(props) {
 
 
 
+function NavItem3(props) {
+    const [open, setOpen] = useState(false);
 
+    return (
+        <li className="nav-item">
+            <a href="/pageProf1" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+function NavItem4(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrartopico" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+function NavItem5(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrarconteudo" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
 
 
 

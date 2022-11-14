@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from '../contexts/auth';
 import "../styles/feed.css"
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import jpIMG from "../img/aluno.jpg";
 import { ReactComponent as BellIcon } from '../assets/bell.svg';
@@ -11,7 +12,7 @@ import { ReactComponent as CogIcon } from '../assets/cog.svg';
 import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
 import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
-import { CSSTransition } from 'react-transition-group';
+import endPoints, { api, createSession } from "../services/api's";
 
 
 
@@ -22,11 +23,11 @@ function Feed() {
     const [username, setUserName] = useState('')
     const [urlImg, setUrlImg] = useState('')
     const [loading, setLoading] = useState(false);
-
-
-    const [respCursos, setRespCursos] = useState('')
+    const [idDescricao, setIdDescricao] = useState([]);
+    const [descricao, setDescricao] = useState([]);
     const [respTopico, setRespTopico] = useState('')
-
+    const [select1, setSelect1] = useState({})
+    const [respCursos, setRespCursos] = useState([])
 
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -47,27 +48,61 @@ function Feed() {
 
     useEffect(() => {
         getUserLocalStorage()
-        const perPage = 3;
-        const ENDPOINT = 'https://api.github.com/users/omariosouto/followers';
-        const URL = `${ENDPOINT}?per_page=${perPage}&page=${currentPage}&order=DESC`;
-        fetch(URL)
-            .then((response) => response.json())
-            .then((newPosts) => setPosts((prevPosts) => [...prevPosts, ...newPosts]))
-    }, [currentPage]);
+
+    });
+    async function getCursos() {
+        const userData = localStorage.getItem('user');
+        const jsonData = JSON.parse(userData);
+        const testeX = jsonData[0].user_id;
+
+        await axios.get(`${endPoints.buscarCursos}/${testeX}`)
+            .then((response) => {
+                const respostaTeste = response.data;
+              
+                setRespCursos(respostaTeste)
+
+                var descricoes = respostaTeste.map(function (item, indice) { return item.descricao });
+                var idDescricao = respostaTeste.map(function (item, indice) { return item.id_curso });
+             
+                setIdDescricao(idDescricao);
+                setDescricao(descricoes);
+
+            }).catch((erro) => {
+                console.log('deu ruim', erro)
+            })
+
+    }
 
     useEffect(() => {
-        const intersectionObserver = new IntersectionObserver(entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                console.log('Sentinela apareceu!', currentPage + 1)
-                setCurrentPage((currentValue) => currentValue + 1);
-            }
-        })
-        intersectionObserver.observe(document.querySelector('#sentinela'));
-        return () => intersectionObserver.disconnect();
+        getCursos();
+
     }, []);
+   
 
 
 
+    const handleCadastrarTopico = async(e) => {
+        e.preventDefault();
+        console.log(select1)
+        const body = {
+                "descricao":respTopico,
+                "id_curso":select1
+          }
+      
+            
+          await axios.post(`${endPoints.criarTopico}`, body)
+          .then((response) => {
+           console.log("response aqui",response)
+           alert("Tópico Cadastrado Com Sucesso!")
+           navigate("/pageProf2")
+           
+          }).catch((erro) => {
+            console.log('deu ruim', erro)
+            let p = document.getElementById('mensagemerro');
+            p.style.display = 'block';
+          })
+    
+      }
     return (
 
 
@@ -85,22 +120,29 @@ function Feed() {
                 <div class="headerProf1">
                     <Navbar>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<PlusIcon />} />
-                            <h3>Home</h3>
+                            <NavItem1 icon={<PlusIcon />} />
+                            <h3>Meu Perfil</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<CaretIcon />}>
-                                <DropdownMenu></DropdownMenu>
-                            </NavItem>
-                            <i class="material-icons sidebar__topAvatar"></i>
-                            <h3>Cursos</h3>
+                            <NavItem2 icon={<MessengerIcon />} />
+                            <h3>Consultar Meus Cursos</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<MessengerIcon />} />
-                            <h3>Cursos</h3>
+                            <NavItem3 icon={<ArrowIcon />} />
+                            <h3>Cadastrar Curso</h3>
                         </div>
+                        <div class="headerOptionProf1">
+                            <NavItem4 icon={<CogIcon />} />
+                            <h3>Cadastrar Tópico</h3>
+                        </div>
+                        <div class="headerOptionProf1">
+                            <NavItem5 icon={<PlusIcon />} />
+                            <h3>Cadastrar Conteúdo</h3>
+                        </div>
+
+
                         <div class="headerOptionProf1" onClick={handleLogout} >
-                            <NavItem icon={<BellIcon />} />
+                            <NavItem icon={<BoltIcon />} />
 
                             <h3>Logout</h3>
                         </div>
@@ -135,7 +177,7 @@ function Feed() {
                                 <div class="feed__inputOptions">
                                     <div class="inputOption">
                                         <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf2") }}>Cadastrar Tópico</h4>
+                                        <h4 onClick={handleCadastrarTopico}>Cadastrar Tópico</h4>
 
                                     </div>
                                     <div class="inputOption">
@@ -157,43 +199,45 @@ function Feed() {
                         <div className="wrap-questionarioProf1">
                             <h1 className="questionario-tituloProf1">Cadastrar Novo Tópico</h1>
 
-                            <form >
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respCursos !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respCursos}
-                                            onChange={(e) => setRespCursos(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Curso"></span>
-                                    </div>
+
+                            <div>
+                                <div className="wrap-input-input1">
+                              
+                                    <select className="questionario-form-titleProf1-select " id="selectProf1" onChange={(e) => {
+                                        setSelect1(e.target.value)
+
+                                    }}>
+                                        <option value={''}>{'Selecione um Curso'}</option>
+                                        {respCursos?.map((item) => (
+                                            <option value={item.id_curso}>{item.descricao}</option>
+                                        ))}
+                                    </select>
+                                  
                                 </div>
-                                <div>
-                                    <div className="wrap-input-input1">
-                                        <input
-                                            className={respTopico !== "" ? "has-val input" : "input"}
-                                            type="text"
-                                            id="curso"
-                                            name="curso"
-                                            value={respTopico}
-                                            onChange={(e) => setRespTopico(e.target.value)}
-                                        />
-                                        <span className="focus-input" data-placeholder="Nome do Tópico"></span>
-                                    </div>
+                            </div>
+                            <div>
+                                <div className="wrap-input-input1">
+                                    <input
+                                        className={respTopico !== "" ? "has-val input" : "input"}
+                                        type="text"
+                                        id="curso"
+                                        name="curso"
+                                        value={respTopico}
+                                        onChange={(e) => setRespTopico(e.target.value)}
+                                    />
+                                    <span className="focus-input" data-placeholder="Nome do Tópico"></span>
                                 </div>
+                            </div>
 
 
 
 
 
-                                {loading && <h1 className="loader" >Enviando...</h1>}
+                            {loading && <h1 className="loader" >Enviando...</h1>}
 
 
 
-                            </form>
+
 
 
                         </div>
@@ -242,91 +286,82 @@ function NavItem(props) {
     );
 }
 
-function DropdownMenu() {
-    const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
-
-    function calcHeight(el) {
-        const height = el.offsetHeight;
-        setMenuHeight(height);
-    }
-
-    function DropdownItem(props) {
-        return (
-            <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                <span className="icon-button">{props.leftIcon}</span>
-                {props.children}
-                <span className="icon-right">{props.rightIcon}</span>
-            </a>
-        );
-    }
+function NavItem1(props) {
+    const [open, setOpen] = useState(false);
 
     return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+        <li className="nav-item">
+            <a href="/meuperfilprofessor" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
 
-            <CSSTransition
-                in={activeMenu === 'main'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>My Profile</DropdownItem>
-                    <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="settings">
-                        Settings
-                    </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>My Tutorial</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>HTML</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>CSS</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>JavaScript</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>Animals</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon="🦘">Kangaroo</DropdownItem>
-                    <DropdownItem leftIcon="🐸">Frog</DropdownItem>
-                    <DropdownItem leftIcon="🦋">Horse?</DropdownItem>
-                    <DropdownItem leftIcon="🦔">Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
-        </div>
+            {open && props.children}
+        </li>
     );
 }
+
+
+function NavItem2(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/pageProf2" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+function NavItem3(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/pageProf1" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
+function NavItem4(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrartopico" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+function NavItem5(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/cadastrarconteudo" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
+
 
 export default Feed;

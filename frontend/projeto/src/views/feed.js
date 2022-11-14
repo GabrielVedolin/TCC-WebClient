@@ -1,21 +1,28 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from '../contexts/auth';
 import "../styles/feed.css"
-import { useNavigate } from "react-router-dom";
-import jpIMG from "../img/aluno.jpg";
+import { useNavigate, Link } from "react-router-dom";
 import { ReactComponent as BellIcon } from '../assets/bell.svg';
-import { ReactComponent as MessengerIcon } from '../assets/messenger.svg';
-import { ReactComponent as CaretIcon } from '../assets/caret.svg';
 import { ReactComponent as PlusIcon } from '../assets/plus.svg';
-import { ReactComponent as CogIcon } from '../assets/cog.svg';
-import { ReactComponent as ChevronIcon } from '../assets/chevron.svg';
-import { ReactComponent as ArrowIcon } from '../assets/arrow.svg';
+import { ReactComponent as MessengerIcon } from '../assets/messenger.svg';
 import { ReactComponent as BoltIcon } from '../assets/bolt.svg';
-import { CSSTransition } from 'react-transition-group';
+
 import endPoints from "../services/api's";
 import axios from "axios";
 
+//variaveis questionario
+var arrayQuest;
+var questDesc;
+var questAlternativas;
+var styleBotao = {hidden: ''};
+var renderedQuest = false;
+
+
 function Feed() {
+    const [showButton, setShowButton] = useState(true);
+    const [showAcerto, setAcerto] = useState(false);
+    const [showErro, setErro] = useState(false);
+    let [respostaCorreta, setRespostacorreta] = useState(""); 
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [username,setUserName] = useState('')
@@ -28,6 +35,7 @@ function Feed() {
     const handleLogout = () => {
         logout();
     };
+ 
 
     function getUserLocalStorage(){
         const userData = localStorage.getItem('user');
@@ -72,6 +80,13 @@ function Feed() {
         console.log(res);
     }
 
+    async function validaAlternativa (alternativa){
+       
+        console.log('enviado');
+    
+    }
+    
+
     useEffect(() =>{
         getUserLocalStorage();
         getFeed(currentPage);
@@ -90,17 +105,17 @@ function Feed() {
     }, []);
 
  function getConteudoInformacao(res){
-
+    
     if (res.tipo == "texto") {
-       return <p>{res.descricao_texto}</p>    
+       return <div><h1> {res.descricao} </h1> <p>{res.descricao_texto}</p>    </div>
     } 
     else if (res.tipo == "video"){
         //console.log(res.url);
-        return <iframe class='formatImgVideo' title="YouTube video player" src={res.url} >
-        </iframe>
+        return <div><h1> {res.descricao} </h1><iframe class='formatImgVideo' title="YouTube video player" src={res.url} >
+        </iframe> </div>
     }
     else if (res.tipo == "imagem"){
-        return <img class='formatImgVideo'src={res.url}></img>
+        return <div><h1> {res.descricao} </h1> <img class='formatImgVideo'src={res.url}></img> </div>
     } 
     else if (res.tipo == "audio"){  
 
@@ -125,13 +140,10 @@ function Feed() {
 
         var source = "https://docs.google.com/uc?export=download&id=" + idDrive;
         
-        return <audio controls>
+        return <div><h1> {res.descricao} </h1><audio controls>
             <source src={source} type="audio/mp3"></source>
-        </audio>
+        </audio> </div>
 
-    }else if(res.tipo == "questionario"){
-        let resQuerionario = null
-        return Questionario(resQuerionario);
     }
     
     else {
@@ -139,33 +151,61 @@ function Feed() {
     }
 
  }
+
+ async function FormQuestionario(id_conteudo){
+    await axios.get(`${endPoints.buscarFormQuestionarioFeed}/${id_conteudo}`).then((response) => {
+        arrayQuest = response.data
+        //console.log("chamou formquest")
+        Questionario(arrayQuest);
+    })
+ }
+
  
- function Questionario(resQuerionario){
-    return <div>
-                <h2>Dado as informaçoes acima responda:</h2>
-                <br/>
-                <div>
-                    <div>
-                    <input type="radio" id="huey" name="drone" value="huey"
-                            checked/>
-                    <label for="huey">Huey</label>
-                    </div>
+function Questionario(arrayQuest1){
+ 
+    if(arrayQuest1 != undefined){
+        questDesc = arrayQuest1[0][0].descricao;
+        questAlternativas = arrayQuest1[1];
 
-                    <div>
-                    <input type="radio" id="dewey" name="drone" value="dewey"/>
-                    <label for="dewey">Dewey</label>
-                    </div>
+    return 
+        
+    }
+    else{
+        return <div>
 
-                    <div>
-                    <input type="radio" id="louie" name="drone" value="louie"/>
-                    <label for="louie">Louie</label>
-                    </div>
-
-                </div>
-            </div>
+            <h1> Erro ao carregar questionário, tente recarregar a página.</h1> 
+        </div>
+    }
 
  }
+
+ function botaoQuest (alternativa){
  
+        
+        return <div class="feed__inputOptions">
+            <div class="inputOption" onClick={() => {
+               
+                if (alternativa == true){
+                    setShowButton(false)
+                    setAcerto(true);
+                    console.log("acertou")
+                    
+                
+                }else if (alternativa == false){
+                    setShowButton(false)
+                    setErro(true);
+                    console.log("errou");
+                }}}>
+            
+            {showButton && <h4 style ={styleBotao}>Enviar</h4>}
+            {showAcerto && <p style={{color: "green"}}> Resposta correta!</p>}
+            {showErro && <p style={{color: "Red"}}> Tente novamente.</p>}
+            </div>
+        </div>
+    
+ }
+
+
 
     return (
 
@@ -182,24 +222,20 @@ function Feed() {
             </head>
             <body class="bodyFeed">
                 <div class="headerfeed">
-                    <Navbar>
+                <Navbar>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<PlusIcon />} />
-                            <h3>Home</h3>
+                            <NavItem1 icon={<MessengerIcon />} />
+                            <h3>Meu Perfil</h3>
                         </div>
                         <div class="headerOptionProf1">
-                            <NavItem icon={<CaretIcon />}>
-                                <DropdownMenu></DropdownMenu>
-                            </NavItem>
-                            <i class="material-icons sidebar__topAvatar"></i>
-                            <h3>Cursos</h3>
+                            <NavItem2 icon={<PlusIcon />} />
+                            <h3>Feed</h3>
                         </div>
-                        <div class="headerOptionProf1">
-                            <NavItem icon={<MessengerIcon />} />
-                            <h3>Cursos</h3>
-                        </div>
+                       
+
+
                         <div class="headerOptionProf1" onClick={handleLogout} >
-                            <NavItem icon={<BellIcon />} />
+                            <NavItem icon={<BoltIcon />} />
 
                             <h3>Logout</h3>
                         </div>
@@ -215,68 +251,10 @@ function Feed() {
                             
                             <h4> Aluno</h4> <h4>{username} </h4>
                         </div>
-
-                        <div class="sidebar__stats">
-                            <div class="sidebar__stat">
-                                <p>Cursos em andamento</p>
-                                <p class="sidebar__statNumber">2,453</p>
-                            </div>
-                            <div class="sidebar__stat">
-                                <p>Nivel de zika do baile: </p>
-                                <p class="sidebar__statNumber">2,650</p>
-                            </div>
-                        </div>
-
-                        <div class="sidebar__bottom">
-                            <p>Recentes</p>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>Bolsonaro2022</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>Blaze</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>UNIP</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>AloEliane</p>
-                            </div>
-                            <div class="sidebar__recentItem">
-                                <span class="sidebar__hash">#</span>
-                                <p>AAAAAA</p>
-                            </div>
-                        </div>
                     </div>
-
                     <div class="feed">
-                        <div class="feedinputContainer">
-                            <div class="feedinputContainer__top">
-                                <div class="feed__inputOptions">
-                                    <div class="inputOption">
-                                        <i style={{ color: '#7fc15e' }} class="material-icons" > school </i>
-                                        <h4 onClick={() => { navigate("/pageProf1") }}>Area de conteúdo</h4>
 
-                                    </div>
-                                    <div class="inputOption">
-                                        <i style={{ color: '#c0cbcd' }} class="material-icons"> event_note </i>
-                                        <h4>Algum botao futuro talvez</h4>
-                                    </div>
-
-                                </div>
-
-
-
-                            </div>
-                            <div class="inputborder">
-
-                            </div>
-                        </div>
-
-                        <h1>feed atual: {currentPage}</h1>
+                     
                         <div className="currentFeed"></div>
 
                         <ul>
@@ -295,8 +273,70 @@ function Feed() {
                                         
                                         {/* descricao conteudo */}
                                         <div class="post__body">
-                                            <h1> {res.descricao} </h1>
-                                            {getConteudoInformacao(res)}
+
+                                            
+
+                                            {(() => {
+                                                if(res.tipo == "questionario"){
+                                                    
+                                                    if(renderedQuest == false){
+                                                        FormQuestionario(res.idConteudo);
+                                                        renderedQuest = true;
+                                                    }
+                                                    //console.log("array quest dentro:" ,arrayQuest)
+                                                    //console.log("questDesc:" , questDesc);
+                                                    //console.log(" questAlternativas",  questAlternativas)
+
+                                                    function setInfo (resposta){
+                                                        setRespostacorreta(resposta);
+                                                        setShowButton(true);
+                                                        setAcerto(false);
+                                                        setErro(false);
+
+                                                    }
+                                                    
+                                                    if (questAlternativas != undefined && questDesc != undefined && arrayQuest != undefined){
+                                                        return <div>
+                                                            <div>
+                                                        <div>
+                                                            <h2> {questDesc} </h2>
+                                                        <input onClick={() =>  setInfo(questAlternativas[0].resposta_correta)}type="radio"  value={questAlternativas[0].resposta_correta}/>
+                                                                
+                                                        <label >{questAlternativas[0].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[1].resposta_correta)}type="radio"  value={questAlternativas[1].resposta_correta}/>
+                                                        <label >{questAlternativas[1].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[2].resposta_correta)}type="radio"  value={questAlternativas[2].resposta_correta}/>
+                                                        <label >{questAlternativas[2].descricao_alternativa}</label>
+                                                        </div>
+
+                                                        
+                                                        <div>
+                                                        <input onClick={() =>  setInfo(questAlternativas[3].resposta_correta)}type="radio"  value={questAlternativas[3].resposta_correta}/>
+                                                        <label >{questAlternativas[3].descricao_alternativa}</label>
+                                                        </div>
+
+                                                    </div>
+                                                    {botaoQuest(respostaCorreta)}
+                                                    </div>
+                                                  
+                                                   
+                                                    }
+                                               
+                                            }
+
+                                            else {
+                                           
+                                                return getConteudoInformacao(res)
+
+                                            }
+
+                                            })()}
                                         </div>
                                         
                                         {/* botoes do conteudo */}
@@ -304,10 +344,6 @@ function Feed() {
                                             <div class="inputOption" onClick={() => Gostar(userId,res.idConteudo,res.id_feed)}>
                                                 <i style={{ color: 'gray' }} class="material-icons"> thumb_up </i>
                                                 <h4>Gostei</h4>
-                                            </div>
-                                            <div class="inputOption">
-                                                <i style={{ color: 'gray' }} class="material-icons"> comment </i>
-                                                <h4>Comentar</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -323,53 +359,8 @@ function Feed() {
 
 
                     </div>
-                    <div class="widgets">
-                        <div class="widgets__top">
-                            <div class="widgets__header">
-                                <h2>Artigos</h2>
-                                <i class="material-icons"> info </i>
-                            </div>
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de fisica</h4>
-                                    <p>200 alunos estão inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de lol</h4>
-                                    <p>23824343 alunos estão inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4>Curso de trade 2022 - DINHEIRO FACIL</h4>
-                                    <p>999999 alunos inscritos.</p>
-                                </div>
-                            </div>
-
-                            <div class="widgets__article">
-                                <div class="widgets__articleLeft">
-                                    <i class="material-icons"> fiber_manual_record </i>
-                                </div>
-                                <div class="widgets__articleRight">
-                                    <h4 style={{color: 'red'}}>PAGINA ATUAL DO FEED: {currentPage} </h4>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        
+                   
 
                 </div>
             </body>
@@ -404,91 +395,35 @@ function NavItem(props) {
     );
 }
 
-function DropdownMenu() {
-    const [activeMenu, setActiveMenu] = useState('main');
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
-
-    function calcHeight(el) {
-        const height = el.offsetHeight;
-        setMenuHeight(height);
-    }
-
-    function DropdownItem(props) {
-        return (
-            <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                <span className="icon-button">{props.leftIcon}</span>
-                {props.children}
-                <span className="icon-right">{props.rightIcon}</span>
-            </a>
-        );
-    }
+function NavItem1(props) {
+    const [open, setOpen] = useState(false);
 
     return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+        <li className="nav-item">
+            <a href="/meuperfil" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
 
-            <CSSTransition
-                in={activeMenu === 'main'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>My Profile</DropdownItem>
-                    <DropdownItem
-                        leftIcon={<CogIcon />}
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="settings">
-                        Settings
-                    </DropdownItem>
-                    <DropdownItem
-                        leftIcon="🦧"
-                        rightIcon={<ChevronIcon />}
-                        goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>My Tutorial</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>HTML</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>CSS</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>JavaScript</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-                        <h2>Animals</h2>
-                    </DropdownItem>
-                    <DropdownItem leftIcon="🦘">Kangaroo</DropdownItem>
-                    <DropdownItem leftIcon="🐸">Frog</DropdownItem>
-                    <DropdownItem leftIcon="🦋">Horse?</DropdownItem>
-                    <DropdownItem leftIcon="🦔">Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
-        </div>
+            {open && props.children}
+        </li>
     );
 }
+
+
+function NavItem2(props) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <li className="nav-item">
+            <a href="/feed" className="icon-button" onClick={() => setOpen(!open)}>
+                {props.icon}
+            </a>
+
+            {open && props.children}
+        </li>
+    );
+}
+
+
 
 export default Feed;
